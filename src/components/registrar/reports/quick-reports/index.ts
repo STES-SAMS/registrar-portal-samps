@@ -1,0 +1,6 @@
+export { EnrollmentReport } from './enrollment-report'
+export { AcademicPerformanceReport } from './academic-performance-report'
+export { GraduationAnalysisReport } from './graduation-analysis-report'
+export { FinancialReport } from './financial-report'
+export { AttendanceReport } from './attendance-report'
+export { FacultyReport } from './faculty-report'

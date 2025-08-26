@@ -1,0 +1,5 @@
+export { ManageCourses } from './manage-courses'
+export { ViewFullCalendar } from './view-full-calendar'
+export { CourseCatalog } from './course-catalog'
+export { ManageFaculty } from './manage-faculty'
+export { ManageSchedules } from './manage-schedules'
