@@ -5,14 +5,14 @@ import { RegistrarLayout } from "@/components/registrar/layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { 
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { 
+import {
   Calendar,
   Clock,
   MapPin,
@@ -27,12 +27,14 @@ import {
   InstructorTeachingLoad,
   SchedulingConflicts
 } from "@/components/academic"
+import { TabsList } from "@/components/ui/tabs"
+import { Tabs, TabsTrigger } from "@radix-ui/react-tabs"
 
 // Filter options
 const departments = [
   "All Departments",
   "Computer Science",
-  "Information Technology", 
+  "Information Technology",
   "Business Administration",
   "Engineering",
   "Medicine",
@@ -42,7 +44,7 @@ const departments = [
 const schools = [
   "All Schools",
   "School of Computing",
-  "School of Business", 
+  "School of Business",
   "School of Engineering",
   "School of Medicine",
   "School of Law"
@@ -52,7 +54,7 @@ const levels = [
   "All Levels",
   "Level 100",
   "Level 200",
-  "Level 300", 
+  "Level 300",
   "Level 400",
   "Postgraduate"
 ]
@@ -184,35 +186,26 @@ export default function TimetablePage() {
         </Card>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b pb-2">
-          <Button
-            variant={currentView === "weekly" ? "default" : "ghost"}
-            onClick={() => setCurrentView("weekly")}
-            size="sm"
-          >
-            Weekly Timetable
-          </Button>
-          <Button
-            variant={currentView === "room" ? "default" : "ghost"}
-            onClick={() => setCurrentView("room")}
-            size="sm"
-          >
-            Room Availability
-          </Button>
-          <Button
-            variant={currentView === "instructor" ? "default" : "ghost"}
-            onClick={() => setCurrentView("instructor")}
-            size="sm"
-          >
-            Instructor Load
-          </Button>
-        </div>
+        <Tabs>
+          <TabsList>
+            <TabsTrigger value="weekly">
+              <span>Weekly Timetable</span>
+            </TabsTrigger>
+            <TabsTrigger value="room">
+              <span>Room Availability</span>
+            </TabsTrigger>
+            <TabsTrigger value="instructor">
+              <span>Instructor</span>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+
 
         {/* Main Layout */}
         <div className="space-y-6">
           {/* Weekly Timetable */}
           <WeeklyTimetable />
-          
+
           {/* Room Utilization and Instructor Load */}
           <div className="grid grid-cols-2 gap-6">
             <RoomUtilization />

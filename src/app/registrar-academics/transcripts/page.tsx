@@ -34,6 +34,7 @@ import {
   CheckCircle,
   AlertCircle
 } from "lucide-react"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Mock data for students
 const mockStudents = [
@@ -353,37 +354,24 @@ export default function TranscriptsPage() {
                   className="pl-10"
                 />
               </div>
+              <Tabs>
+                <TabsList>
+                  <TabsTrigger value="all">
+                    <span>All</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="available">
+                    <span>Available</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="processing">
+                    <span>Processing</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="pending">
+                    <span>Pending</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
               
-              <div className="flex gap-2">
-                <Button
-                  variant={statusFilter === "all" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setStatusFilter("all")}
-                >
-                  All
-                </Button>
-                <Button
-                  variant={statusFilter === "available" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setStatusFilter("available")}
-                >
-                  Available
-                </Button>
-                <Button
-                  variant={statusFilter === "processing" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setStatusFilter("processing")}
-                >
-                  Processing
-                </Button>
-                <Button
-                  variant={statusFilter === "pending" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setStatusFilter("pending")}
-                >
-                  Pending
-                </Button>
-              </div>
+          
             </div>
           </CardContent>
         </Card>

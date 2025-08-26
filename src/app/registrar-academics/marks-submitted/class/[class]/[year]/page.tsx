@@ -263,6 +263,7 @@ import { Button } from "@/components/ui/button";
 import { RegistrarLayout } from "@/components/registrar/layout";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import Retakers from "@/components/academic/marks/retakers";
 
 const tabs = ["Summary", "Overall Marks", "Repeaters & Retakers"];
 
@@ -651,13 +652,9 @@ export default function ClassMarksPage() {
           </Card>
         )}
         {activeTab === 2 && (
-          <Card>
-            <CardContent>
-              {/* Repeaters & Retakers tab content will go here */}
-            </CardContent>
-          </Card>
+              <Retakers /> 
         )}
         </div>
-    </RegistrarLayout     >
+    </RegistrarLayout>
   );
 }

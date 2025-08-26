@@ -14,8 +14,6 @@ import {
   Clock,
   CheckCircle,
   GraduationCap,
-  ClipboardList,
-  UserCheck,
   BarChart3,
   ArrowLeft
 } from "lucide-react"
@@ -69,6 +67,12 @@ export default function AcademicAdmin() {
     { id: "manage-faculty", label: "Manage Faculty", icon: Users },
     { id: "manage-schedules", label: "Manage Schedules", icon: Clock },
   ]
+  const BackButton = () => (
+    <a href="/registrar/academic-admin" className="inline-flex items-center gap-2 px-4 py-2 mb-4 rounded-lg border border-gray-300 bg-white text-black font-medium shadow-sm hover:bg-gray-100 transition">
+      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="mr-1"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+      Back to Dashboard
+    </a>
+  );
 
   const courseManagement = [
     { title: "Course Registration", progress: 85, color: "#026892" },
@@ -316,57 +320,8 @@ export default function AcademicAdmin() {
 
   return (
     <RegistrarLayout role="registrar">
-      <div className="space-y-6">
-        {/* Header with Component Navigation */}
-        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-          <div className="flex items-center gap-4">
-            {activeComponent !== "dashboard" && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setActiveComponent("dashboard")}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Dashboard
-              </Button>
-            )}
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Academic Administration
-              </h1>
-              <p className="text-gray-600">
-                {activeComponent === "dashboard" 
-                  ? "Manage courses, faculty, and academic programs" 
-                  : componentOptions.find(opt => opt.id === activeComponent)?.label}
-              </p>
-            </div>
-          </div>
-          
-          {activeComponent === "dashboard" && (
-            <div className="flex flex-wrap gap-2">
-              {componentOptions.slice(1).map((option) => {
-                const IconComponent = option.icon
-                return (
-                  <Button
-                    key={option.id}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setActiveComponent(option.id)}
-                    className="flex items-center gap-2 border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white"
-                  >
-                    <IconComponent className="h-4 w-4" />
-                    {option.label}
-                  </Button>
-                )
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Render Active Component */}
-        {renderActiveComponent()}
-      </div>
+      <BackButton />
+      {renderActiveComponent()}
     </RegistrarLayout>
   )
 }

@@ -46,6 +46,8 @@ interface Course {
 }
 
 export function ManageCourses() {
+
+
   const [searchTerm, setSearchTerm] = useState("")
   const [courses] = useState<Course[]>([
     {
