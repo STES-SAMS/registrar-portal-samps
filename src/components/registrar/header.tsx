@@ -142,7 +142,7 @@ export function RegistrarHeader({ title, role = "registrar" }: HeaderProps) {
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="">
               <DropdownMenuItem>
                 <User className="h-4 w-4 mr-2" />
                 My Account

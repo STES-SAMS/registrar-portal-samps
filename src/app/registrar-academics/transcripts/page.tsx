@@ -3,45 +3,30 @@
 import { useState } from "react"
 import { RegistrarLayout } from "@/components/registrar/layout"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table"
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+  Pagination, PaginationContent, PaginationEllipsis,
+  PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,
 } from "@/components/ui/pagination"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-  Eye, 
-  Download, 
-  Search, 
-  Filter,
-  FileText,
-  GraduationCap,
-  Clock,
-  CheckCircle,
-  AlertCircle
-} from "lucide-react"
+import { Eye, Download, Search, FileText, GraduationCap, Clock, CheckCircle, AlertCircle, ChevronDown } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 
-// Mock data for students
 const mockStudents = [
   {
     id: "ST001",
     name: "John Smith",
     studentId: "2021001",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "CSE",
     course: "Computer Science",
     year: "4th Year",
     semester: "8th",
@@ -51,11 +36,14 @@ const mockStudents = [
     lastUpdated: "2024-08-20"
   },
   {
-    id: "ST002", 
+    id: "ST002",
     name: "Sarah Johnson",
     studentId: "2021002",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "IT",
     course: "Information Technology",
-    year: "4th Year", 
+    year: "4th Year",
     semester: "8th",
     cgpa: 9.12,
     status: "active",
@@ -64,11 +52,14 @@ const mockStudents = [
   },
   {
     id: "ST003",
-    name: "Michael Brown", 
+    name: "Michael Brown",
     studentId: "2021003",
+    school: "School of ICT",
+    department: "Electronics Engineering",
+    program: "ECE",
     course: "Electronics Engineering",
     year: "3rd Year",
-    semester: "6th", 
+    semester: "6th",
     cgpa: 7.89,
     status: "active",
     transcriptStatus: "processing",
@@ -77,7 +68,10 @@ const mockStudents = [
   {
     id: "ST004",
     name: "Emily Davis",
-    studentId: "2021004", 
+    studentId: "2021004",
+    school: "School of Engineering",
+    department: "Mechanical Engineering",
+    program: "ME",
     course: "Mechanical Engineering",
     year: "4th Year",
     semester: "8th",
@@ -90,7 +84,10 @@ const mockStudents = [
     id: "ST005",
     name: "David Wilson",
     studentId: "2021005",
-    course: "Civil Engineering", 
+    school: "School of Engineering",
+    department: "Civil Engineering",
+    program: "CE",
+    course: "Civil Engineering",
     year: "2nd Year",
     semester: "4th",
     cgpa: 8.12,
@@ -102,9 +99,12 @@ const mockStudents = [
     id: "ST006",
     name: "Lisa Anderson",
     studentId: "2021006",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "CS",
     course: "Computer Science",
     year: "4th Year",
-    semester: "8th", 
+    semester: "8th",
     cgpa: 9.25,
     status: "active",
     transcriptStatus: "available",
@@ -114,11 +114,14 @@ const mockStudents = [
     id: "ST007",
     name: "Robert Taylor",
     studentId: "2021007",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "IS",
     course: "Information Technology",
     year: "3rd Year",
     semester: "6th",
     cgpa: 7.95,
-    status: "active", 
+    status: "active",
     transcriptStatus: "available",
     lastUpdated: "2024-08-14"
   },
@@ -126,6 +129,9 @@ const mockStudents = [
     id: "ST008",
     name: "Jennifer Martinez",
     studentId: "2021008",
+    school: "School of ICT",
+    department: "Electronics Engineering",
+    program: "ECE",
     course: "Electronics Engineering",
     year: "4th Year",
     semester: "8th",
@@ -135,9 +141,12 @@ const mockStudents = [
     lastUpdated: "2024-08-13"
   },
   {
-    id: "ST009", 
+    id: "ST009",
     name: "James Garcia",
     studentId: "2021009",
+    school: "School of Engineering",
+    department: "Mechanical Engineering",
+    program: "ME",
     course: "Mechanical Engineering",
     year: "2nd Year",
     semester: "4th",
@@ -150,6 +159,9 @@ const mockStudents = [
     id: "ST010",
     name: "Amanda Rodriguez",
     studentId: "2021010",
+    school: "School of Engineering",
+    department: "Civil Engineering",
+    program: "CE",
     course: "Civil Engineering",
     year: "4th Year",
     semester: "8th",
@@ -161,7 +173,10 @@ const mockStudents = [
   {
     id: "ST011",
     name: "Christopher Lee",
-    studentId: "2021011", 
+    studentId: "2021011",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "CS",
     course: "Computer Science",
     year: "3rd Year",
     semester: "6th",
@@ -174,55 +189,58 @@ const mockStudents = [
     id: "ST012",
     name: "Michelle White",
     studentId: "2021012",
+    school: "School of ICT",
+    department: "Computer Science",
+    program: "IT",
     course: "Information Technology",
     year: "4th Year",
     semester: "8th",
     cgpa: 9.01,
     status: "active",
-    transcriptStatus: "available", 
+    transcriptStatus: "available",
     lastUpdated: "2024-08-09"
   }
-]
+];
+
 
 const ITEMS_PER_PAGE = 10
+const SCHOOLS = ["All Schools", "School of ICT", "School of Business", "School of Arts"]
+const DEPARTMENTS = ["All Departments", "Computer Science", "Information Technology", "Electronics", "Mechanical", "Civil"]
+const PROGRAMS = ["All Programs", "CSE", "CS", "IT", "IS"]
 
 export default function TranscriptsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
+  const [selectedSchool, setSelectedSchool] = useState("All Schools")
+  const [selectedDepartment, setSelectedDepartment] = useState("All Departments")
+  const [selectedProgram, setSelectedProgram] = useState("All Programs")
 
-  // Filter students based on search and status
+  // Filter students
   const filteredStudents = mockStudents.filter(student => {
-    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         student.studentId.includes(searchTerm) ||
-                         student.course.toLowerCase().includes(searchTerm.toLowerCase())
-    
+    const matchesSearch =
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.studentId.includes(searchTerm) ||
+      student.course.toLowerCase().includes(searchTerm.toLowerCase())
+
     const matchesStatus = statusFilter === "all" || student.transcriptStatus === statusFilter
-    
-    return matchesSearch && matchesStatus
+    const matchesSchool = selectedSchool === "All Schools" || student.school === selectedSchool
+    const matchesDept = selectedDepartment === "All Departments" || student.department === selectedDepartment
+    const matchesProgram = selectedProgram === "All Programs" || student.program === selectedProgram
+
+    return matchesSearch && matchesStatus && matchesSchool && matchesDept && matchesProgram
   })
 
-  // Calculate pagination
+  // Pagination
   const totalPages = Math.ceil(filteredStudents.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
   const currentStudents = filteredStudents.slice(startIndex, endIndex)
 
-  const handleViewTranscript = (studentId: string) => {
-    console.log(`Viewing transcript for student: ${studentId}`)
-    // Here you would typically navigate to a detailed transcript view
-    // or open a modal with the transcript details
-  }
-
-  const handleDownloadTranscript = (studentId: string) => {
-    console.log(`Downloading transcript for student: ${studentId}`)
-    // Here you would trigger the transcript download
-  }
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "available":
-        return <Badge variant="default" className="bg-green-500"><CheckCircle className="w-3 h-3" />Available</Badge>
+        return <Badge variant="default" className="bg-[#026892]"><CheckCircle className="w-3 h-3" />Available</Badge>
       case "processing":
         return <Badge variant="secondary"><Clock className="w-3 h-3" />Processing</Badge>
       case "pending":
@@ -235,146 +253,86 @@ export default function TranscriptsPage() {
   const getPageNumbers = () => {
     const pages = []
     const maxVisiblePages = 5
-    
     if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i)
-      }
+      for (let i = 1; i <= totalPages; i++) pages.push(i)
     } else {
       if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) {
-          pages.push(i)
-        }
-        pages.push('ellipsis')
-        pages.push(totalPages)
+        for (let i = 1; i <= 4; i++) pages.push(i)
+        pages.push("ellipsis", totalPages)
       } else if (currentPage >= totalPages - 2) {
-        pages.push(1)
-        pages.push('ellipsis')
-        for (let i = totalPages - 3; i <= totalPages; i++) {
-          pages.push(i)
-        }
+        pages.push(1, "ellipsis")
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i)
       } else {
-        pages.push(1)
-        pages.push('ellipsis')
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
-          pages.push(i)
-        }
-        pages.push('ellipsis')
-        pages.push(totalPages)
+        pages.push(1, "ellipsis", currentPage - 1, currentPage, currentPage + 1, "ellipsis", totalPages)
       }
     }
-    
     return pages
   }
 
   return (
-    <RegistrarLayout role="registrar-academics" title="Academic Administration">
+    <RegistrarLayout role="registrar-academics" title="Transcripts">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Student Transcripts</h1>
-            <p className="text-muted-foreground">
-              Manage and view student academic transcripts
-            </p>
+            <p className="text-muted-foreground">Manage and view student academic transcripts</p>
           </div>
-          <div className="flex items-center gap-4">
-            <Badge variant="outline" className="text-sm">
-              <FileText className="w-4 h-4" />
-              {filteredStudents.length} Students
-            </Badge>
-          </div>
+          <Badge variant="outline" className="text-sm">
+            <FileText className="w-4 h-4" />
+            {filteredStudents.length} Students
+          </Badge>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Students</CardTitle>
-              <GraduationCap className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{mockStudents.length}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Available</CardTitle>
-              <CheckCircle className="h-4 w-4 text-green-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStudents.filter(s => s.transcriptStatus === "available").length}
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Processing</CardTitle>
-              <Clock className="h-4 w-4 text-yellow-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStudents.filter(s => s.transcriptStatus === "processing").length}
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending</CardTitle>
-              <AlertCircle className="h-4 w-4 text-orange-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {mockStudents.filter(s => s.transcriptStatus === "pending").length}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        {/* Filters */}
 
-        {/* Filters and Search */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Search & Filter</CardTitle>
-            <CardDescription>
-              Find students by name, ID, or course
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search by name, student ID, or course..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Tabs>
-                <TabsList>
-                  <TabsTrigger value="all">
-                    <span>All</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="available">
-                    <span>Available</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="processing">
-                    <span>Processing</span>
-                  </TabsTrigger>
-                  <TabsTrigger value="pending">
-                    <span>Pending</span>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-              
-          
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
+          {/* Search */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search by name, student ID, or course..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+
+          {/* Dropdowns */}
+          {[{ label: "School", options: SCHOOLS, selected: selectedSchool, set: setSelectedSchool },
+          { label: "Department", options: DEPARTMENTS, selected: selectedDepartment, set: setSelectedDepartment },
+          { label: "Program", options: PROGRAMS, selected: selectedProgram, set: setSelectedProgram }].map((filter, idx) => (
+            <DropdownMenu key={idx}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex items-center gap-2 min-w-[160px] justify-between">
+                  {filter.selected}
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="">
+                {filter.options.map((opt) => (
+                  <DropdownMenuItem
+                    key={opt}
+                    onSelect={() => filter.set(opt)}
+                    className={filter.selected === opt ? "bg-accent" : ""}
+                  >
+                    {opt}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ))}
+
+          {/* Status Tabs */}
+          <Tabs defaultValue="all" onValueChange={setStatusFilter}>
+            <TabsList>
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="available">Available</TabsTrigger>
+              <TabsTrigger value="processing">Processing</TabsTrigger>
+              <TabsTrigger value="pending">Pending</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
         {/* Students Table */}
         <Card>
@@ -414,35 +372,15 @@ export default function TranscriptsPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="font-mono">
-                        {student.cgpa.toFixed(2)}
-                      </Badge>
+                      <Badge variant="outline" className="font-mono">{student.cgpa.toFixed(2)}</Badge>
                     </TableCell>
-                    <TableCell>
-                      {getStatusBadge(student.transcriptStatus)}
-                    </TableCell>
-                    <TableCell className="text-sm text-muted-foreground">
-                      {student.lastUpdated}
-                    </TableCell>
+                    <TableCell>{getStatusBadge(student.transcriptStatus)}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{student.lastUpdated}</TableCell>
                     <TableCell>
                       <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleViewTranscript(student.studentId)}
-                        >
-                          <Eye className="w-4 h-4" />
-                          View
-                        </Button>
+                        <Button variant="outline" size="sm"><Eye className="w-4 h-4" />View</Button>
                         {student.transcriptStatus === "available" && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDownloadTranscript(student.studentId)}
-                          >
-                            <Download className="w-4 h-4" />
-                            Download
-                          </Button>
+                          <Button variant="outline" size="sm"><Download className="w-4 h-4" />Download</Button>
                         )}
                       </div>
                     </TableCell>
@@ -453,52 +391,25 @@ export default function TranscriptsPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="mt-6">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          if (currentPage > 1) setCurrentPage(currentPage - 1)
-                        }}
-                        className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                      />
+              <Pagination className="mt-6">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)} />
+                  </PaginationItem>
+                  {getPageNumbers().map((page, idx) => (
+                    <PaginationItem key={idx}>
+                      {page === "ellipsis" ? <PaginationEllipsis /> : (
+                        <PaginationLink isActive={currentPage === page} onClick={() => setCurrentPage(page as number)}>
+                          {page}
+                        </PaginationLink>
+                      )}
                     </PaginationItem>
-                    
-                    {getPageNumbers().map((page, index) => (
-                      <PaginationItem key={index}>
-                        {page === 'ellipsis' ? (
-                          <PaginationEllipsis />
-                        ) : (
-                          <PaginationLink
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              setCurrentPage(page as number)
-                            }}
-                            isActive={currentPage === page}
-                          >
-                            {page}
-                          </PaginationLink>
-                        )}
-                      </PaginationItem>
-                    ))}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault()
-                          if (currentPage < totalPages) setCurrentPage(currentPage + 1)
-                        }}
-                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)} />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             )}
           </CardContent>
         </Card>

@@ -16,21 +16,15 @@ const students: Student[] = [
   { sn: 6, ref: "223023693", sex: "F", status: "ABSCONDED" },
 ];
 const sem1Codes = ["MAT113", "PHY116", "CHE116", "MEE112", "MEE116", "EGP111"];
-const sem2Codes = [
-  "MAT112",
-  "PHY112",
-  "CSC112",
-  "MEE114",
-  "CTE111",
-  "MEE117",
-  "MEE132",
-];
+const sem2Codes = ["MAT112", "PHY112", "CSC112", "MEE114", "CTE111", "MEE117", "MEE132",];
 const sem1Credits = [10, 10, 10, 10, 10, 5];
 const sem2Credits = [10, 10, 10, 10, 10, 5, 10];
 
 // Data for the Summary tab - Student Summary
 const studentSummaryData = [
-  { category: "Total number of students registered", f: 11, m: 22, tot: 33, fPct: 33.33, mPct: 66.67, totPct: 100.0 },
+  { category: "Total number of students registered", 
+    f: 11, m: 22, tot: 33, fPct: 33.33, mPct: 66.67, totPct: 100.0 
+  },
   {
     category: "Total number of students who sat for exams",
     f: 10,
@@ -294,14 +288,14 @@ export default function ClassMarksPage() {
 
   return (
     <RegistrarLayout role="registrar-academics" title="Marks Management">
-       <div className="flex items-center mb-4">
-          <Link href="/registrar-academics/marks-submitted">
-            <Button variant="outline" size="sm" className="flex items-center gap-2 border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white font-medium shadow-sm">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Marks
-            </Button>
-          </Link>
-        </div>
+      <div className="flex items-center mb-4">
+        <Link href="/registrar-academics/marks-submitted">
+          <Button variant="outline" size="sm" className="flex items-center gap-2 border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white font-medium shadow-sm">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Marks
+          </Button>
+        </Link>
+      </div>
       <div className="p-2">
         <h1 className="text-2xl font-bold mb-2">
           {className} - {year} Marks
@@ -652,9 +646,9 @@ export default function ClassMarksPage() {
           </Card>
         )}
         {activeTab === 2 && (
-              <Retakers /> 
+          <Retakers />
         )}
-        </div>
+      </div>
     </RegistrarLayout>
   );
 }

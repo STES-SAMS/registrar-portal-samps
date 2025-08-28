@@ -198,7 +198,7 @@ export default function NewBatchPage() {
                           className="flex-1"
                         />
                         <Select>
-                          <SelectTrigger className="w-40">
+                          <SelectTrigger className="">
                             <SelectValue placeholder="Filter by program" />
                           </SelectTrigger>
                           <SelectContent>

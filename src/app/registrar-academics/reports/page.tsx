@@ -24,6 +24,7 @@ import {
 } from "lucide-react"
 import Link from "next/link";
 import { RegistrarLayout } from "@/components/registrar"
+import RegistrarAttendancePage from "@/components/academic/reports/attendance/page"
 
 export default function ReportsPage() {
   const [selectedPeriod, setSelectedPeriod] = useState("current-semester")
@@ -229,222 +230,148 @@ export default function ReportsPage() {
 
   return (
     <RegistrarLayout role="registrar-academics" title="Reports & Analytics">
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
-          <p className="text-gray-600 mt-1">Generate and manage institutional reports</p>
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
+            <p className="text-gray-600 mt-1">Generate and manage institutional reports</p>
+          </div>
+          <div className="flex gap-3">
+            <Button variant="outline">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh All
+            </Button>
+            <Button>
+              <FileText className="h-4 w-4 mr-2" />
+              Generate Custom Report
+            </Button>
+          </div>
         </div>
-        <div className="flex gap-3">
-          <Button variant="outline">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh All
-          </Button>
-          <Button>
-            <FileText className="h-4 w-4 mr-2" />
-            Generate Custom Report
-          </Button>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">Total Reports</p>
+                  <p className="text-2xl font-bold">47</p>
+                </div>
+                <FileText className="h-8 w-8 text-blue-600" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">Ready to Download</p>
+                  <p className="text-2xl font-bold">42</p>
+                </div>
+                <Download className="h-8 w-8 text-green-600" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">Processing</p>
+                  <p className="text-2xl font-bold">3</p>
+                </div>
+                <RefreshCw className="h-8 w-8 text-yellow-600" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">This Month</p>
+                  <p className="text-2xl font-bold">12</p>
+                </div>
+                <TrendingUp className="h-8 w-8 text-purple-600" />
+              </div>
+            </CardContent>
+          </Card>
         </div>
+
+
+        {/* Reports Tabs */}
+        <Tabs defaultValue="attendance">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="attendance" >
+              <Users className="h-4 w-4" />
+              Attendance
+            </TabsTrigger>
+            <TabsTrigger value="academic">
+              <GraduationCap className="h-4 w-4" />
+              Academic
+            </TabsTrigger>
+            <TabsTrigger value="financial">
+              <DollarSign className="h-4 w-4" />
+              Financial
+            </TabsTrigger>
+            <TabsTrigger value="operational">
+              <BarChart3 className="h-4 w-4" />
+              Operational
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="attendance" className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Attendance Reports</h2>
+            </div>
+            <div className="grid grid-cols-1">
+
+              <RegistrarAttendancePage />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="academic" className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Academic Reports</h2>
+
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {academicReports.map((report) => (
+                <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
+                  <ReportCard report={report} />
+                </Link>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="financial" className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Financial Reports</h2>
+
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {financialReports.map((report) => (
+                <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
+                  <ReportCard report={report} />
+                </Link>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="operational" className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Operational Reports</h2>
+
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {operationalReports.map((report) => (
+                <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
+                  <ReportCard report={report} />
+                </Link>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Reports</p>
-                <p className="text-2xl font-bold">47</p>
-              </div>
-              <FileText className="h-8 w-8 text-blue-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Ready to Download</p>
-                <p className="text-2xl font-bold">42</p>
-              </div>
-              <Download className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Processing</p>
-                <p className="text-2xl font-bold">3</p>
-              </div>
-              <RefreshCw className="h-8 w-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">This Month</p>
-                <p className="text-2xl font-bold">12</p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-purple-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Report Filters
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <Label htmlFor="period">Academic Period</Label>
-              <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="current-semester">Current Semester</SelectItem>
-                  <SelectItem value="previous-semester">Previous Semester</SelectItem>
-                  <SelectItem value="academic-year">Full Academic Year</SelectItem>
-                  <SelectItem value="custom">Custom Range</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Departments</SelectItem>
-                  <SelectItem value="computer-science">Computer Science</SelectItem>
-                  <SelectItem value="engineering">Engineering</SelectItem>
-                  <SelectItem value="business">Business Studies</SelectItem>
-                  <SelectItem value="sciences">Sciences</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="search">Search Reports</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="search"
-                  placeholder="Search by title or description..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <div className="flex items-end">
-              <Button className="w-full">Apply Filters</Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Reports Tabs */}
-      <Tabs defaultValue="attendance" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="attendance" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Attendance
-          </TabsTrigger>
-          <TabsTrigger value="academic" className="flex items-center gap-2">
-            <GraduationCap className="h-4 w-4" />
-            Academic
-          </TabsTrigger>
-          <TabsTrigger value="financial" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
-            Financial
-          </TabsTrigger>
-          <TabsTrigger value="operational" className="flex items-center gap-2">
-            <BarChart3 className="h-4 w-4" />
-            Operational
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="attendance" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Attendance Reports</h2>
-            <Button className="bg-white text-black">
-              <Calendar className="h-4 w-4 mr-2" />
-              Generate New Attendance Report
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {attendanceReports.map((report) => (
-              <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
-                <ReportCard report={report} />
-              </Link>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="academic" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Academic Reports</h2>
-            <Button className="bg-white text-black">
-              <GraduationCap className="h-4 w-4 mr-2" />
-              Generate New Academic Report
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {academicReports.map((report) => (
-              <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
-                <ReportCard report={report} />
-              </Link>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="financial" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Financial Reports</h2>
-            <Button className="bg-white text-black">
-              <DollarSign className="h-4 w-4 mr-2" />
-              Generate New Financial Report
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {financialReports.map((report) => (
-              <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
-                <ReportCard report={report} />
-              </Link>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="operational" className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Operational Reports</h2>
-            <Button className="bg-white text-black">
-              <BarChart3 className="h-4 w-4 mr-2 " />
-              Generate New Operational Report
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {operationalReports.map((report) => (
-              <Link key={report.id} href={`/registrar-academics/reports/${report.id}`} style={{ textDecoration: 'none' }}>
-                <ReportCard report={report} />
-              </Link>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
     </RegistrarLayout>
   )
 }

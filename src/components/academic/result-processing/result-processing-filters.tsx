@@ -43,7 +43,7 @@ export function ResultProcessingFiltersComponent({ filters, onFiltersChange }: R
           </div>
           
           <Select value={filters.statusFilter} onValueChange={handleStatusChange}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>

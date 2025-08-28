@@ -40,7 +40,7 @@ export default function StudentMarksPage() {
   // Dummy marksData copied from marks-submitted/page.tsx
   const marksData = [
     {
-      lecturer: "Dr. Alice Smith",
+      yearOfStudy: 3,
       module: "COE3163 - Software Engineering",
       students: 45,
       submissionDate: "2024-12-15",
@@ -48,7 +48,7 @@ export default function StudentMarksPage() {
       status: "Pending",
     },
     {
-      lecturer: "Prof. Bob Johnson",
+      yearOfStudy: 3,
       module: "COE3264 - Database Systems",
       students: 38,
       submissionDate: "2024-12-14",
@@ -56,7 +56,7 @@ export default function StudentMarksPage() {
       status: "Approved",
     },
     {
-      lecturer: "Ms. Carol Davis",
+      yearOfStudy:3,
       module: "COE3166 - Web Development",
       students: 42,
       submissionDate: "Not submitted",
@@ -64,7 +64,7 @@ export default function StudentMarksPage() {
       status: "Overdue",
     },
     {
-      lecturer: "Dr. David Brown",
+      yearOfStudy: 3,
       module: "COE3261 - Machine Learning",
       students: 35,
       submissionDate: "2024-12-16",
@@ -77,7 +77,7 @@ export default function StudentMarksPage() {
     m.module.toLowerCase().includes(moduleParam.toLowerCase())
   );
   const moduleTitle = moduleInfo ? moduleInfo.module : moduleParam;
-  const lecturerName = moduleInfo ? moduleInfo.lecturer : "Unknown Lecturer";
+  const yearOfStudy = moduleInfo ? moduleInfo.yearOfStudy : "Unknown Year";
   const marks = [
     {
       cat1: "12",
@@ -173,14 +173,14 @@ export default function StudentMarksPage() {
           </Link>
         </div>
         <h1 className="text-2xl font-bold mb-2">{moduleTitle} Marks</h1>
-        <p className="text-gray-600 mb-1">
+        {/* <p className="text-gray-600 mb-1">
           Lecturer: <span className="font-semibold">{lecturerName}</span>
         </p>
         <p className="text-gray-600 mb-4">
           Below are the marks submitted for the module{" "}
           <span className="font-semibold">{moduleTitle}</span>. Review and submit
           to the Dean if ready.
-        </p>
+        </p> */}
 
         <div className="mb-4 flex flex-row gap-2 items-center justify-end">
           <Button
@@ -188,7 +188,7 @@ export default function StudentMarksPage() {
             onClick={() => setSubmitted(true)}
             disabled={submitted}
           >
-            Submit to Dean
+            Submit to Principal
           </Button>
           <Button
             variant="outline"
@@ -197,7 +197,7 @@ export default function StudentMarksPage() {
             Export
           </Button>
         </div>
-        <div className="flex gap-2 mb-2">
+        {/* <div className="flex gap-2 mb-2">
           {published && (
             <Badge className="bg-green-100 text-green-700">
               Published to Students
@@ -206,7 +206,7 @@ export default function StudentMarksPage() {
           {submitted && (
             <Badge className="bg-blue-100 text-blue-700">Submitted to Dean</Badge>
           )}
-        </div>
+        </div> */}
         <div className="overflow-x-auto">
           <Card>
             <CardContent>

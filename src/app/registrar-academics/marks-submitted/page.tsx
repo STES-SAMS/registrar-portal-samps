@@ -6,8 +6,7 @@ import { MarksHeaderTabs, MarksSubTabs, MarksModuleSection, MarksClassSection, M
 import { ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { RegistrarLayout } from "@/components/registrar";
 
-// Dummy data for demonstration
-// Sample chart data for grade distribution
+
 const gradeDistributionData = [
   { name: "Approved", value: 3, color: "#22c55e" },
   { name: "Pending", value: 2, color: "#eab308" },
@@ -95,7 +94,7 @@ export default function MarksSubmittedPage() {
   const [mainActiveTab, setMainActiveTab] = React.useState("mark-submissions");
   
   // Sub tabs: 'module' or 'class' (only for mark-submissions tab)
-  const [activeTab, setActiveTab] = React.useState("module");
+  const [activeTab, setActiveTab] = React.useState("class");
   
   // Module Table State
   const [modulePage, setModulePage] = React.useState(1);
@@ -119,32 +118,32 @@ export default function MarksSubmittedPage() {
   // Dummy class data for demonstration
   const classData = [
     {
-      className: "CS101 - Computer Science Year 1",
-      lecturer: "Dr. Alice Smith",
+      className: "Computer Science",
+      yearOfStudy: 1,
       students: 45,
       submissionDate: "2024-12-15",
       deadline: "2024-12-20",
       status: "Pending",
     },
     {
-      className: "CS201 - Computer Science Year 2",
-      lecturer: "Prof. Bob Johnson",
+      className: "Computer Engineering",
+      yearOfStudy: 2,
       students: 38,
       submissionDate: "2024-12-14",
       deadline: "2024-12-20",
       status: "Approved",
     },
     {
-      className: "IT101 - IT Year 1",
-      lecturer: "Ms. Carol Davis",
+      className: "Information Technology",
+      yearOfStudy: 1,
       students: 42,
       submissionDate: "Not submitted",
       deadline: "2024-12-18",
       status: "Overdue",
     },
     {
-      className: "ML301 - Machine Learning",
-      lecturer: "Dr. David Brown",
+      className: "Information System",
+      yearOfStudy: 3,
       students: 35,
       submissionDate: "2024-12-16",
       deadline: "2024-12-20",
@@ -179,19 +178,14 @@ export default function MarksSubmittedPage() {
           Marks Management
         </h1>
         <p className="text-gray-600 text-base mb-2">
-        Review and approve marks submitted by lecturers
+        Review and approve marks submitted by Dean
       </p>
       <MarksHeaderTabs mainActiveTab={mainActiveTab} setMainActiveTab={setMainActiveTab} />
 
       {/* Mark Submissions Tab */}
       {mainActiveTab === "mark-submissions" && (
         <Card className="p-6 border border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-1">
-            Lecturer Mark Submissions
-          </h2>
-          <p className="text-gray-600 text-sm mb-4">
-            Review and manage marks submitted by department lecturers
-          </p>
+          
           <MarksSubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
           {/* Table for Module Tab */}
           {activeTab === "module" && (
