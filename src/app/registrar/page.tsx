@@ -38,7 +38,7 @@ export default function RegistrarDashboard() {
   return (
     <RegistrarLayout role="registrar" title="Dashboard">
       {/* Dashboard Header */}
-      <div className="mb-8">
+      <div className="mb-2">
         <h1 className="text-2xl font-bold text-gray-900">Registrar Dashboard</h1>
         <p className="text-gray-600">Executive overview and institutional management</p>
       </div>
@@ -61,7 +61,7 @@ export default function RegistrarDashboard() {
                 return (
                   <Card key={index} className="bg-white border-0 shadow-sm">
                     <CardContent className="">
-                      <div className="flex items-center justify-between">
+                      <div className="h-20 flex items-center justify-between">
                         <div>
                           <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
                           <div className="text-3xl font-bold" style={{ color: stat.color }}>
@@ -78,21 +78,21 @@ export default function RegistrarDashboard() {
             </div>
 
             {/* Quick Actions Row */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <Card className="h-25 bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="text-center">
                   <Plus className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">Add Student</p>
                 </CardContent>
               </Card>
-              <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+              <Card className="h-25 bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="text-center">
                   <BookOpen className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">Manage Courses</p>
                 </CardContent>
               </Card>
-              <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+              <Card className="h-25 bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="text-center">
                   <Calendar className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">View Full Calendar</p>
                 </CardContent>

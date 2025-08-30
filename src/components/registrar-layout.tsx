@@ -10,6 +10,13 @@ interface RegistrarLayoutProps {
 }
 
 export function RegistrarLayout({ children, role, className }: RegistrarLayoutProps) {
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false)
+
+  React.useEffect(() => {
+    const handler = (e: any) => setSidebarCollapsed(e.detail)
+    window.addEventListener("sidebar-collapse", handler)
+    return () => window.removeEventListener("sidebar-collapse", handler)
+  }, [])
   // Apply registrar secretary specific styling
   const isRegistrarSecretary = role === "registrar-secretary"
   const roles = [
@@ -69,7 +76,6 @@ export function RegistrarLayout({ children, role, className }: RegistrarLayoutPr
               <option key={sem} value={sem}>{sem}</option>
             ))}
           </select>
-          
           {/* Notification Bell */}
           <div className="relative">
             <button className="border rounded-full p-2 bg-white hover:bg-gray-100">
@@ -87,7 +93,9 @@ export function RegistrarLayout({ children, role, className }: RegistrarLayoutPr
         </div>
       </header>
       {/* Page Content */}
-      {children}
+      <div className={sidebarCollapsed ? "transition-all duration-300 w-full" : "transition-all duration-300 ml-64"}>
+        {children}
+      </div>
     </div>
   )
 }

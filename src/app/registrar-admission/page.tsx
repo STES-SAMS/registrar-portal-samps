@@ -1,13 +1,5 @@
-import { RegistrarLayout } from "@/components/registrar";
-import React from "react";
+import SecretaryDashboard from "../registrar-admission/dashboard/page";
 
-export default function AdmissionPage() {
-    return (
-        <RegistrarLayout role="registrar-admission">
-        <main>
-            <h1>Admission Page</h1>
-            {/* Add admission UI here */}
-        </main>
-        </RegistrarLayout>
-    );
+export default function RegistrarAdmission() {
+  return <SecretaryDashboard />;
 }

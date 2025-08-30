@@ -65,13 +65,11 @@ const roleConfigs = {
     path: "/registrar-admission",
     menuItems: [
       { icon: Home, label: "Dashboard", href: "/registrar-admission" },
-      { icon: FileText, label: "Application Processing", href: "/registrar-admission/applications" },
-      { icon: UserCheck, label: "Admission Decisions", href: "/registrar-admission/decisions" },
+      { icon: FileText, label: "Application Processing", href: "/registrar-admission/application-processing" },
+      { icon: UserCheck, label: "Admission Decision", href: "/registrar-admission/admission-decision" },
       { icon: Users, label: "Enrollment Management", href: "/registrar-admission/enrollment" },
-      { icon: Mail, label: "Communication Center", href: "/registrar-admission/communications" },
-      { icon: Database, label: "Verification", href: "/registrar-admission/verification" },
-      { icon: BarChart3, label: "Statistics", href: "/registrar-admission/statistics" },
-      { icon: Settings, label: "Settings", href: "/registrar-admission/settings" },
+      { icon: Mail, label: "Communication Center", href: "/registrar-admission/communication" },
+      { icon: BarChart3, label: "Capacity Planning", href: "/registrar-admission/capacity-planning" },
     ],
   },
   "registrar-academics": {
@@ -112,9 +110,9 @@ export function RegistrarSidebar({ role, className }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex flex-col border-r transition-all duration-300",
+        "flex flex-col border-r transition-all duration-300 ",
         isCollapsed ? "w-16" : "w-64",
-        isRegistrarSecretary ? "bg-white border-gray-200" : "bg-sidebar border-sidebar-border",
+        isRegistrarSecretary ? "bg-white border-gray-200" : "bg-sidebar border-sidebar-border ",
         className,
       )}
       style={
@@ -128,7 +126,7 @@ export function RegistrarSidebar({ role, className }: SidebarProps) {
     >
       {/* Header */}
       <div className="relative flex items-center justify-between h-16 px-4 border-b border-gray-100">
-        <Link href="/dashboard" className="absolute left-1/2 -translate-x-1/2">
+        <Link href={config.path} className="absolute left-1/2 -translate-x-1/2 cursor-pointer">
           <Image
             width={48}
             height={48}
@@ -151,7 +149,7 @@ export function RegistrarSidebar({ role, className }: SidebarProps) {
                 key={index}
                 variant="ghost"
                 className={cn(
-                  "w-full justify-start gap-3 h-10",
+                  "w-full justify-start gap-3 h-10 cursor-pointer",
                   isCollapsed && "justify-center px-2",
                   isRegistrarSecretary ? "hover:bg-gray-100 text-black" : "hover:bg-sidebar-accent",
                   isActive && "bg-[#e6f3f7] text-[#026892] hover:bg-[#e6f3f7]"
