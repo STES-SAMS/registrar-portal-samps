@@ -224,7 +224,7 @@ export function EnrollmentReport() {
                 {filteredData.map((item, index) => {
                   const utilization = ((item.totalEnrolled / item.capacity) * 100).toFixed(1)
                   return (
-                    <TableRow key={index} className="hover:bg-gray-50 transition-colors">
+                    <TableRow key={index} className="hover:bg-white transition-colors">
                       <TableCell className="font-medium text-gray-900">{item.program}</TableCell>
                       <TableCell>
                         <Badge variant="outline" className="text-[#026892] border-[#026892]">

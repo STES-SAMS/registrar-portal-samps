@@ -36,9 +36,9 @@ export function DocumentTable({ documents, onClearFilters }: DocumentTableProps)
       case "Review":
         return <Badge className="bg-blue-100 text-blue-700 border-blue-200">Under Review</Badge>
       case "Archived":
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">Archived</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">Archived</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -63,7 +63,7 @@ export function DocumentTable({ documents, onClearFilters }: DocumentTableProps)
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="font-semibold text-black">Document ID</TableHead>
                 <TableHead className="font-semibold text-black">Name</TableHead>
                 <TableHead className="font-semibold text-black">Type</TableHead>
@@ -77,7 +77,7 @@ export function DocumentTable({ documents, onClearFilters }: DocumentTableProps)
             </TableHeader>
             <TableBody>
               {documents.map((document) => (
-                <TableRow key={document.id} className="hover:bg-gray-50 transition-colors text-black">
+                <TableRow key={document.id} className="hover:bg-white transition-colors text-black">
                   <TableCell className="text-black">
                     <div className="flex items-center gap-2">
                       {getTypeIcon(document.type)}

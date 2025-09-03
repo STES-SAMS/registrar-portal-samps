@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { CheckCircle, AlertCircle, MessageSquare, Users, FileText } from "lucide-react"
 import { RegistrarLayout } from "@/components/registrar"
-import { link } from "fs";
 
 export default function AdmissionDashboard() {
     return (

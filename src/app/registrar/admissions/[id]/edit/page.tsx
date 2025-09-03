@@ -106,7 +106,7 @@ export default function EditApplication() {
             </div>
             <div className="flex items-center gap-3">
               <Link href="/registrar/admissions/APP001">
-                <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-50">
+                <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-white">
                   Cancel
                 </Button>
               </Link>
@@ -454,7 +454,7 @@ export default function EditApplication() {
                 </Button>
               </div>
               
-              <div className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">
+              <div className="text-sm text-gray-600 bg-white p-3 rounded-lg">
                 <p className="font-medium text-[#026892] mb-1">Supported formats:</p>
                 <p>PDF, DOC, DOCX (Max size: 10MB per file)</p>
               </div>
@@ -472,7 +472,7 @@ export default function EditApplication() {
               </div>
               <div className="flex gap-3">
                 <Link href="/registrar/admissions/APP001">
-                  <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">
+                  <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-white font-medium">
                     Cancel Changes
                   </Button>
                 </Link>

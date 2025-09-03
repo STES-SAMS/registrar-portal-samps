@@ -202,7 +202,7 @@ export function FacultyReport() {
       case "Adjunct":
         return <Badge className="bg-purple-100 text-purple-700 border-purple-200">Adjunct</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -329,7 +329,7 @@ export function FacultyReport() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Faculty Member</TableHead>
                   <TableHead className="font-semibold text-black">Position</TableHead>
                   <TableHead className="font-semibold text-black">Courses/Students</TableHead>
@@ -342,7 +342,7 @@ export function FacultyReport() {
               </TableHeader>
               <TableBody>
                 {filteredData.map((item, index) => (
-                  <TableRow key={index} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={index} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-gray-900">{item.name}</div>

@@ -163,7 +163,7 @@ export default function ReportsPage() {
       case "Failed":
         return "bg-red-100 text-red-800"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-white text-gray-800"
     }
   }
 
@@ -324,7 +324,6 @@ export default function ReportsPage() {
               <h2 className="text-xl font-semibold">Attendance Reports</h2>
             </div>
             <div className="grid grid-cols-1">
-
               <RegistrarAttendancePage />
             </div>
           </TabsContent>

@@ -150,7 +150,7 @@ export function CourseCatalog() {
       case "Under Review":
         return <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200">Under Review</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -350,23 +350,23 @@ export function CourseCatalog() {
 
         {/* Summary Statistics */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">{courses.length}</div>
             <div className="text-sm text-gray-600">Total Courses</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {courses.filter(c => c.status === "Active").length}
             </div>
             <div className="text-sm text-gray-600">Active Courses</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-blue-600">
               {courses.filter(c => c.level === "Undergraduate").length}
             </div>
             <div className="text-sm text-gray-600">Undergraduate</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-600">
               {courses.filter(c => c.level === "Graduate").length}
             </div>

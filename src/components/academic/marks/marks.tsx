@@ -33,7 +33,7 @@ export const MarksSubmittedTable: React.FC<MarksSubmittedTableProps> = ({ data, 
 		<div className="overflow-x-auto">
 			<Table>
 				<TableHeader>
-					<TableRow className="bg-gray-50">
+					<TableRow className="bg-white">
 						<TableHead className="text-black">Lecturer</TableHead>
 						<TableHead className="text-black">Module</TableHead>
 						<TableHead className="text-black">Students</TableHead>

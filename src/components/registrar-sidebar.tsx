@@ -151,7 +151,7 @@ export function RegistrarSidebar({ role, className }: SidebarProps) {
                 className={cn(
                   "w-full justify-start gap-3 h-10 cursor-pointer",
                   isCollapsed && "justify-center px-2",
-                  isRegistrarSecretary ? "hover:bg-gray-100 text-black" : "hover:bg-sidebar-accent",
+                  isRegistrarSecretary ? "hover:bg-white text-black" : "hover:bg-sidebar-accent",
                   isActive && "bg-[#e6f3f7] text-[#026892] hover:bg-[#e6f3f7]"
                 )}
                 style={

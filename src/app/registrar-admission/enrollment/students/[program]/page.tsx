@@ -97,7 +97,7 @@ const StudentListPage: React.FC<StudentListPageProps> = ({ params, searchParams 
 
   return (
     <RegistrarLayout role="registrar-admission" title={`${program} - Students`}>
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-white p-6">
         <div className="mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">{program} - Students</h2>

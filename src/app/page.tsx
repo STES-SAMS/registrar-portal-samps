@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff } from "lucide-react"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [registrationNumber, setRegistrationNumber] = useState("")
@@ -56,13 +57,15 @@ export default function LoginPage() {
 
   if (showRoleSelection) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
         <div className="w-full max-w-2xl">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-xl">UR</span>
+              <span className="text-white font-bold text-xl">
+                <Image src="/logo.png" alt="Logo" width={64} height={64} />
+              </span>
             </div>
-            <h1 className="text-2xl font-bold text-blue-600 mb-2">SAMPS UR</h1>
+            <h1 className="text-2xl font-bold text-[#026892] mb-2">SAMPS UR</h1>
             <p className="text-gray-600 mb-1">Student Academic Management Platform</p>
             <p className="text-gray-500 text-sm">University of Rwanda</p>
           </div>
@@ -88,13 +91,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-xl">UR</span>
+            <span className="text-white font-bold text-xl">
+              <Image src="/logo.png" alt="Logo" width={64} height={64} />
+            </span>
           </div>
-          <h1 className="text-2xl font-bold text-blue-600 mb-2">SAMPS UR</h1>
+          <h1 className="text-2xl font-bold text-[#026892] mb-2">SAMPS UR</h1>
           <p className="text-gray-600 mb-1">Student Academic Management Platform</p>
           <p className="text-gray-500 text-sm">University of Rwanda</p>
         </div>

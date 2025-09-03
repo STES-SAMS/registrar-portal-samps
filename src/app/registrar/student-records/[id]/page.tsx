@@ -221,11 +221,11 @@ export default function StudentDetails() {
               <div>
                 <label className="text-sm font-semibold text-[#026892] uppercase tracking-wide">Enrollment</label>
                 <div className="grid grid-cols-2 gap-4 mt-3">
-                  <div className="bg-gray-50 p-3 rounded-lg border">
+                  <div className="bg-white p-3 rounded-lg border">
                     <p className="text-sm text-[#026892] font-medium">Admission Date</p>
                     <p className="font-semibold text-gray-900">{student.enrollment.admissionDate}</p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg border">
+                  <div className="bg-white p-3 rounded-lg border">
                     <p className="text-sm text-[#026892] font-medium">Enrollment Status</p>
                     <p className="font-semibold text-gray-900">{student.enrollment.enrollmentStatus}</p>
                   </div>
@@ -248,7 +248,7 @@ export default function StudentDetails() {
             <CardContent className="p-6">
               <div className="space-y-3">
                 {student.grades.map((grade, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                  <div key={index} className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 hover:bg-white transition-colors">
                     <div className="flex-1">
                       <p className="font-semibold text-gray-900">{grade.course}</p>
                       <p className="text-sm text-gray-600">{grade.semester} • {grade.credits} credits</p>

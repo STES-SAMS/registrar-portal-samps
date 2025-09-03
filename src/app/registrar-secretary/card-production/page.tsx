@@ -78,7 +78,7 @@ export default function CardProduction() {
       case "In Progress":
         return <Badge className="bg-blue-500">In Progress</Badge>
       case "Completed":
-        return <Badge className="bg-green-500">Completed</Badge>
+        return <Badge className="bg-[#026892]">Completed</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -315,7 +315,7 @@ export default function CardProduction() {
                           {getPriorityBadge(batch.priority)}
                         </div>
                         <div className="flex gap-2">
-                          <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
+                          <Button size="sm" className="bg-[#026892] hover:bg-[#025078]">
                             <Play className="h-4 w-4 mr-2" />
                             Start Production
                           </Button>

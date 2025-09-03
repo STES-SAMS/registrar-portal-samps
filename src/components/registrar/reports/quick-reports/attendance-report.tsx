@@ -172,7 +172,7 @@ export function AttendanceReport() {
       case "High":
         return <Badge className="bg-red-100 text-red-700 border-red-200">High Risk</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{risk}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{risk}</Badge>
     }
   }
 
@@ -263,7 +263,7 @@ export function AttendanceReport() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Course</TableHead>
                   <TableHead className="font-semibold text-black">Instructor</TableHead>
                   <TableHead className="font-semibold text-black">Enrolled</TableHead>
@@ -276,7 +276,7 @@ export function AttendanceReport() {
               </TableHeader>
               <TableBody>
                 {filteredData.map((item, index) => (
-                  <TableRow key={index} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={index} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-gray-900">{item.course}</div>

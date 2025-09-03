@@ -357,7 +357,7 @@ export default function ReplacementRequestPage() {
                           </div>
                           <div>
                             <p className="text-sm text-gray-600">Notes</p>
-                            <p className="text-sm bg-gray-50 p-2 rounded">{request.notes}</p>
+                            <p className="text-sm bg-white p-2 rounded">{request.notes}</p>
                           </div>
                         </div>
                       </div>

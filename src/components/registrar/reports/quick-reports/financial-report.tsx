@@ -168,7 +168,7 @@ export function FinancialReport() {
       case "On Track":
         return <Badge className="bg-blue-100 text-blue-700 border-blue-200">On Track</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -264,7 +264,7 @@ export function FinancialReport() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Category</TableHead>
                   <TableHead className="font-semibold text-black">Department</TableHead>
                   <TableHead className="font-semibold text-black">Budget Allocated</TableHead>
@@ -277,7 +277,7 @@ export function FinancialReport() {
               </TableHeader>
               <TableBody>
                 {filteredData.map((item, index) => (
-                  <TableRow key={index} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={index} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div className="font-medium text-gray-900">{item.category}</div>
                     </TableCell>

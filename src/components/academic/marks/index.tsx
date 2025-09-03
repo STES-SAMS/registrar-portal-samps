@@ -30,7 +30,7 @@ export const MarksHeaderTabs: React.FC<{
           key={tab.key}
           className={`px-6 py-2 rounded-md font-medium text-sm border ${mainActiveTab === tab.key
             ? "bg-[#026892] text-white border-gray-200 hover:bg-[#026892]/90"
-            : "bg-white text-black border-gray-200 hover:bg-gray-100"
+            : "bg-white text-black border-gray-200 hover:bg-white"
             }`}
           onClick={() => setMainActiveTab(tab.key)}
         >
@@ -53,7 +53,7 @@ export const MarksSubTabs: React.FC<{
     <button
       className={`px-6 py-2 rounded-md font-medium text-sm border ${activeTab === "class"
         ? "bg-[#026892] text-white font-medium hover:bg-[#026892]/90 border-gray-200"
-        : "bg-white text-black border-gray-200 hover:bg-gray-100"
+        : "bg-white text-black border-gray-200 hover:bg-white"
         }`}
       onClick={() => setActiveTab("class")}
     >
@@ -62,7 +62,7 @@ export const MarksSubTabs: React.FC<{
     <button
       className={`px-6 py-2 rounded-md font-medium text-sm border ${activeTab === "module"
         ? "bg-[#026892] text-white border-gray-200 hover:bg-[#026892]/90"
-        : "bg-white text-black border-gray-200 hover:bg-gray-100"
+        : "bg-white text-black border-gray-200 hover:bg-white"
         }`}
       onClick={() => setActiveTab("module")}
     >
@@ -290,7 +290,7 @@ export const MarksClassSection: React.FC<{
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="text-black">Class</TableHead>
                 <TableHead className="text-black">Year of study</TableHead>
                 <TableHead className="text-black">Students</TableHead>
@@ -437,7 +437,7 @@ export const MarksDeadlinesSection: React.FC<{
     <Card className="p-6 border border-gray-200">
       <h2 className="text-2xl font-bold text-black mb-1">Mark Submission Deadlines</h2>
       <p className="text-gray-600 text-sm mb-6">Manage and track mark submission deadlines for all modules</p>
-      <div className="bg-gray-50 p-4 rounded-lg mb-6">
+      <div className="bg-white p-4 rounded-lg mb-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Set New Deadline</h3>
         <div className="flex gap-4 items-end">
           <div className="flex-1">

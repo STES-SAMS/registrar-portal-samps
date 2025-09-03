@@ -116,7 +116,7 @@ export function GraduationManagement() {
       case "Cancelled":
         return <Badge className="bg-red-100 text-red-700 border-red-200">Cancelled</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -215,7 +215,7 @@ export function GraduationManagement() {
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="font-semibold text-black">Graduation</TableHead>
                 <TableHead className="font-semibold text-black">Date & Venue</TableHead>
                 <TableHead className="font-semibold text-black">Program</TableHead>
@@ -227,7 +227,7 @@ export function GraduationManagement() {
             </TableHeader>
             <TableBody>
               {filteredBatches.map((batch) => (
-                <TableRow key={batch.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={batch.id} className="hover:bg-white transition-colors">
                   <TableCell>
                     <div>
                       <div className="font-medium text-gray-900">{batch.name}</div>
@@ -290,25 +290,25 @@ export function GraduationManagement() {
 
         {/* Quick Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">
               {graduationBatches.length}
             </div>
             <div className="text-sm text-gray-600">Total Ceremonies</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {graduationBatches.filter(b => b.status === "Active").length}
             </div>
             <div className="text-sm text-gray-600">Active</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-blue-600">
               {graduationBatches.filter(b => b.status === "Planning").length}
             </div>
             <div className="text-sm text-gray-600">Planning</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-600">
               {graduationBatches.reduce((sum, batch) => sum + batch.confirmedStudents, 0)}
             </div>

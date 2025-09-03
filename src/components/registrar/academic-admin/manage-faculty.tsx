@@ -148,7 +148,7 @@ export function ManageFaculty() {
       case "Inactive":
         return <Badge className="bg-red-100 text-red-700 border-red-200">Inactive</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -158,7 +158,7 @@ export function ManageFaculty() {
       "Associate Professor": "bg-blue-100 text-blue-700 border-blue-200",
       "Assistant Professor": "bg-cyan-100 text-cyan-700 border-cyan-200",
       "Lecturer": "bg-orange-100 text-orange-700 border-orange-200",
-      "Adjunct": "bg-gray-100 text-gray-700 border-gray-200"
+      "Adjunct": "bg-white text-gray-700 border-gray-200"
     }
     return <Badge className={colors[position as keyof typeof colors] || colors.Adjunct}>{position}</Badge>
   }
@@ -266,7 +266,7 @@ export function ManageFaculty() {
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="font-semibold text-black">Faculty</TableHead>
                 <TableHead className="font-semibold text-black">Department</TableHead>
                 <TableHead className="font-semibold text-black">Position</TableHead>
@@ -278,7 +278,7 @@ export function ManageFaculty() {
             </TableHeader>
             <TableBody>
               {filteredFaculty.map((member) => (
-                <TableRow key={member.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={member.id} className="hover:bg-white transition-colors">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div>
@@ -348,29 +348,29 @@ export function ManageFaculty() {
 
         {/* Faculty Statistics */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-5 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">{faculty.length}</div>
             <div className="text-sm text-gray-600">Total Faculty</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {faculty.filter(f => f.status === "Active").length}
             </div>
             <div className="text-sm text-gray-600">Active</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-600">
               {faculty.filter(f => f.position === "Professor").length}
             </div>
             <div className="text-sm text-gray-600">Professors</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-blue-600">
               {faculty.filter(f => f.position.includes("Associate")).length}
             </div>
             <div className="text-sm text-gray-600">Associates</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-yellow-600">
               {faculty.filter(f => f.status === "On Leave").length}
             </div>

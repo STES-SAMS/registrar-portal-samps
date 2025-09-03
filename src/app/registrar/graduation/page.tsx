@@ -143,7 +143,7 @@ export default function GraduationPage() {
       case "Graduated":
         return <Badge className="bg-purple-100 text-purple-700 border-purple-200">Graduated</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -299,7 +299,7 @@ export default function GraduationPage() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Student</TableHead>
                   <TableHead className="font-semibold text-black">Program</TableHead>
                   <TableHead className="font-semibold text-black">GPA</TableHead>
@@ -311,7 +311,7 @@ export default function GraduationPage() {
               </TableHeader>
               <TableBody>
                 {filteredStudents.map((student) => (
-                  <TableRow key={student.id} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={student.id} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-gray-900">{student.name}</div>
@@ -428,10 +428,7 @@ export default function GraduationPage() {
   return (
     <RegistrarLayout role="registrar">
       <div className="space-y-6">
-        {/* Header with Component Navigation */}
-        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-          <div className="flex items-center gap-4">
-            {activeComponent !== "dashboard" && (
+          {activeComponent !== "dashboard" && (
               <Button
                 variant="outline"
                 size="sm"
@@ -442,6 +439,10 @@ export default function GraduationPage() {
                 Back to Dashboard
               </Button>
             )}
+        {/* Header with Component Navigation */}
+        <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+          <div className="flex items-center gap-4">
+          
             <div>
               <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                 <GraduationCap className="h-8 w-8" />

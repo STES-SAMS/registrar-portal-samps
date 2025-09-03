@@ -228,11 +228,11 @@ export default function ApplicationDetails() {
               <div>
                 <label className="text-lg text-black uppercase tracking-wide">Test Scores</label>
                 <div className="grid grid-cols-2 gap-4 mt-3">
-                  <div className="bg-gray-50 p-3 rounded-lg border">
+                  <div className="bg-white p-3 rounded-lg border">
                     <p className="text-sm text-[#026892] font-medium">SAT</p>
                     <p className="font-bold text-xl text-gray-900">{application.application.testScores.sat}</p>
                   </div>
-                  <div className="bg-gray-50 p-3 rounded-lg border">
+                  <div className="bg-white p-3 rounded-lg border">
                     <p className="text-sm text-[#026892] font-medium">ACT</p>
                     <p className="font-bold text-xl text-gray-900">{application.application.testScores.act}</p>
                   </div>
@@ -256,7 +256,7 @@ export default function ApplicationDetails() {
             <CardContent className="p-6">
               <div className="space-y-3">
                 {application.documents.map((doc, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                  <div key={index} className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-200 hover:bg-white transition-colors">
                     <div className="flex items-center gap-3">
                       {getDocumentStatusIcon(doc.status)}
                       <div>
@@ -281,7 +281,7 @@ export default function ApplicationDetails() {
             <CardContent className="p-6">
               <div className="space-y-4">
                 {application.timeline.map((item, index) => (
-                  <div key={index} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                  <div key={index} className="flex items-center gap-4 p-3 rounded-lg hover:bg-white transition-colors">
                     {getTimelineIcon(item.status)}
                     <div className="flex-1">
                       <p className="  text-gray-900">{item.event}</p>

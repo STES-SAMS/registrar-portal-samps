@@ -139,7 +139,7 @@ export function ViewFullCalendar() {
       case "deadline":
         return "bg-orange-100 text-orange-700 border-orange-200"
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200"
+        return "bg-white text-gray-700 border-gray-200"
     }
   }
 
@@ -235,7 +235,7 @@ export function ViewFullCalendar() {
         {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-1 mb-4">
           {daysOfWeek.map(day => (
-            <div key={day} className="p-2 text-center font-semibold text-black bg-gray-50 rounded">
+            <div key={day} className="p-2 text-center font-semibold text-black bg-white rounded">
               {day}
             </div>
           ))}
@@ -248,7 +248,7 @@ export function ViewFullCalendar() {
               <div
                 key={index}
                 className={`min-h-[100px] p-2 border border-gray-200 rounded ${
-                  day ? "bg-white hover:bg-gray-50" : "bg-gray-100"
+                  day ? "bg-white hover:bg-white" : "bg-white"
                 }`}
               >
                 {day && (
@@ -283,7 +283,7 @@ export function ViewFullCalendar() {
           <h3 className="text-lg font-semibold text-[#026892] mb-4">Upcoming Events</h3>
           <div className="space-y-3">
             {events.slice(0, 5).map(event => (
-              <div key={event.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+              <div key={event.id} className="flex items-start gap-3 p-3 bg-white rounded-lg">
                 <div className={`p-2 rounded ${getEventTypeColor(event.type)}`}>
                   {getEventIcon(event.type)}
                 </div>
@@ -315,7 +315,7 @@ export function ViewFullCalendar() {
         </div>
 
         {/* Event Legend */}
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+        <div className="mt-6 p-4 bg-white rounded-lg">
           <h4 className="font-medium text-gray-900 mb-3">Event Types</h4>
           <div className="flex flex-wrap gap-3">
             {[

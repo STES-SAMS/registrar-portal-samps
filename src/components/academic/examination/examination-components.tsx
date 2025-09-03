@@ -123,7 +123,7 @@ export function ExaminationSchedule() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-gray-50">
+              <tr className="border-b bg-white">
                 <th className="text-left p-3 font-medium">Day</th>
                 <th className="text-left p-3 font-medium">Date</th>
                 <th className="text-left p-3 font-medium">Time</th>
@@ -138,7 +138,7 @@ export function ExaminationSchedule() {
             </thead>
             <tbody>
               {examSchedule.map((exam, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
+                <tr key={index} className="border-b hover:bg-white">
                   <td className="p-3 font-medium">{exam.day}</td>
                   <td className="p-3">{exam.date}</td>
                   <td className="p-3">{exam.time}</td>

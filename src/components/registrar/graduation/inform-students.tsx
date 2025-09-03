@@ -174,7 +174,7 @@ export function InformStudents() {
       case "Notified":
         return <Badge className="bg-purple-100 text-purple-700 border-purple-200">Notified</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -256,7 +256,7 @@ export function InformStudents() {
                     </div>
                     
                     {selectedTemplate && (
-                      <div className="p-4 bg-gray-50 rounded-lg">
+                      <div className="p-4 bg-white rounded-lg">
                         <h4 className="font-medium mb-2">Template Preview</h4>
                         <p className="text-sm font-medium">
                           {notificationTemplates.find(t => t.id === selectedTemplate)?.subject}
@@ -296,7 +296,7 @@ export function InformStudents() {
               <Card key={template.id} className="border border-gray-200 hover:border-[#026892] cursor-pointer transition-colors">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-full bg-gray-100">
+                    <div className="p-2 rounded-full bg-white">
                       {getTypeIcon(template.type)}
                     </div>
                     <div className="flex-1">
@@ -351,7 +351,7 @@ export function InformStudents() {
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="w-12">
                   <Checkbox 
                     checked={selectedStudents.length === filteredStudents.length && filteredStudents.length > 0}
@@ -368,7 +368,7 @@ export function InformStudents() {
             </TableHeader>
             <TableBody>
               {filteredStudents.map((student) => (
-                <TableRow key={student.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={student.id} className="hover:bg-white transition-colors">
                   <TableCell>
                     <Checkbox 
                       checked={selectedStudents.includes(student.id)}
@@ -443,23 +443,23 @@ export function InformStudents() {
 
         {/* Summary Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">{students.length}</div>
             <div className="text-sm text-gray-600">Total Students</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {students.filter(s => s.status === "Confirmed").length}
             </div>
             <div className="text-sm text-gray-600">Confirmed</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-blue-600">
               {students.filter(s => s.status === "Eligible").length}
             </div>
             <div className="text-sm text-gray-600">Eligible</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-600">
               {students.filter(s => s.lastNotified).length}
             </div>

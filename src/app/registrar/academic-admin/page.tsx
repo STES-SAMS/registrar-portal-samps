@@ -5,9 +5,9 @@ import { RegistrarLayout } from "@/components/registrar/layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { 
-  BookOpen, 
-  Users, 
+import {
+  BookOpen,
+  Users,
   Calendar,
   Building,
   CalendarDays,
@@ -17,11 +17,11 @@ import {
   BarChart3,
   ArrowLeft
 } from "lucide-react"
-import { 
-  ManageCourses, 
-  ViewFullCalendar, 
-  CourseCatalog, 
-  ManageFaculty, 
+import {
+  ManageCourses,
+  ViewFullCalendar,
+  CourseCatalog,
+  ManageFaculty,
   ManageSchedules
 } from "@/components/registrar/academic-admin"
 
@@ -29,31 +29,31 @@ export default function AcademicAdmin() {
   const [activeComponent, setActiveComponent] = useState<string>("dashboard")
 
   const stats = [
-    { 
-      title: "Active Courses", 
-      value: "245", 
-      color: "#10b981", 
+    {
+      title: "Active Courses",
+      value: "245",
+      color: "#10b981",
       icon: BookOpen,
       bgColor: "#10b981"
     },
-    { 
-      title: "Faculty Members", 
-      value: "89", 
-      color: "#3b82f6", 
+    {
+      title: "Faculty Members",
+      value: "89",
+      color: "#3b82f6",
       icon: Users,
       bgColor: "#3b82f6"
     },
-    { 
-      title: "Academic Programs", 
-      value: "15", 
-      color: "#8b5cf6", 
+    {
+      title: "Academic Programs",
+      value: "15",
+      color: "#8b5cf6",
       icon: Calendar,
       bgColor: "#8b5cf6"
     },
-    { 
-      title: "Departments", 
-      value: "34", 
-      color: "#f59e0b", 
+    {
+      title: "Departments",
+      value: "34",
+      color: "#f59e0b",
       icon: Building,
       bgColor: "#f59e0b"
     },
@@ -68,7 +68,7 @@ export default function AcademicAdmin() {
     { id: "manage-schedules", label: "Manage Schedules", icon: Clock },
   ]
   const BackButton = () => (
-    <a href="/registrar/academic-admin" className="inline-flex items-center gap-2 px-4 py-2 mb-4 rounded-lg border border-gray-300 bg-white text-black font-medium shadow-sm hover:bg-gray-100 transition">
+    <a href="/registrar/academic-admin" className="inline-flex items-center gap-2 px-4 py-2 mb-4 rounded-lg border border-gray-300 bg-white text-black font-medium shadow-sm hover:bg-white transition">
       <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="mr-1"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
       Back to Dashboard
     </a>
@@ -138,8 +138,8 @@ export default function AcademicAdmin() {
                     <p className="text-sm font-medium text-gray-600">{stat.title}</p>
                     <p className="text-3xl font-bold" style={{ color: stat.color }}>{stat.value}</p>
                   </div>
-                  <div 
-                    className="p-3 rounded-full" 
+                  <div
+                    className="p-3 rounded-full"
                     style={{ backgroundColor: `${stat.bgColor}20` }}
                   >
                     <IconComponent className="h-6 w-6" style={{ color: stat.color }} />
@@ -165,18 +165,18 @@ export default function AcademicAdmin() {
                     <span className="text-sm font-medium text-gray-700">{item.title}</span>
                     <span className="text-sm text-gray-500">{item.progress}%</span>
                   </div>
-                  <Progress 
-                    value={item.progress} 
+                  <Progress
+                    value={item.progress}
                     className="h-2"
-                    style={{ 
+                    style={{
                       backgroundColor: '#e5e7eb',
                     }}
                   />
                 </div>
               ))}
-              
+
               <div className="pt-4">
-                <Button 
+                <Button
                   className="w-fit bg-[#026892] hover:bg-[#024f70] text-white font-medium"
                   onClick={() => setActiveComponent("manage-courses")}
                 >
@@ -197,9 +197,9 @@ export default function AcademicAdmin() {
               {academicCalendar.map((event, index) => {
                 const IconComponent = event.icon
                 return (
-                  <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                    <div 
-                      className="p-2 rounded-full flex-shrink-0" 
+                  <div key={index} className="flex items-center gap-4 p-3 bg-white rounded-lg">
+                    <div
+                      className="p-2 rounded-full flex-shrink-0"
                       style={{ backgroundColor: `${event.color}20` }}
                     >
                       <IconComponent className="h-4 w-4" style={{ color: event.color }} />
@@ -211,9 +211,9 @@ export default function AcademicAdmin() {
                   </div>
                 )
               })}
-              
+
               <div className="pt-4 flex flex-end ">
-                <Button 
+                <Button
                   className="w-fit bg-[#026892] hover:bg-[#024f70] text-white font-medium"
                   onClick={() => setActiveComponent("view-calendar")}
                 >
@@ -227,12 +227,12 @@ export default function AcademicAdmin() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("course-catalog")}
         >
           <CardContent className="p-6 text-center">
-            <div className="p-4 rounded-full bg-[#026892] bg-opacity-10 w-fit mx-auto mb-4">
+            <div className="p-4 rounded-full bg-opacity-10 w-fit mx-auto mb-4">
               <GraduationCap className="h-8 w-8 text-[#026892]" />
             </div>
             <h3 className="font-semibold text-lg text-gray-900 mb-2">Course Catalog</h3>
@@ -243,7 +243,7 @@ export default function AcademicAdmin() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("manage-faculty")}
         >
@@ -259,12 +259,12 @@ export default function AcademicAdmin() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("manage-schedules")}
         >
           <CardContent className="p-6 text-center">
-            <div className="p-4 rounded-full bg-[#026892] bg-opacity-10 w-fit mx-auto mb-4">
+            <div className="p-4 rounded-full  bg-opacity-10 w-fit mx-auto mb-4">
               <Clock className="h-8 w-8 text-[#026892]" />
             </div>
             <h3 className="font-semibold text-lg text-gray-900 mb-2">Schedule Management</h3>
@@ -283,7 +283,7 @@ export default function AcademicAdmin() {
         </CardHeader>
         <CardContent className="p-2">
           <div className="space-y-2">
-            <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-center gap-4 p-3 bg-white rounded-lg">
               <div className="p-2 rounded-full bg-green-100">
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </div>
@@ -292,8 +292,8 @@ export default function AcademicAdmin() {
                 <p className="text-sm text-gray-600">2 hours ago</p>
               </div>
             </div>
-            
-            <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+
+            <div className="flex items-center gap-4 p-3 bg-white rounded-lg">
               <div className="p-2 rounded-full bg-blue-100">
                 <Calendar className="h-4 w-4 text-blue-600" />
               </div>
@@ -302,8 +302,8 @@ export default function AcademicAdmin() {
                 <p className="text-sm text-gray-600">4 hours ago</p>
               </div>
             </div>
-            
-            <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+
+            <div className="flex items-center gap-4 p-3 bg-white rounded-lg">
               <div className="p-2 rounded-full bg-purple-100">
                 <BookOpen className="h-4 w-4 text-purple-600" />
               </div>

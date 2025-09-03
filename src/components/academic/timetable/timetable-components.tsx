@@ -121,7 +121,7 @@ export function WeeklyTimetable() {
             </thead>
             <tbody>
               {timetableData.map((slot, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50/50">
+                <tr key={index} className="border-b hover:bg-white/50">
                   <td className="p-3 font-medium text-xs text-gray-600 align-top">{slot.time}</td>
                   {weekDays.map((day) => {
                     const dayKey = day.toLowerCase() as keyof typeof slot

@@ -34,7 +34,7 @@ const AdmissionDecisions = () => {
             status: 'Pending',
             date: '2024-01-14',
             decisionColor: 'bg-yellow-100 text-yellow-800',
-            statusColor: 'bg-gray-100 text-gray-800'
+            statusColor: 'bg-white text-gray-800'
         },
         {
             id: 'DEC003',
@@ -54,7 +54,7 @@ const AdmissionDecisions = () => {
             status: 'Pending',
             date: '2024-01-12',
             decisionColor: 'bg-red-100 text-red-800',
-            statusColor: 'bg-gray-100 text-gray-800'
+            statusColor: 'bg-white text-gray-800'
         },
     ];
 
@@ -66,7 +66,7 @@ const AdmissionDecisions = () => {
 
     return (
         <RegistrarLayout role="registrar-admission" title="Admission Decisions">
-        <div className="bg-gray-50 p-6">
+        <div className="bg-white p-6">
             <div className="max-w-9xl mx-auto">
                 {/* Page Header */}
                 <div className="mb-8">
@@ -95,7 +95,7 @@ const AdmissionDecisions = () => {
                     </div>
                     <div className="divide-y divide-gray-200">
                         {filteredDecisions.map((decision) => (
-                            <div key={decision.id} className="p-4 hover:bg-gray-50 transition-colors">
+                            <div key={decision.id} className="p-4 hover:bg-white transition-colors">
                                 <div className="flex items-center justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-4 mb-2">

@@ -71,7 +71,7 @@ const CapacityPlanningPage: React.FC = () => {
 
   return (
     <RegistrarLayout role="registrar-admission" title="Capacity Planning">
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-white p-6">
         <div className="max-w-9xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-1">Capacity Planning</h1>
           <p className="text-gray-600 mb-8">Monitor and plan institutional capacity</p>
@@ -132,7 +132,7 @@ const CapacityPlanningPage: React.FC = () => {
             <h2 className="text-lg font-bold mb-6">Capacity Projections</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {projections.map((proj, idx) => (
-                <div key={idx} className="bg-gray-50 rounded-lg p-6 text-center border">
+                <div key={idx} className="bg-white rounded-lg p-6 text-center border">
                   <div className="text-2xl font-bold text-blue-700 mb-2">{proj.value.toLocaleString()}</div>
                   <div className="text-sm font-semibold text-gray-900 mb-1">{proj.label}</div>
                   <div className="text-xs text-gray-500">{proj.description}</div>

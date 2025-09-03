@@ -466,7 +466,7 @@ export default function IssueManagementPage() {
                         </div>
                         <div>
                           <p className="text-sm text-gray-600 mb-2">Latest Comments ({issue.comments.length})</p>
-                          <div className="bg-gray-50 p-3 rounded-lg max-h-32 overflow-y-auto">
+                          <div className="bg-white p-3 rounded-lg max-h-32 overflow-y-auto">
                             {issue.comments.slice(-2).map((comment, commentIndex) => (
                               <div key={commentIndex} className="text-sm mb-2 last:mb-0">
                                 <div className="flex items-center gap-2 mb-1">

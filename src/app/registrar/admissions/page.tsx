@@ -162,7 +162,7 @@ export default function AdmissionsManagement() {
               </TableHeader>
               <TableBody>
                 {applications.map((app) => (
-                  <TableRow key={app.id} className="hover:bg-gray-50">
+                  <TableRow key={app.id} className="hover:bg-white">
                     <TableCell className="font-medium text-black]">
                       {app.id}
                     </TableCell>

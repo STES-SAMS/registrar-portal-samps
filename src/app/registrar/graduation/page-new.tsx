@@ -15,9 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { 
-  GraduationCap, 
-  Users, 
+import {
+  GraduationCap,
+  Users,
   Calendar,
   Award,
   Plus,
@@ -59,7 +59,7 @@ interface Student {
 export default function GraduationPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [activeComponent, setActiveComponent] = useState<string>("dashboard")
-  
+
   const stats: GraduationStats = {
     eligible: 856,
     confirmed: 734,
@@ -142,7 +142,7 @@ export default function GraduationPage() {
       case "Graduated":
         return <Badge className="bg-purple-100 text-purple-700 border-purple-200">Graduated</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -268,7 +268,7 @@ export default function GraduationPage() {
               <Progress value={65} className="h-2" />
             </div>
 
-            <Button 
+            <Button
               className="w-full bg-[#026892] hover:bg-[#024f70] text-white font-medium"
               onClick={() => setActiveComponent("review-requirements")}
             >
@@ -298,7 +298,7 @@ export default function GraduationPage() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-[#026892]">Student</TableHead>
                   <TableHead className="font-semibold text-[#026892]">Program</TableHead>
                   <TableHead className="font-semibold text-[#026892]">GPA</TableHead>
@@ -310,7 +310,7 @@ export default function GraduationPage() {
               </TableHeader>
               <TableBody>
                 {filteredStudents.map((student) => (
-                  <TableRow key={student.id} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={student.id} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-gray-900">{student.name}</div>
@@ -328,9 +328,9 @@ export default function GraduationPage() {
                         <span className="font-medium">{student.creditsCompleted}</span>
                         <span className="text-gray-500">/{student.creditsRequired}</span>
                       </div>
-                      <Progress 
-                        value={(student.creditsCompleted / student.creditsRequired) * 100} 
-                        className="h-1 mt-1 w-16" 
+                      <Progress
+                        value={(student.creditsCompleted / student.creditsRequired) * 100}
+                        className="h-1 mt-1 w-16"
                       />
                     </TableCell>
                     <TableCell>
@@ -353,9 +353,9 @@ export default function GraduationPage() {
                         <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white">
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white"
                           onClick={() => setActiveComponent("inform-students")}
                         >
@@ -373,7 +373,7 @@ export default function GraduationPage() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("graduation-management")}
         >
@@ -389,7 +389,7 @@ export default function GraduationPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("review-requirements")}
         >
@@ -405,7 +405,7 @@ export default function GraduationPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
           onClick={() => setActiveComponent("inform-students")}
         >
@@ -427,33 +427,22 @@ export default function GraduationPage() {
   return (
     <RegistrarLayout role="registrar">
       <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          {activeComponent !== "dashboard" && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setActiveComponent("dashboard")}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Dashboard
+            </Button>
+          )}
+        </div>
         {/* Header with Component Navigation */}
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-          <div className="flex items-center gap-4">
-            {activeComponent !== "dashboard" && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setActiveComponent("dashboard")}
-                className="flex items-center gap-2"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Dashboard
-              </Button>
-            )}
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <GraduationCap className="h-8 w-8 text-[#026892]" />
-                Graduation Management
-              </h1>
-              <p className="text-gray-600">
-                {activeComponent === "dashboard" 
-                  ? "Manage graduation requirements and ceremonies" 
-                  : componentOptions.find(opt => opt.id === activeComponent)?.label}
-              </p>
-            </div>
-          </div>
-          
+
           {activeComponent === "dashboard" && (
             <div className="flex flex-wrap gap-2">
               {componentOptions.slice(1).map((option) => {

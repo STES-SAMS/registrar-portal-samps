@@ -23,8 +23,8 @@ export default function RegistrarAttendancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+    <div className="min-h-screen ">
+      <div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
           {/* Tab Navigation */}
           <div className="border-b border-gray-200 px-6 pt-6">
@@ -33,8 +33,8 @@ export default function RegistrarAttendancePage() {
                 onClick={() => setActiveTab("overview")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-medium transition-colors ${
                   activeTab === "overview"
-                    ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    ? "bg-blue-50 text-[#026892] border-b-2 border-[#026892]"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
                 }`}
               >
                 Overview
@@ -43,8 +43,8 @@ export default function RegistrarAttendancePage() {
                 onClick={() => setActiveTab("students")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-medium transition-colors ${
                   activeTab === "students"
-                    ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    ? "bg-blue-50 text-[#026892] border-b-2 border-[#026892]"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
                 }`}
               >
                 Students
@@ -53,8 +53,8 @@ export default function RegistrarAttendancePage() {
                 onClick={() => setActiveTab("lecturers")}
                 className={`flex items-center gap-2 px-6 py-3 rounded-t-lg font-medium transition-colors ${
                   activeTab === "lecturers"
-                    ? "bg-blue-50 text-blue-700 border-b-2 border-blue-600"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    ? "bg-blue-50 text-[#026892] border-b-2 border-[#026892]"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white"
                 }`}
               >
                 Lecturers

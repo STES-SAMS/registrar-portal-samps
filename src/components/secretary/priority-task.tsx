@@ -29,12 +29,12 @@ export function PriorityTask({ title, count, priority, icon: Icon }: PriorityTas
       case "Low":
         return {
           dotColor: "bg-gray-500",
-          badgeClass: "border-gray-200 text-gray-700 bg-gray-50"
+          badgeClass: "border-gray-200 text-gray-700 bg-white"
         }
       default:
         return {
           dotColor: "bg-gray-500",
-          badgeClass: "border-gray-200 text-gray-700 bg-gray-50"
+          badgeClass: "border-gray-200 text-gray-700 bg-white"
         }
     }
   }

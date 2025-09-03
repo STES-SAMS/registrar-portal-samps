@@ -14,8 +14,6 @@ import { useState } from "react"
 import { 
   ArrowLeft,
   Upload,
-  Users,
-  Calendar,
   Printer,
   FileText,
   AlertCircle,
@@ -64,9 +62,7 @@ export default function NewBatchPage() {
   return (
     <RegistrarLayout role="registrar-secretary" title="New Batch">
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-4">
-          <Button 
+         <Button 
             variant="outline" 
             size="sm" 
             onClick={() => window.history.back()}
@@ -75,6 +71,9 @@ export default function NewBatchPage() {
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
+        {/* Header */}
+        <div className="flex items-center gap-4">
+         
           <div>
             <h1 className="text-2xl font-bold text-[#026892]">Create New Card Production Batch</h1>
             <p className="text-sm text-gray-600 mt-1">Setup a new batch for student ID card production</p>
@@ -213,7 +212,7 @@ export default function NewBatchPage() {
 
                       {/* Student List */}
                       <div className="border rounded-lg">
-                        <div className="p-3 bg-gray-50 border-b">
+                        <div className="p-3 bg-white border-b">
                           <div className="flex items-center justify-between">
                             <span className="font-medium text-sm">Students ({students.length})</span>
                             <span className="text-sm text-gray-600">
@@ -223,7 +222,7 @@ export default function NewBatchPage() {
                         </div>
                         <div className="divide-y">
                           {students.map((student, index) => (
-                            <div key={index} className="p-3 hover:bg-gray-50">
+                            <div key={index} className="p-3 hover:bg-white">
                               <div className="flex items-center gap-3">
                                 <input
                                   type="checkbox"

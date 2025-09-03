@@ -29,9 +29,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { 
-  Search, 
-  FileCheck, 
+import {
+  Search,
+  FileCheck,
   CheckCircle,
   AlertCircle,
   Clock,
@@ -169,11 +169,11 @@ export function ReviewRequirements() {
   const programs = ["Computer Science", "Business Administration", "Engineering", "Mathematics"]
 
   const filteredStudents = students.filter(student => {
-    const matchesSearch = 
+    const matchesSearch =
       student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.studentId.includes(searchTerm) ||
       student.program.toLowerCase().includes(searchTerm.toLowerCase())
-    
+
     const matchesProgram = selectedProgram === "all" || student.program === selectedProgram
     const matchesStatus = selectedStatus === "all" || student.overallStatus === selectedStatus
 
@@ -193,7 +193,7 @@ export function ReviewRequirements() {
       case "Not Eligible":
         return <Badge className="bg-red-100 text-red-700 border-red-200">Not Eligible</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -207,222 +207,215 @@ export function ReviewRequirements() {
 
   return (
     <Card className="border border-gray-200 shadow-sm">
-      <CardHeader className="text-lg text-black font-bold">
-        <CardTitle className="flex items-center gap-2">
-          <FileCheck className="h-5 w-5" />
-          Review Graduation Requirements
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-6">
-        {/* Requirements Overview */}
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Requirements Overview</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {requirementCategories.map((category, index) => {
-              const IconComponent = category.icon
-              return (
-                <Card key={index} className="border border-gray-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-full bg-[#026892] bg-opacity-10">
-                        <IconComponent className="h-4 w-4 text-[#026892]" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-sm text-gray-900">{category.name}</h4>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span>{category.completed}/{category.total}</span>
-                          <span>{category.percentage}%</span>
-                        </div>
-                      </div>
-                    </div>
-                    <Progress value={category.percentage} className="h-2 mb-2" />
-                    {getStatusBadge(category.status)}
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-        </div>
 
-        {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Search students..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 border-gray-300 focus:border-[#026892] focus:ring-[#026892]"
-            />
-          </div>
-          <Select value={selectedProgram} onValueChange={setSelectedProgram}>
-            <SelectTrigger className="w-full md:w-48 border-gray-300 focus:border-[#026892] focus:ring-[#026892]">
-              <SelectValue placeholder="Program" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Programs</SelectItem>
-              {programs.map(program => (
-                <SelectItem key={program} value={program}>{program}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-            <SelectTrigger className="w-full md:w-48 border-gray-300 focus:border-[#026892] focus:ring-[#026892]">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="Eligible">Eligible</SelectItem>
-              <SelectItem value="Pending">Pending</SelectItem>
-              <SelectItem value="Not Eligible">Not Eligible</SelectItem>
-            </SelectContent>
-          </Select>
+      {/* Requirements Overview */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Requirements Overview</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {requirementCategories.map((category, index) => {
+            const IconComponent = category.icon
+            return (
+              <Card key={index} className="border border-gray-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-full  bg-opacity-10">
+                      <IconComponent className="h-4 w-4 text-[#026892]" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm text-gray-900">{category.name}</h4>
+                      <div className="flex items-center justify-between text-xs text-gray-500">
+                        <span>{category.completed}/{category.total}</span>
+                        <span>{category.percentage}%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Progress value={category.percentage} className="h-2 mb-2" />
+                  {getStatusBadge(category.status)}
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
+      </div>
 
-        {/* Students Requirements Table */}
-        <div className="rounded-lg border border-gray-200 overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50">
-                <TableHead className="font-semibold text-[#026892]">Student</TableHead>
-                <TableHead className="font-semibold text-[#026892]">Program</TableHead>
-                <TableHead className="font-semibold text-[#026892]">Credits</TableHead>
-                <TableHead className="font-semibold text-[#026892]">GPA</TableHead>
-                <TableHead className="font-semibold text-[#026892]">Requirements</TableHead>
-                <TableHead className="font-semibold text-[#026892]">Status</TableHead>
-                <TableHead className="text-right font-semibold text-[#026892]">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredStudents.map((student) => (
-                <TableRow key={student.id} className="hover:bg-gray-50 transition-colors">
-                  <TableCell>
-                    <div>
-                      <div className="font-medium text-gray-900">{student.name}</div>
-                      <div className="text-sm text-gray-500">{student.studentId}</div>
+      {/* Search and Filters */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Search students..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 border-gray-300 focus:border-[#026892] focus:ring-[#026892]"
+          />
+        </div>
+        <Select value={selectedProgram} onValueChange={setSelectedProgram}>
+          <SelectTrigger className="w-full md:w-48 border-gray-300 focus:border-[#026892] focus:ring-[#026892]">
+            <SelectValue placeholder="Program" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Programs</SelectItem>
+            {programs.map(program => (
+              <SelectItem key={program} value={program}>{program}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-full md:w-48 border-gray-300 focus:border-[#026892] focus:ring-[#026892]">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="Eligible">Eligible</SelectItem>
+            <SelectItem value="Pending">Pending</SelectItem>
+            <SelectItem value="Not Eligible">Not Eligible</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Students Requirements Table */}
+      <div className="rounded-lg border border-gray-200 overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-white">
+              <TableHead className="font-semibold text-[#026892]">Student</TableHead>
+              <TableHead className="font-semibold text-[#026892]">Program</TableHead>
+              <TableHead className="font-semibold text-[#026892]">Credits</TableHead>
+              <TableHead className="font-semibold text-[#026892]">GPA</TableHead>
+              <TableHead className="font-semibold text-[#026892]">Requirements</TableHead>
+              <TableHead className="font-semibold text-[#026892]">Status</TableHead>
+              <TableHead className="text-right font-semibold text-[#026892]">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredStudents.map((student) => (
+              <TableRow key={student.id} className="hover:bg-white transition-colors">
+                <TableCell>
+                  <div>
+                    <div className="font-medium text-gray-900">{student.name}</div>
+                    <div className="text-sm text-gray-500">{student.studentId}</div>
+                  </div>
+                </TableCell>
+                <TableCell className="font-medium">{student.program}</TableCell>
+                <TableCell>
+                  <div className="space-y-1">
+                    <div className="text-sm">
+                      <span className="font-medium">{student.creditsCompleted}</span>
+                      <span className="text-gray-500">/{student.creditsRequired}</span>
                     </div>
-                  </TableCell>
-                  <TableCell className="font-medium">{student.program}</TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="text-sm">
-                        <span className="font-medium">{student.creditsCompleted}</span>
-                        <span className="text-gray-500">/{student.creditsRequired}</span>
-                      </div>
-                      <Progress 
-                        value={(student.creditsCompleted / student.creditsRequired) * 100} 
-                        className="h-1 w-20" 
-                      />
+                    <Progress
+                      value={(student.creditsCompleted / student.creditsRequired) * 100}
+                      className="h-1 w-20"
+                    />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge
+                    variant="outline"
+                    className={student.gpa >= 3.0 ? "text-green-700 border-green-200" : "text-red-700 border-red-200"}
+                  >
+                    {student.gpa.toFixed(2)}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="grid grid-cols-2 gap-1">
+                    <div className="flex items-center gap-1">
+                      {getRequirementIcon(student.financialClearance)}
+                      <span className="text-xs">Financial</span>
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="outline" 
-                      className={student.gpa >= 3.0 ? "text-green-700 border-green-200" : "text-red-700 border-red-200"}
-                    >
-                      {student.gpa.toFixed(2)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="grid grid-cols-2 gap-1">
-                      <div className="flex items-center gap-1">
-                        {getRequirementIcon(student.financialClearance)}
-                        <span className="text-xs">Financial</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        {getRequirementIcon(student.finalProjects)}
-                        <span className="text-xs">Projects</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        {getRequirementIcon(student.internship)}
-                        <span className="text-xs">Internship</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        {getRequirementIcon(student.thesis)}
-                        <span className="text-xs">Thesis</span>
-                      </div>
+                    <div className="flex items-center gap-1">
+                      {getRequirementIcon(student.finalProjects)}
+                      <span className="text-xs">Projects</span>
                     </div>
-                  </TableCell>
-                  <TableCell>
-                    {getStatusBadge(student.overallStatus)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
-                          <DialogHeader>
-                            <DialogTitle>Student Requirements Detail</DialogTitle>
-                            <DialogDescription>
-                              Detailed requirements status for {student.name}
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <label className="text-sm font-medium">Student ID</label>
-                                <p className="text-sm text-gray-600">{student.studentId}</p>
-                              </div>
-                              <div>
-                                <label className="text-sm font-medium">Program</label>
-                                <p className="text-sm text-gray-600">{student.program}</p>
-                              </div>
+                    <div className="flex items-center gap-1">
+                      {getRequirementIcon(student.internship)}
+                      <span className="text-xs">Internship</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {getRequirementIcon(student.thesis)}
+                      <span className="text-xs">Thesis</span>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {getStatusBadge(student.overallStatus)}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                          <DialogTitle>Student Requirements Detail</DialogTitle>
+                          <DialogDescription>
+                            Detailed requirements status for {student.name}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4 py-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-sm font-medium">Student ID</label>
+                              <p className="text-sm text-gray-600">{student.studentId}</p>
                             </div>
-                            <div className="space-y-3">
-                              <h4 className="font-medium">Requirements Status</h4>
-                              <div className="grid grid-cols-2 gap-4">
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                                  <span className="text-sm">Credits</span>
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm">{student.creditsCompleted}/{student.creditsRequired}</span>
-                                    {getRequirementIcon(student.creditsCompleted >= student.creditsRequired)}
-                                  </div>
+                            <div>
+                              <label className="text-sm font-medium">Program</label>
+                              <p className="text-sm text-gray-600">{student.program}</p>
+                            </div>
+                          </div>
+                          <div className="space-y-3">
+                            <h4 className="font-medium">Requirements Status</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="flex items-center justify-between p-3 bg-white rounded">
+                                <span className="text-sm">Credits</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm">{student.creditsCompleted}/{student.creditsRequired}</span>
+                                  {getRequirementIcon(student.creditsCompleted >= student.creditsRequired)}
                                 </div>
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                                  <span className="text-sm">Financial Clearance</span>
-                                  {getRequirementIcon(student.financialClearance)}
-                                </div>
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                                  <span className="text-sm">Final Projects</span>
-                                  {getRequirementIcon(student.finalProjects)}
-                                </div>
-                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-                                  <span className="text-sm">Internship</span>
-                                  {getRequirementIcon(student.internship)}
-                                </div>
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white rounded">
+                                <span className="text-sm">Financial Clearance</span>
+                                {getRequirementIcon(student.financialClearance)}
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white rounded">
+                                <span className="text-sm">Final Projects</span>
+                                {getRequirementIcon(student.finalProjects)}
+                              </div>
+                              <div className="flex items-center justify-between p-3 bg-white rounded">
+                                <span className="text-sm">Internship</span>
+                                {getRequirementIcon(student.internship)}
                               </div>
                             </div>
                           </div>
-                        </DialogContent>
-                      </Dialog>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#026892] hover:bg-[#026892] hover:text-white">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
-        {/* Actions */}
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button className="bg-[#026892] hover:bg-[#024f70] text-white">
-            Approve Eligible Students
-          </Button>
-          <Button variant="outline" className="border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white">
-            Export Requirements Report
-          </Button>
-          <Button variant="outline" className="border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white">
-            Send Notifications
-          </Button>
-        </div>
-      </CardContent>
+      {/* Actions */}
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Button className="bg-[#026892] hover:bg-[#024f70] text-white">
+          Approve Eligible Students
+        </Button>
+        <Button variant="outline" className="border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white">
+          Export Requirements Report
+        </Button>
+        <Button variant="outline" className="border-[#026892] text-[#026892] hover:bg-[#026892] hover:text-white">
+          Send Notifications
+        </Button>
+      </div>
     </Card>
   )
 }

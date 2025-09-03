@@ -13,7 +13,7 @@ interface RegistrarLayoutProps {
 
 export function RegistrarLayout({ children, role, title, className }: RegistrarLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Fixed Sidebar */}
       <div className="fixed left-0 top-0 h-full w-64 z-50">
         <RegistrarSidebar role={role} />

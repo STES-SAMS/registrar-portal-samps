@@ -284,7 +284,7 @@ export default function StudentRecords() {
               </TableHeader>
               <TableBody>
                 {students.map((student) => (
-                  <TableRow key={student.id} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={student.id} className="hover:bg-white transition-colors">
                     <TableCell className="font-medium text-black">
                       {student.id}
                     </TableCell>

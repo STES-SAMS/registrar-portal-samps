@@ -43,7 +43,7 @@ export function CalendarGrid({
 					return (
 						<div
 							key={day.toISOString()}
-							className={`min-h-[100px] p-1 border border-gray-200 cursor-pointer transition-colors hover:bg-gray-50 ${isSelected ? "bg-samps-blue-50 border-samps-blue-300" : ""
+							className={`min-h-[100px] p-1 border border-gray-200 cursor-pointer transition-colors hover:bg-white ${isSelected ? "bg-samps-blue-50 border-samps-blue-300" : ""
 								} ${isCurrentDay ? "ring-2 ring-samps-blue-400" : ""}`}
 							onClick={() => setSelectedDate(day)}
 						>

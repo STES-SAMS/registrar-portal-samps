@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { RegistrarLayout } from "@/components/registrar/layout"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -27,8 +27,8 @@ import {
   InstructorTeachingLoad,
   SchedulingConflicts
 } from "@/components/academic"
-import { TabsList } from "@/components/ui/tabs"
-import { Tabs, TabsTrigger } from "@radix-ui/react-tabs"
+import { TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@radix-ui/react-tabs"
 
 // Filter options
 const departments = [
@@ -133,8 +133,6 @@ export default function TimetablePage() {
         </div>
 
         {/* Filter Bar */}
-        <Card>
-          <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="flex-1">
                 <div className="relative">
@@ -182,11 +180,9 @@ export default function TimetablePage() {
                 Filters
               </Button>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Navigation Tabs */}
-        <Tabs>
+        {/* Tabs: only show the relevant component for each tab */}
+        <Tabs value={currentView} onValueChange={setCurrentView} defaultValue="weekly">
           <TabsList>
             <TabsTrigger value="weekly">
               <span>Weekly Timetable</span>
@@ -197,24 +193,31 @@ export default function TimetablePage() {
             <TabsTrigger value="instructor">
               <span>Instructor</span>
             </TabsTrigger>
+            <TabsTrigger value="conflicts">
+              <span>Scheduling Conflicts</span>
+            </TabsTrigger>
           </TabsList>
+          <TabsContent value="weekly">
+            <div className="mt-6">
+              <WeeklyTimetable />
+            </div>
+          </TabsContent>
+          <TabsContent value="room">
+            <div className="mt-6">
+              <RoomUtilization />
+            </div>
+          </TabsContent>
+          <TabsContent value="instructor">
+            <div className="mt-6">
+              <InstructorTeachingLoad />
+            </div>
+          </TabsContent>
+          <TabsContent value="conflicts">
+            <div className="mt-6">
+              <SchedulingConflicts />
+            </div>
+          </TabsContent>
         </Tabs>
-
-
-        {/* Main Layout */}
-        <div className="space-y-6">
-          {/* Weekly Timetable */}
-          <WeeklyTimetable />
-
-          {/* Room Utilization and Instructor Load */}
-          <div className="grid grid-cols-2 gap-6">
-            <RoomUtilization />
-            <InstructorTeachingLoad />
-          </div>
-
-          {/* Scheduling Conflicts */}
-          <SchedulingConflicts />
-        </div>
       </div>
     </RegistrarLayout>
   )

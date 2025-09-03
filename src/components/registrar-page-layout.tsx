@@ -9,7 +9,7 @@ interface RegistrarPageLayoutProps {
 
 export function RegistrarPageLayout({ children, role }: RegistrarPageLayoutProps) {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-white">
       <RegistrarSidebar role={role} />
       <div className="flex-1 flex flex-col">
         <header className="h-16 flex items-center justify-between px-8 bg-white shadow border-b">

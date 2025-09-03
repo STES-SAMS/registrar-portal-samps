@@ -251,7 +251,7 @@ const RegistrarAdmissionCommunications = () => {
 
                         <div className="divide-y divide-gray-200">
                             {recentMessages.map((msg) => (
-                                <div key={msg.id} className="p-4 hover:bg-gray-50 transition-colors">
+                                <div key={msg.id} className="p-4 hover:bg-white transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex-1 min-w-0">
                                             <h3 className="font-medium text-gray-900 truncate">{msg.title}</h3>
@@ -302,7 +302,7 @@ const RegistrarAdmissionCommunications = () => {
                     </div>
                     <div className="divide-y divide-gray-200">
                         {communicationData.map((comm) => (
-                            <div key={comm.id} className="p-4 hover:bg-gray-50 transition-colors">
+                            <div key={comm.id} className="p-4 hover:bg-white transition-colors">
                                 <div className="flex justify-between items-center mb-2">
                                     <span className="font-semibold text-[#026892]">{comm.subject}</span>
                                     <span className="text-xs text-gray-500">{comm.date}</span>

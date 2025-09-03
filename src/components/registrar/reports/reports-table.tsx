@@ -53,7 +53,7 @@ export function ReportsTable({ reports, onCreateReport }: ReportsTableProps) {
       case "Draft":
         return <Badge className="bg-yellow-100 text-yellow-700 border-yellow-200">Draft</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -91,7 +91,7 @@ export function ReportsTable({ reports, onCreateReport }: ReportsTableProps) {
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="font-semibold text-black">Report Name</TableHead>
                 <TableHead className="font-semibold text-black">Type</TableHead>
                 <TableHead className="font-semibold text-black">Department</TableHead>
@@ -104,7 +104,7 @@ export function ReportsTable({ reports, onCreateReport }: ReportsTableProps) {
             </TableHeader>
             <TableBody>
               {reports.map((report) => (
-                <TableRow key={report.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={report.id} className="hover:bg-white transition-colors">
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <div>

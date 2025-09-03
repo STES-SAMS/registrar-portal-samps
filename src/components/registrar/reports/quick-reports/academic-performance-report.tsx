@@ -226,7 +226,7 @@ export function AcademicPerformanceReport() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Course</TableHead>
                   <TableHead className="font-semibold text-black">Instructor</TableHead>
                   <TableHead className="font-semibold text-black">Enrolled</TableHead>
@@ -238,7 +238,7 @@ export function AcademicPerformanceReport() {
               </TableHeader>
               <TableBody>
                 {filteredData.map((item, index) => (
-                  <TableRow key={index} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={index} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-gray-900">{item.course}</div>

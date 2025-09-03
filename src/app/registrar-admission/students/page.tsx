@@ -197,15 +197,15 @@ export default function ApplicationForm() {
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                             <div className="space-y-2">
-                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-white rounded-md">
                                     <FileText className="w-4 h-4" />
                                     Preview Application
                                 </button>
-                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-white rounded-md">
                                     <FileText className="w-4 h-4" />
                                     Save as Template
                                 </button>
-                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                                <button className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-white rounded-md">
                                     <Upload className="w-4 h-4" />
                                     Import from File
                                 </button>

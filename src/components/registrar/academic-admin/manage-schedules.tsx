@@ -168,7 +168,7 @@ export function ManageSchedules() {
       case "Conflict":
         return <Badge className="bg-orange-100 text-orange-700 border-orange-200">Conflict</Badge>
       default:
-        return <Badge className="bg-gray-100 text-gray-700 border-gray-200">{status}</Badge>
+        return <Badge className="bg-white text-gray-700 border-gray-200">{status}</Badge>
     }
   }
 
@@ -305,7 +305,7 @@ export function ManageSchedules() {
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-white">
                   <TableHead className="font-semibold text-black">Course</TableHead>
                   <TableHead className="font-semibold text-black">Instructor</TableHead>
                   <TableHead className="font-semibold text-black">Schedule</TableHead>
@@ -317,7 +317,7 @@ export function ManageSchedules() {
               </TableHeader>
               <TableBody>
                 {filteredSchedules.map((schedule) => (
-                  <TableRow key={schedule.id} className="hover:bg-gray-50 transition-colors">
+                  <TableRow key={schedule.id} className="hover:bg-white transition-colors">
                     <TableCell>
                       <div>
                         <div className="font-medium text-[#026892]">{schedule.courseCode}</div>
@@ -373,16 +373,16 @@ export function ManageSchedules() {
           <div className="overflow-x-auto">
             <div className="min-w-full">
               <div className="grid grid-cols-6 gap-1 mb-2">
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Time</div>
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Monday</div>
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Tuesday</div>
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Wednesday</div>
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Thursday</div>
-                <div className="p-2 font-semibold text-black bg-gray-50 rounded text-center">Friday</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Time</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Monday</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Tuesday</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Wednesday</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Thursday</div>
+                <div className="p-2 font-semibold text-black bg-white rounded text-center">Friday</div>
               </div>
               {gridSchedule.map((slot, index) => (
                 <div key={index} className="grid grid-cols-6 gap-1 mb-1">
-                  <div className="p-2 bg-gray-100 rounded font-medium text-sm">{slot.time}</div>
+                  <div className="p-2 bg-white rounded font-medium text-sm">{slot.time}</div>
                   {(['monday', 'tuesday', 'wednesday', 'thursday', 'friday'] as const).map(day => {
                     const schedule = slot[day]
                     return (
@@ -405,23 +405,23 @@ export function ManageSchedules() {
 
         {/* Schedule Statistics */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">{schedules.length}</div>
             <div className="text-sm text-gray-600">Total Classes</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {schedules.filter(s => s.status === "Scheduled").length}
             </div>
             <div className="text-sm text-gray-600">Scheduled</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-orange-600">
               {schedules.filter(s => s.status === "Conflict").length}
             </div>
             <div className="text-sm text-gray-600">Conflicts</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-yellow-600">
               {schedules.filter(s => s.status === "Pending").length}
             </div>

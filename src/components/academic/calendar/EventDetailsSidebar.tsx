@@ -38,7 +38,7 @@ export function EventDetailsSidebar({
 							{getEventsForDate(selectedDate).map((event) => (
 								<div
 									key={event.id}
-									className="p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+									className="p-3 border rounded-lg cursor-pointer hover:bg-white transition-colors"
 									onClick={() => setSelectedEvent(event)}
 								>
 									<div className="flex items-start justify-between">
@@ -80,7 +80,7 @@ export function EventDetailsSidebar({
 							.map((event) => (
 								<div
 									key={event.id}
-									className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+									className="flex items-center gap-3 p-2 rounded-lg hover:bg-white cursor-pointer transition-colors"
 									onClick={() => setSelectedEvent(event)}
 								>
 									<div className={`w-3 h-3 rounded-full ${eventTypes[event.type].color}`}></div>

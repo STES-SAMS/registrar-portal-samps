@@ -307,7 +307,7 @@ export default function ClassMarksPage() {
               onClick={() => setActiveTab(idx)}
               className={`px-6 py-2 rounded-md font-medium text-sm border ${activeTab === idx
                 ? "bg-[#026892] text-white border-gray-200 hover:bg-[#026892]/90"
-                : "bg-white text-black border-gray-200 hover:bg-gray-100"
+                : "bg-white text-black border-gray-200 hover:bg-white"
                 }`}
             >
               {tab}

@@ -24,7 +24,7 @@ export default function NotifyPage() {
                 <form className="space-y-6" onSubmit={e => { e.preventDefault(); handleClose(); }}>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="applicant">Applicant Name or ID</label>
-                        <input type="text" id="applicant" className="w-full border rounded px-3 py-2 bg-gray-100" value={applicant} readOnly />
+                        <input type="text" id="applicant" className="w-full border rounded px-3 py-2 bg-white" value={applicant} readOnly />
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1" htmlFor="decision">Decision</label>

@@ -23,7 +23,7 @@ const ApplicationProcessing = () => {
         { id: 'APP002', name: 'Aline Uwimana', location: 'Huye', program: 'Engineering', gpa: '3.6', priority: 'Medium', status: 'Pending Documents', date: '2024-01-14', priorityColor: 'bg-yellow-100 text-yellow-800', statusColor: 'bg-orange-100 text-orange-800' },
         { id: 'APP003', name: 'Eric Mugisha', location: 'Musanze', program: 'Business', gpa: '3.9', priority: 'High', status: 'Interview Scheduled', date: '2024-01-13', priorityColor: 'bg-red-100 text-red-800', statusColor: 'bg-purple-100 text-purple-800' },
         { id: 'APP004', name: 'Clarisse Ingabire', location: 'Rubavu', program: 'Medicine', gpa: '3.7', priority: 'Low', status: 'Under Review', date: '2024-01-12', priorityColor: 'bg-green-100 text-green-800', statusColor: 'bg-blue-100 text-blue-800' },
-        { id: 'APP005', name: 'Pacifique Habimana', location: 'Rwamagana', program: 'Law', gpa: '3.5', priority: 'Medium', status: 'Decision Pending', date: '2024-01-11', priorityColor: 'bg-yellow-100 text-yellow-800', statusColor: 'bg-gray-100 text-gray-800' },
+        { id: 'APP005', name: 'Pacifique Habimana', location: 'Rwamagana', program: 'Law', gpa: '3.5', priority: 'Medium', status: 'Decision Pending', date: '2024-01-11', priorityColor: 'bg-yellow-100 text-yellow-800', statusColor: 'bg-white text-gray-800' },
         { id: 'APP006', name: 'Chantal Mukamana', location: 'Gicumbi', program: 'Arts', gpa: '3.2', priority: 'Low', status: 'New Applications', date: '2024-01-10', priorityColor: 'bg-green-100 text-green-800', statusColor: 'bg-blue-100 text-blue-800' },
         { id: 'APP007', name: 'Emmanuel Nshimiyimana', location: 'Nyagatare', program: 'Commerce', gpa: '3.4', priority: 'High', status: 'Batch Processing', date: '2024-01-09', priorityColor: 'bg-red-100 text-red-800', statusColor: 'bg-indigo-100 text-indigo-800' },
         { id: 'APP008', name: 'Josiane Uwase', location: 'Karongi', program: 'Science', gpa: '3.6', priority: 'Medium', status: 'Pending Documents', date: '2024-01-08', priorityColor: 'bg-yellow-100 text-yellow-800', statusColor: 'bg-orange-100 text-orange-800' },
@@ -77,7 +77,7 @@ const ApplicationProcessing = () => {
                                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                             />
                         </div>
-                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-white transition-colors">
                             <Filter className="h-4 w-4" />
                             <span>Advanced Filter</span>
                         </button>
@@ -121,7 +121,7 @@ const ApplicationProcessing = () => {
                         </div>
                         <div className="divide-y divide-gray-200">
                             {filteredApplications.map((application) => (
-                                <div key={application.id} className="p-4 hover:bg-gray-50 transition-colors">
+                                <div key={application.id} className="p-4 hover:bg-white transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <input

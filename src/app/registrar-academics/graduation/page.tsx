@@ -171,9 +171,9 @@ export default function GraduationPage() {
       case "Confirmed":
         return "bg-blue-100 text-blue-800"
       case "Planning":
-        return "bg-gray-100 text-gray-800"
+        return "bg-white text-gray-800"
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-white text-gray-800"
     }
   }
 

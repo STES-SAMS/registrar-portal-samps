@@ -86,7 +86,7 @@ export default function EditStudent() {
               <p className="text-gray-600 font-medium">Student ID: <span className="text-[#026892] font-semibold">{formData.studentId}</span></p>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="outline" className="flex items-center gap-2 border-gray-300 text-gray-600 hover:bg-gray-50">
+              <Button variant="outline" className="flex items-center gap-2 border-gray-300 text-gray-600 hover:bg-white">
                 Cancel
               </Button>
               <Button 
@@ -467,7 +467,7 @@ export default function EditStudent() {
                 <p className="text-gray-600">Review all information before saving</p>
               </div>
               <div className="flex gap-3">
-                <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-50 font-medium">
+                <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-white font-medium">
                   Cancel Changes
                 </Button>
                 <Button variant="outline" className="text-[#026892] border-[#026892] hover:bg-[#026892] hover:text-white font-medium">

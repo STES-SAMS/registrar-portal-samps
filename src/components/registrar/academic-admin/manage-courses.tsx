@@ -181,7 +181,7 @@ export function ManageCourses() {
         <div className="rounded-lg border border-gray-200 overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50">
+              <TableRow className="bg-white">
                 <TableHead className="font-semibold text-black">Course Code</TableHead>
                 <TableHead className="font-semibold text-black">Course Name</TableHead>
                 <TableHead className="font-semibold text-black">Instructor</TableHead>
@@ -193,7 +193,7 @@ export function ManageCourses() {
             </TableHeader>
             <TableBody>
               {filteredCourses.map((course) => (
-                <TableRow key={course.id} className="hover:bg-gray-50 transition-colors">
+                <TableRow key={course.id} className="hover:bg-white transition-colors">
                   <TableCell className="font-bold text-black">{course.code}</TableCell>
                   <TableCell className="font-medium">{course.name}</TableCell>
                   <TableCell>{course.instructor}</TableCell>
@@ -236,23 +236,23 @@ export function ManageCourses() {
 
         {/* Summary Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-[#026892]">{courses.length}</div>
             <div className="text-sm text-gray-600">Total Courses</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-600">
               {courses.filter(c => c.status === "Active").length}
             </div>
             <div className="text-sm text-gray-600">Active Courses</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-red-600">
               {courses.filter(c => c.status === "Full" || c.enrolled >= c.capacity).length}
             </div>
             <div className="text-sm text-gray-600">Full Courses</div>
           </div>
-          <div className="bg-gray-50 p-4 rounded-lg text-center">
+          <div className="bg-white p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-yellow-600">
               {courses.filter(c => c.status === "Pending").length}
             </div>

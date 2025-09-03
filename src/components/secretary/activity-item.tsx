@@ -27,7 +27,7 @@ export function ActivityItem({ title, time, icon: Icon, variant = "default" }: A
         }
       default:
         return {
-          iconBg: "bg-gray-100",
+          iconBg: "bg-white",
           iconColor: "text-gray-600"
         }
     }

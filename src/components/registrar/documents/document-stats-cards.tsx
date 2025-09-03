@@ -17,7 +17,7 @@ export function DocumentStatsCards({ stats }: DocumentStatsCardsProps) {
               <p className="text-sm font-medium text-gray-600">Total Documents</p>
               <p className="text-3xl font-bold text-gray-900">{stats.total.toLocaleString()}</p>
             </div>
-            <div className="p-3 rounded-full bg-gray-100">
+            <div className="p-3 rounded-full bg-white">
               <FileText className="h-6 w-6 text-gray-600" />
             </div>
           </div>
