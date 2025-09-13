@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
+import { AuthProvider } from '@/appContext/authcontext'
 
 export const metadata: Metadata = {
   title: 'SAMPS UR | REGISTRAR',
@@ -25,7 +26,9 @@ html {
         `}</style>
       </head>
       <body className="bg-white" suppressHydrationWarning>
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   )

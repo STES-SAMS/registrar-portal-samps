@@ -14,6 +14,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar, ChevronDown } from "lucide-react";
 
+// Import our reusable filter components
+import { CascadingFilters } from "@/components/ui/filters";
+import { useFilters } from "@/hooks/use-filters";
+import type { FilterState } from "@/components/ui/filters/types";
+
 // Header Tabs
 export const MarksHeaderTabs: React.FC<{
   mainActiveTab: string;
@@ -179,10 +184,14 @@ export const MarksClassSection: React.FC<{
   classTotalPages: number;
   classSearch: string;
   setClassSearch: (v: string) => void;
-  selectedSchool?: string;
-  setSelectedSchool?: (v: string) => void;
-  selectedProgram?: string;
-  setSelectedProgram?: (v: string) => void;
+  filters?: FilterState;
+  onFiltersChange?: (filters: FilterState) => void;
+  filterOptions?: {
+    schools: any[];
+    departments: any[];
+    programs: any[];
+  };
+  isFilterLoading?: boolean;
   selectedYear?: string;
   setSelectedYear?: (v: string) => void;
 }> = ({
@@ -192,64 +201,33 @@ export const MarksClassSection: React.FC<{
   classTotalPages,
   classSearch,
   setClassSearch,
-  selectedSchool = "",
-  setSelectedSchool = () => { },
-  selectedProgram = "",
-  setSelectedProgram = () => { },
+  filters,
+  onFiltersChange,
+  filterOptions,
+  isFilterLoading = false,
   selectedYear = "",
   setSelectedYear = () => { },
 }) => {
     const router = useRouter();
     return (
       <>
+        {/* API-Based Cascading Filters */}
+        {filters && onFiltersChange && filterOptions && (
+          <div className="mb-6">
+            <CascadingFilters
+              filters={filters}
+              onFiltersChange={onFiltersChange}
+              options={filterOptions}
+              isLoading={isFilterLoading}
+              showSearch={false} // We'll keep the existing search box below
+              orientation="horizontal"
+              className="mb-4"
+            />
+          </div>
+        )}
+        
         <div className="flex gap-2 mb-4 items-center">
-          {/* School Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2 min-w-[160px] justify-between">
-                {selectedSchool || "Select School"}
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="">
-              {["School of ICT", "School of Business", "School of Arts"].map((school) => (
-                <DropdownMenuItem
-                  key={school}
-                  onClick={() => setSelectedSchool(school)}
-                  className={`flex items-center gap-2 px-2 py-2 ${selectedSchool === school ? 'bg-accent' : ''}`}
-                >
-                  <span>{school}</span>
-                  {selectedSchool === school && (
-                    <span className="ml-auto text-xs text-muted-foreground">Selected</span>
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {/* Program Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2 min-w-[140px] justify-between">
-                {selectedProgram || "Select Program"}
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="">
-              {["CSE", "CS", "IT", "IS"].map((program) => (
-                <DropdownMenuItem
-                  key={program}
-                  onClick={() => setSelectedProgram(program)}
-                  className={`flex items-center gap-2 px-2 py-2 ${selectedProgram === program ? 'bg-accent' : ''}`}
-                >
-                  <span>{program}</span>
-                  {selectedProgram === program && (
-                    <span className="ml-auto text-xs text-muted-foreground">Selected</span>
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {/* Year Dropdown */}
+          {/* Academic Year Filter */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2 min-w-[120px] justify-between">
@@ -258,7 +236,7 @@ export const MarksClassSection: React.FC<{
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="">
-              {["Year 1", "Year 2", "Year 3"].map((year) => (
+              {["Year 1", "Year 2", "Year 3", "Year 4"].map((year) => (
                 <DropdownMenuItem
                   key={year}
                   onClick={() => setSelectedYear(year)}

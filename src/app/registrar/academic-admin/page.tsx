@@ -14,8 +14,7 @@ import {
   Clock,
   CheckCircle,
   GraduationCap,
-  BarChart3,
-  ArrowLeft
+  BarChart3
 } from "lucide-react"
 import {
   ManageCourses,

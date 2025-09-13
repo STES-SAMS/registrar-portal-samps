@@ -6,6 +6,9 @@ import { MarksHeaderTabs, MarksSubTabs, MarksModuleSection, MarksClassSection, M
 import { ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import { RegistrarLayout } from "@/components/registrar";
 
+// Import our API-based filters
+import { useFilters } from "@/hooks/use-filters";
+
 
 const gradeDistributionData = [
   { name: "Approved", value: 3, color: "#22c55e" },
@@ -95,6 +98,17 @@ export default function MarksSubmittedPage() {
   
   // Sub tabs: 'module' or 'class' (only for mark-submissions tab)
   const [activeTab, setActiveTab] = React.useState("class");
+
+  // API-based filters
+  const {
+    filters,
+    filterOptions,
+    isLoading: isFilterLoading,
+    updateFilters,
+    resetFilters
+  } = useFilters({
+    loadMode: 'eager' // Load all data upfront for better UX
+  });
   
   // Module Table State
   const [modulePage, setModulePage] = React.useState(1);
@@ -119,7 +133,7 @@ export default function MarksSubmittedPage() {
   const classData = [
     {
       className: "Computer Science",
-      yearOfStudy: 1,
+      yearOfStudy: "Year 1",
       students: 45,
       submissionDate: "2024-12-15",
       deadline: "2024-12-20",
@@ -127,7 +141,7 @@ export default function MarksSubmittedPage() {
     },
     {
       className: "Computer Engineering",
-      yearOfStudy: 2,
+      yearOfStudy: "Year 2",
       students: 38,
       submissionDate: "2024-12-14",
       deadline: "2024-12-20",
@@ -135,7 +149,7 @@ export default function MarksSubmittedPage() {
     },
     {
       className: "Information Technology",
-      yearOfStudy: 1,
+      yearOfStudy: "Year 1",
       students: 42,
       submissionDate: "Not submitted",
       deadline: "2024-12-18",
@@ -143,7 +157,7 @@ export default function MarksSubmittedPage() {
     },
     {
       className: "Information System",
-      yearOfStudy: 3,
+      yearOfStudy: "Year 3",
       students: 35,
       submissionDate: "2024-12-16",
       deadline: "2024-12-20",
@@ -158,8 +172,8 @@ export default function MarksSubmittedPage() {
     (row) =>
       (row.className &&
         row.className.toLowerCase().includes(classSearch.toLowerCase())) ||
-      (row.lecturer &&
-        row.lecturer.toLowerCase().includes(classSearch.toLowerCase()))
+      (row.yearOfStudy &&
+        row.yearOfStudy.toLowerCase().includes(classSearch.toLowerCase()))
   );
   const classTotalPages = Math.ceil(classFilteredData.length / classPageSize);
   const classPaginatedData = classFilteredData.slice(
@@ -170,6 +184,9 @@ export default function MarksSubmittedPage() {
   // Deadlines state
   const [selectedModule, setSelectedModule] = React.useState("");
   const [selectedDeadline, setSelectedDeadline] = React.useState("");
+  
+  // Additional year filter for academic years
+  const [selectedYear, setSelectedYear] = React.useState("");
 
   return (
     <RegistrarLayout role="registrar-academics" title="Marks Management">
@@ -208,6 +225,12 @@ export default function MarksSubmittedPage() {
               classTotalPages={classTotalPages}
               classSearch={classSearch}
               setClassSearch={(v: string) => { setClassSearch(v); setClassPage(1); }}
+              filters={filters}
+              onFiltersChange={updateFilters}
+              filterOptions={filterOptions}
+              isFilterLoading={isFilterLoading}
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
             />
           )}
         </Card>

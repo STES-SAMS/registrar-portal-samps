@@ -1,54 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { studentsData } from "./attendance";
 import { Progress } from "@/components/ui/progress";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"; 
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
-function getAttendanceColor(attendance) {
+// Import the new filter components with API integration
+import { CascadingFilters } from "@/components/ui/filters";
+import { useFilters } from "@/hooks/use-filters";
+import type { FilterState } from "@/components/ui/filters/types";
+
+function getAttendanceColor(attendance?: number) {
+    if (attendance === undefined) return "text-gray-400";
     if (attendance >= 90) return "text-emerald-600";
     if (attendance >= 85) return "text-green-600";
     if (attendance >= 75) return "text-amber-600";
     return "text-red-600";
 }
 
-const SCHOOLS = ["All Schools", "School of ICT", "School of Business", "School of Arts"];
-const PROGRAMS = ["All Programs", "CSE", "CS", "IT", "IS"];
-const YEARS = ["All Years", "Year 1", "Year 2", "Year 3"];
-
 export default function StudentsPage() {
-    const [selectedSchool, setSelectedSchool] = useState("All Schools");
-    const [selectedProgram, setSelectedProgram] = useState("All Programs");
-    const [selectedYear, setSelectedYear] = useState("All Years");
-    const [classSearch, setClassSearch] = useState("");
-
-    // Filtering logic
-    const filteredStudents = studentsData.filter(student => {
-        const schoolMatch =
-            selectedSchool === "All Schools" || student.school === selectedSchool;
-        const programMatch =
-            selectedProgram === "All Programs" ||
-            (student.program && student.program === selectedProgram);
-        const yearMatch =
-            selectedYear === "All Years" ||
-            (student.year && student.year === selectedYear);
-        const searchLower = classSearch.toLowerCase();
-        const searchMatch =
-            classSearch === "" ||
-            student.name.toLowerCase().includes(searchLower) ||
-            student.id.toLowerCase().includes(searchLower) ||
-            student.courses.some(
-                course =>
-                    course.title.toLowerCase().includes(searchLower) ||
-                    course.code.toLowerCase().includes(searchLower)
-            );
-        return schoolMatch && programMatch && yearMatch && searchMatch;
+    // Use API-based filters that connect to your backend
+    const {
+        filters,
+        filterOptions,
+        isLoading: isFilterLoading,
+        updateFilters,
+        resetFilters
+    } = useFilters({
+        loadMode: 'eager' // Load all data upfront for better UX
     });
+    
+    const [selectedYear, setSelectedYear] = useState("All Years");
+
+    // Filtering logic with API-based filter system
+    const filteredStudents = useMemo(() => {
+        return studentsData.filter(student => {
+            // School filter - match by school name from API data
+            if (filters.school !== 'all') {
+                const selectedSchool = filterOptions.schools.find((school: any) => school.id === filters.school);
+                if (selectedSchool) {
+                    // Try to match school names (handle variations like "School of ICT" vs "Computer Science")
+                    const schoolNameMatch = 
+                        student.school.toLowerCase().includes(selectedSchool.name?.toLowerCase() || '') ||
+                        selectedSchool.name?.toLowerCase().includes(student.school.toLowerCase()) ||
+                        (selectedSchool.code && selectedSchool.code.toLowerCase() === student.school.toLowerCase());
+                    if (!schoolNameMatch) return false;
+                }
+            }
+
+            // Department filter - match by department name from API data
+            if (filters.department !== 'all') {
+                const selectedDepartment = filterOptions.departments.find((dept: any) => dept.id === filters.department);
+                if (selectedDepartment) {
+                    const departmentNameMatch = 
+                        student.department.toLowerCase().includes(selectedDepartment.name?.toLowerCase() || '') ||
+                        selectedDepartment.name?.toLowerCase().includes(student.department.toLowerCase()) ||
+                        (selectedDepartment.code && selectedDepartment.code.toLowerCase() === student.department.toLowerCase());
+                    if (!departmentNameMatch) return false;
+                }
+            }
+
+            // Program filter - match by program name from API data
+            if (filters.program !== 'all') {
+                const selectedProgram = filterOptions.programs.find((prog: any) => prog.id === filters.program);
+                if (selectedProgram) {
+                    // For programs, we might need to check course codes or other identifiers
+                    const programMatch = student.courses.some(course => {
+                        if (selectedProgram.code) {
+                            return course.code.toLowerCase().includes(selectedProgram.code.toLowerCase()) ||
+                                   selectedProgram.code.toLowerCase().includes(course.code.toLowerCase());
+                        }
+                        // Fallback to name matching if no code
+                        return selectedProgram.name?.toLowerCase().includes(course.title.toLowerCase()) ||
+                               course.title.toLowerCase().includes(selectedProgram.name?.toLowerCase() || '');
+                    });
+                    if (!programMatch) return false;
+                }
+            }
+
+            // Year filter
+            const yearMatch = selectedYear === "All Years" || 
+                            (student.year && student.year === selectedYear);
+            if (!yearMatch) return false;
+
+            // Search filter
+            if (filters.searchTerm && filters.searchTerm.length > 0) {
+                const searchLower = filters.searchTerm.toLowerCase();
+                const searchMatch = 
+                    student.name.toLowerCase().includes(searchLower) ||
+                    student.id.toLowerCase().includes(searchLower) ||
+                    student.school.toLowerCase().includes(searchLower) ||
+                    student.department.toLowerCase().includes(searchLower) ||
+                    student.courses.some(course =>
+                        course.title.toLowerCase().includes(searchLower) ||
+                        course.code.toLowerCase().includes(searchLower)
+                    );
+                if (!searchMatch) return false;
+            }
+
+            return true;
+        });
+    }, [filters, selectedYear, filterOptions]);
 
     return (
         <div>
@@ -56,89 +109,87 @@ export default function StudentsPage() {
                 Student Attendance Records
             </h3>
 
-            {/* Filters */}
-            <div className="flex gap-2 mb-4 items-center flex-wrap">
-                {/* School Dropdown */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+            {/* New Reusable Filters */}
+            <div className="space-y-4 mb-6">
+                <CascadingFilters
+                    filters={filters}
+                    onFiltersChange={updateFilters}
+                    options={filterOptions}
+                    isLoading={isFilterLoading}
+                    showSearch={true}
+                    searchPlaceholder="Search students by name, ID, or course..."
+                    orientation="horizontal"
+                />
+                
+                {/* Additional Year Filter */}
+                <Card className="border border-gray-200 shadow-sm">
+                    <CardContent className="p-4">
+                        <div className="flex items-center gap-4">
+                            <label className="text-sm font-medium text-gray-700 min-w-fit">Academic Year:</label>
+                            <div className="flex gap-2">
+                                {["All Years", "Year 1", "Year 2", "Year 3"].map((year) => (
+                                    <Button
+                                        key={year}
+                                        variant={selectedYear === year ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => setSelectedYear(year)}
+                                        className="text-xs"
+                                    >
+                                        {year}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Filter Summary */}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                        <span>Showing {filteredStudents.length} students</span>
+                        {filters.school !== 'all' && (
+                            <Badge variant="secondary">
+                                School: {filterOptions.schools.find((s: any) => s.id === filters.school)?.name}
+                            </Badge>
+                        )}
+                        {filters.department !== 'all' && (
+                            <Badge variant="secondary">
+                                Department: {filterOptions.departments.find((d: any) => d.id === filters.department)?.name}
+                            </Badge>
+                        )}
+                        {filters.program !== 'all' && (
+                            <Badge variant="secondary">
+                                Program: {filterOptions.programs.find((p: any) => p.id === filters.program)?.name}
+                            </Badge>
+                        )}
+                        {selectedYear !== 'All Years' && (
+                            <Badge variant="secondary">
+                                {selectedYear}
+                            </Badge>
+                        )}
+                        {filters.searchTerm && (
+                            <Badge variant="secondary">
+                                Search: "{filters.searchTerm}"
+                            </Badge>
+                        )}
+                    </div>
+                    
+                    {/* Reset Filters Button */}
+                    {(filters.school !== 'all' || filters.department !== 'all' || filters.program !== 'all' || 
+                      selectedYear !== 'All Years' || filters.searchTerm) && (
                         <Button
                             variant="outline"
-                            className="flex items-center gap-2 min-w-[160px] justify-between"
+                            size="sm"
+                            onClick={() => {
+                                resetFilters();
+                                setSelectedYear('All Years');
+                            }}
+                            className="text-xs"
                         >
-                            {selectedSchool}
-                            <ChevronDown className="h-4 w-4" />
+                            Clear All Filters
                         </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="z-50  bg-white shadow-md">
-                        {SCHOOLS.map((school) => (
-                            <DropdownMenuItem
-                                key={school}
-                                onClick={() => setSelectedSchool(school)}
-                                className="flex items-center gap-2 px-2 py-2 cursor-pointer"
-                            >
-                                <span>{school}</span>
-                                {selectedSchool === school && (
-                                    <span className="ml-auto text-xs text-muted-foreground">✓</span>
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                {/* Program Dropdown */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className="flex items-center gap-2 min-w-[140px] justify-between"
-                        >
-                            {selectedProgram}
-                            <ChevronDown className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="z-50  bg-white shadow-md">
-                        {PROGRAMS.map((program) => (
-                            <DropdownMenuItem
-                                key={program}
-                                onClick={() => setSelectedProgram(program)}
-                                className="flex items-center gap-2 px-2 py-2 cursor-pointer"
-                            >
-                                <span>{program}</span>
-                                {selectedProgram === program && (
-                                    <span className="ml-auto text-xs text-muted-foreground">✓</span>
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                {/* Year Dropdown */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className="flex items-center gap-2 min-w-[120px] justify-between"
-                        >
-                            {selectedYear}
-                            <ChevronDown className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="z-50  bg-white shadow-md">
-                        {YEARS.map((year) => (
-                            <DropdownMenuItem
-                                key={year}
-                                onClick={() => setSelectedYear(year)}
-                                className="flex items-center gap-2 px-2 py-2 cursor-pointer"
-                            >
-                                <span>{year}</span>
-                                {selectedYear === year && (
-                                    <span className="ml-auto text-xs text-muted-foreground">✓</span>
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
+                    )}
+                </div>
             </div>
 
             {/* Students list */}

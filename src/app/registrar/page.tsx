@@ -1,9 +1,11 @@
 "use client"
 
 import { RegistrarLayout } from "@/components/registrar/layout"
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import AddStudentForm from "@/components/registrar/add-student-form"
 import { 
   Users, 
   GraduationCap, 
@@ -16,24 +18,25 @@ import {
   Clock
 } from "lucide-react"
 
-export default function RegistrarDashboard() {
+export default function RegistrarDashboardPage() {
+  const [showAddStudent, setShowAddStudent] = useState(false);
   const stats = [
     { title: "Total Students", value: "12,347", subtitle: "+5% from last year", icon: Users, color: "#3b82f6" },
     { title: "Faculty Members", value: "789", subtitle: "+3% from last year", icon: GraduationCap, color: "#10b981" },
     { title: "Active Courses", value: "1,247", subtitle: "Current semester", icon: BookOpen, color: "#8b5cf6" },
-  ]
+  ];
 
   const recentActivities = [
     { title: "New student registration completed", time: "2 minutes ago", icon: CheckCircle, color: "#10b981" },
     { title: "Course enrollment updated", time: "15 minutes ago", icon: BookOpen, color: "#026892" },
     { title: "Academic calendar event added", time: "1 hour ago", icon: Calendar, color: "#f59e0b" },
-  ]
+  ];
 
   const alerts = [
     { title: "Registration deadline approaching", subtitle: "Due in 3 days", icon: AlertCircle, color: "#ef4444" },
     { title: "Course capacity reached", subtitle: "CS101 - Introduction to Computer Science", icon: Users, color: "#f59e0b" },
     { title: "New applications pending review", subtitle: "5 applications awaiting approval", icon: Clock, color: "#026892" },
-  ]
+  ];
 
   return (
     <RegistrarLayout role="registrar" title="Dashboard">
@@ -49,7 +52,10 @@ export default function RegistrarDashboard() {
                 <Calendar className="h-4 w-4" />
                 View Full Calendar
               </Button>
-              <Button className="bg-[#026892] hover:bg-[#0284c7] text-white flex items-center gap-2">
+              <Button
+                className="bg-[#026892] hover:bg-[#0284c7] text-white flex items-center gap-2"
+                onClick={() => setShowAddStudent(true)}
+              >
                 New Student
               </Button>
             </div>
@@ -222,6 +228,14 @@ export default function RegistrarDashboard() {
                 </CardContent>
               </Card>
             </div>
+            
+            {/* Add Student Modal */}
+            {showAddStudent && (
+              <AddStudentForm 
+                isOpen={showAddStudent} 
+                onClose={() => setShowAddStudent(false)} 
+              />
+            )}
     </RegistrarLayout>
-  )
+  );
 }
