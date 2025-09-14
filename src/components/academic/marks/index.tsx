@@ -178,6 +178,17 @@ export const MarksClassSection: React.FC<{
     submissionDate: string;
     deadline: string;
     status: string;
+    statusColorCode?: string;
+    statusIcon?: string;
+    id?: string;
+    groupId?: string;
+    workflowStageDescription?: string;
+    nextApproverRole?: string;
+    canBeForwarded?: boolean;
+    canBeEdited?: boolean;
+    submissionNotes?: string;
+    responsibleOfficeName?: string;
+    submission?: any; // Full submission object for approval actions
   }[];
   classPage: number;
   setClassPage: (p: number) => void;
@@ -186,14 +197,11 @@ export const MarksClassSection: React.FC<{
   setClassSearch: (v: string) => void;
   filters?: FilterState;
   onFiltersChange?: (filters: FilterState) => void;
-  // filterOptions?: {
-  //   schools: any[];
-  //   departments: any[];
-  //   programs: any[];
-  // };
   isFilterLoading?: boolean;
   selectedYear?: string;
   setSelectedYear?: (v: string) => void;
+  onApproval?: (submission: any) => void;
+  approvalLoading?: Record<string, boolean>;
 }> = ({
   classData,
   classPage,
@@ -203,68 +211,15 @@ export const MarksClassSection: React.FC<{
   setClassSearch,
   filters,
   onFiltersChange,
-  filterOptions,
   isFilterLoading = false,
   selectedYear = "",
   setSelectedYear = () => { },
+  onApproval,
+  approvalLoading = {},
 }) => {
     const router = useRouter();
     return (
       <>
-        {/* API-Based Cascading Filters */}
-        {filters && onFiltersChange && filterOptions && (
-          <div className="mb-6">
-            <CascadingFilters
-              filters={filters}
-              onFiltersChange={onFiltersChange}
-              options={filterOptions}
-              isLoading={isFilterLoading}
-              showSearch={false} // We'll keep the existing search box below
-              orientation="horizontal"
-              className="mb-4"
-            />
-          </div>
-        )}
-        
-        <div className="flex gap-2 mb-4 items-center">
-          {/* Academic Year Filter */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2 min-w-[120px] justify-between">
-                {selectedYear || "Select Year"}
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="">
-              {["Year 1", "Year 2", "Year 3", "Year 4"].map((year) => (
-                <DropdownMenuItem
-                  key={year}
-                  onClick={() => setSelectedYear(year)}
-                  className={`flex items-center gap-2 px-2 py-2 ${selectedYear === year ? 'bg-accent' : ''}`}
-                >
-                  <span>{year}</span>
-                  {selectedYear === year && (
-                    <span className="ml-auto text-xs text-muted-foreground">Selected</span>
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          {/* Search box */}
-          <div className="relative w-full max-w-xs">
-            <input
-              type="search"
-              value={classSearch}
-              onChange={(e) => setClassSearch(e.target.value)}
-              placeholder="Search class, lecturer..."
-              className="border rounded-md px-10 py-2 text-sm w-full bg-white focus:border-[#0891b2] focus:ring-[#0891b2]"
-            />
-            <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </div>
-        </div>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -280,13 +235,28 @@ export const MarksClassSection: React.FC<{
             </TableHeader>
             <TableBody>
               {classData.map((row, idx) => (
-                <TableRow key={idx}>
+                <TableRow key={row.id || idx}>
                   <TableCell className="font-medium text-gray-800">{row.className}</TableCell>
                   <TableCell className="text-gray-700">{row.yearOfStudy}</TableCell>
-                  <TableCell className="text-gray-700">{row.students}</TableCell>
+                  <TableCell className="text-gray-700">{row.students || 'N/A'}</TableCell>
                   <TableCell className="text-gray-700">{row.submissionDate}</TableCell>
                   <TableCell className="text-gray-700">{row.deadline}</TableCell>
-                  <TableCell>{row.status}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {row.statusIcon && <span className="text-sm">{row.statusIcon}</span>}
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${row.statusColorCode === 'orange' ? 'bg-orange-100 text-orange-800' :
+                            row.statusColorCode === 'green' ? 'bg-green-100 text-green-800' :
+                              row.statusColorCode === 'red' ? 'bg-red-100 text-red-800' :
+                                row.statusColorCode === 'blue' ? 'bg-blue-100 text-blue-800' :
+                                  'bg-gray-100 text-gray-800'
+                          }`}
+                        title={row.workflowStageDescription}
+                      >
+                        {row.status}
+                      </span>
+                    </div>
+                  </TableCell>
                   <TableCell className="text-right flex gap-2 justify-end">
                     <button
                       className="flex items-center gap-1 text-[#0891b2] bg-[#e0f2fe] hover:bg-[#bae6fd] px-3 py-1 rounded-md text-sm font-medium"
@@ -297,6 +267,23 @@ export const MarksClassSection: React.FC<{
                       </svg>
                       View
                     </button>
+                    {/* Approval Actions */}
+                    {row.submission && onApproval && (
+                      <button
+                        className="flex items-center gap-1 text-green-700 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-md text-sm font-medium disabled:opacity-50"
+                        onClick={() => onApproval(row.submission)}
+                        disabled={approvalLoading[row.id || ''] || false}
+                      >
+                        {approvalLoading[row.id || ''] ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-700"></div>
+                        ) : (
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                        Review
+                      </button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

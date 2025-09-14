@@ -671,9 +671,9 @@ export function validateGradingSheetParams(params: GradingSheetParams): void {
 }
 
 /**
- * Format file size in human-readable format
- * @param bytes - File size in bytes
- * @returns Formatted string like "1.2 MB"
+ * Formats file size in bytes to human readable format
+ * @param bytes - Size in bytes
+ * @returns Formatted string (e.g., "1.5 MB")
  */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes'

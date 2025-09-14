@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { RegistrarPageLayout } from '@/components/registrar-page-layout'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -147,8 +146,7 @@ export default function ExcelMarksPage() {
   }
 
   return (
-    <RegistrarLayout role="registrar-academics">
-      <div className="p-8">
+      <div className="">
         
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "info" | "preview")}>
@@ -319,6 +317,5 @@ export default function ExcelMarksPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </RegistrarLayout>
   )
 }
