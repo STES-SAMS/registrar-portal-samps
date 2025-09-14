@@ -95,7 +95,7 @@ const marksData = [
 export default function MarksSubmittedPage() {
   // Main tabs: 'mark-submissions', 'analytics', 'deadlines'
   const [mainActiveTab, setMainActiveTab] = React.useState("mark-submissions");
-  
+
   // Sub tabs: 'module' or 'class' (only for mark-submissions tab)
   const [activeTab, setActiveTab] = React.useState("class");
 
@@ -109,7 +109,7 @@ export default function MarksSubmittedPage() {
   } = useFilters({
     loadMode: 'eager' // Load all data upfront for better UX
   });
-  
+
   // Module Table State
   const [modulePage, setModulePage] = React.useState(1);
   const [moduleSearch, setModuleSearch] = React.useState("");
@@ -184,7 +184,7 @@ export default function MarksSubmittedPage() {
   // Deadlines state
   const [selectedModule, setSelectedModule] = React.useState("");
   const [selectedDeadline, setSelectedDeadline] = React.useState("");
-  
+
   // Additional year filter for academic years
   const [selectedYear, setSelectedYear] = React.useState("");
 
@@ -195,77 +195,78 @@ export default function MarksSubmittedPage() {
           Marks Management
         </h1>
         <p className="text-gray-600 text-base mb-2">
-        Review and approve marks submitted by Dean
-      </p>
-      <MarksHeaderTabs mainActiveTab={mainActiveTab} setMainActiveTab={setMainActiveTab} />
+          Review and approve marks submitted by Dean
+        </p>
+        <MarksHeaderTabs mainActiveTab={mainActiveTab} setMainActiveTab={setMainActiveTab} />
 
-      {/* Mark Submissions Tab */}
-      {mainActiveTab === "mark-submissions" && (
-        <Card className="p-6 border border-gray-200">
-          
-          <MarksSubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          {/* Table for Module Tab */}
-          {activeTab === "module" && (
-            <MarksModuleSection
-              data={modulePaginatedData as MarksRow[]}
-              page={modulePage}
-              pageSize={modulePageSize}
-              onPageChange={setModulePage}
-              totalPages={moduleTotalPages}
-              moduleSearch={moduleSearch}
-              setModuleSearch={(v: string) => { setModuleSearch(v); setModulePage(1); }}
-            />
-          )}
-          {/* Table for Class Tab */}
-          {activeTab === "class" && (
-            <MarksClassSection
-              classData={classPaginatedData}
-              classPage={classPage}
-              setClassPage={setClassPage}
-              classTotalPages={classTotalPages}
-              classSearch={classSearch}
-              setClassSearch={(v: string) => { setClassSearch(v); setClassPage(1); }}
-              filters={filters}
-              onFiltersChange={updateFilters}
-              filterOptions={filterOptions}
-              isFilterLoading={isFilterLoading}
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-            />
-          )}
-        </Card>
-      )}
+        {/* Mark Submissions Tab */}
+        {mainActiveTab === "mark-submissions" && (
+          <Card className="p-6 border border-gray-200">
 
-      {/* Analytics Tab */}
-      {mainActiveTab === "analytics" && (
-        <MarksAnalyticsSection
-          submissionStatistics={submissionStatistics}
-          gradeDistribution={gradeDistribution}
-          departmentStats={departmentStats}
-          BarChartCmp={({ children, ...props }: any) => (
-            <ResponsiveContainer width="100%" height={128}>
-              <BarChart {...props}>{children}</BarChart>
-            </ResponsiveContainer>
-          )}
-          CartesianGridCmp={CartesianGrid}
-          XAxisCmp={XAxis}
-          YAxisCmp={YAxis}
-          TooltipCmp={Tooltip}
-          BarCmp={Bar}
-        />
-      )}
+            <MarksSubTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            {/* Table for Module Tab */}
+            {activeTab === "modulemodule" && (
+              <MarksModuleSection
+                data={modulePaginatedData as MarksRow[]}
+                page={modulePage}
+                pageSize={modulePageSize}
+                onPageChange={setModulePage}
+                totalPages={moduleTotalPages}
+                moduleSearch={moduleSearch}
+                setModuleSearch={(v: string) => { setModuleSearch(v); setModulePage(1); }}
+              />
+            )}
+            {/* Table for Class Tab */}
+            {activeTab === "class" && (
+              <MarksClassSection
+                classData={classPaginatedData}
+                classPage={classPage}
+                setClassPage={setClassPage}
+                classTotalPages={classTotalPages}
+                classSearch={classSearch}
+                setClassSearch={(v: string) => { setClassSearch(v); setClassPage(1); }}
+                filters={filters}
+                onFiltersChange={updateFilters}
+                isFilterLoading={isFilterLoading}
+                selectedYear={selectedYear}
+                setSelectedYear={setSelectedYear}
+              // filterOptions={filterOptions} //filter departments, schools, programs
 
-      {/* Deadlines Tab */}
-      {mainActiveTab === "deadlines" && (
-        <MarksDeadlinesSection
-          selectedModule={selectedModule}
-          setSelectedModule={setSelectedModule}
-          selectedDeadline={selectedDeadline}
-          setSelectedDeadline={setSelectedDeadline}
-          deadlinesData={deadlinesData}
-        />
-      )}
-    </div>
+              />
+            )}
+          </Card>
+        )}
+
+        {/* Analytics Tab */}
+        {mainActiveTab === "analytics" && (
+          <MarksAnalyticsSection
+            submissionStatistics={submissionStatistics}
+            gradeDistribution={gradeDistribution}
+            departmentStats={departmentStats}
+            BarChartCmp={({ children, ...props }: any) => (
+              <ResponsiveContainer width="100%" height={128}>
+                <BarChart {...props}>{children}</BarChart>
+              </ResponsiveContainer>
+            )}
+            CartesianGridCmp={CartesianGrid}
+            XAxisCmp={XAxis}
+            YAxisCmp={YAxis}
+            TooltipCmp={Tooltip}
+            BarCmp={Bar}
+          />
+        )}
+
+        {/* Deadlines Tab */}
+        {mainActiveTab === "deadlines" && (
+          <MarksDeadlinesSection
+            selectedModule={selectedModule}
+            setSelectedModule={setSelectedModule}
+            selectedDeadline={selectedDeadline}
+            setSelectedDeadline={setSelectedDeadline}
+            deadlinesData={deadlinesData}
+          />
+        )}
+      </div>
     </RegistrarLayout>
   );
 }

@@ -27,7 +27,9 @@ export function RegistrarLayout({ children, role, title, className }: RegistrarL
         {/* Scrollable Main Content */}
         <main className="pt-16">
           <div className={className || "p-6"}>
-            {children}
+            {/* <RegistrarLayout role={role}> */}
+              {children}
+            {/* </RegistrarLayout> */}
           </div>
         </main>
       </div>

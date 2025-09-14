@@ -16,13 +16,9 @@ import {
   GraduationCap,
   BarChart3
 } from "lucide-react"
-import {
-  ManageCourses,
-  ViewFullCalendar,
-  CourseCatalog,
-  ManageFaculty,
-  ManageSchedules
-} from "@/components/registrar/academic-admin"
+
+import ManageCourses from "./manage-course/page"
+import Link from "next/link"
 
 export default function AcademicAdmin() {
   const [activeComponent, setActiveComponent] = useState<string>("dashboard")
@@ -106,22 +102,7 @@ export default function AcademicAdmin() {
     }
   ]
 
-  const renderActiveComponent = () => {
-    switch (activeComponent) {
-      case "manage-courses":
-        return <ManageCourses />
-      case "view-calendar":
-        return <ViewFullCalendar />
-      case "course-catalog":
-        return <CourseCatalog />
-      case "manage-faculty":
-        return <ManageFaculty />
-      case "manage-schedules":
-        return <ManageSchedules />
-      default:
-        return renderDashboard()
-    }
-  }
+ 
 
   const renderDashboard = () => (
     <div className="space-y-6">
@@ -175,12 +156,12 @@ export default function AcademicAdmin() {
               ))}
 
               <div className="pt-4">
-                <Button
-                  className="w-fit bg-[#026892] hover:bg-[#024f70] text-white font-medium"
-                  onClick={() => setActiveComponent("manage-courses")}
+                <Link
+                  href="/registrar/academic-admin/manage-course"
+                  className="p-2 border border-transparent rounded-md bg-[#026892] hover:bg-[#024f70] text-white font-medium"
                 >
                   Manage Courses
-                </Button>
+                </Link>
               </div>
             </div>
           </CardContent>
@@ -212,12 +193,12 @@ export default function AcademicAdmin() {
               })}
 
               <div className="pt-4 flex flex-end ">
-                <Button
-                  className="w-fit bg-[#026892] hover:bg-[#024f70] text-white font-medium"
-                  onClick={() => setActiveComponent("view-calendar")}
+                <Link
+                  href="/registrar/academic-admin/calendar"
+                  className="p-2 border border-transparent rounded-md bg-[#026892] hover:bg-[#024f70] text-white font-medium"
                 >
                   View Full Calendar
-                </Button>
+                </Link>
               </div>
             </div>
           </CardContent>
@@ -226,9 +207,9 @@ export default function AcademicAdmin() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card
+        <Link
+          href="/registrar/academic-admin/course-catalog"
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
-          onClick={() => setActiveComponent("course-catalog")}
         >
           <CardContent className="p-6 text-center">
             <div className="p-4 rounded-full bg-opacity-10 w-fit mx-auto mb-4">
@@ -240,12 +221,11 @@ export default function AcademicAdmin() {
               Manage Catalog
             </Button>
           </CardContent>
-        </Card>
+        </Link>
 
-        <Card
+        <Link
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
-          onClick={() => setActiveComponent("manage-faculty")}
-        >
+          href="/registrar/academic-admin/manage-faculty">
           <CardContent className="p-6 text-center">
             <div className="p-4 rounded-full  bg-opacity-10 w-fit mx-auto mb-4">
               <Users className="h-8 w-8 text-black" />
@@ -256,11 +236,11 @@ export default function AcademicAdmin() {
               Manage Faculty
             </Button>
           </CardContent>
-        </Card>
+        </Link>
 
-        <Card
+        <Link
+          href="/registrar/academic-admin/manage-schedules"
           className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer hover:border-[#026892]"
-          onClick={() => setActiveComponent("manage-schedules")}
         >
           <CardContent className="p-6 text-center">
             <div className="p-4 rounded-full  bg-opacity-10 w-fit mx-auto mb-4">
@@ -272,7 +252,7 @@ export default function AcademicAdmin() {
               Manage Schedules
             </Button>
           </CardContent>
-        </Card>
+        </Link>
       </div>
 
       {/* Recent Activities */}
@@ -318,9 +298,8 @@ export default function AcademicAdmin() {
   )
 
   return (
-    <RegistrarLayout role="registrar">
-      <BackButton />
-      {renderActiveComponent()}
+    <RegistrarLayout role="registrar" title="Academic Administration">
+      {renderDashboard()}      
     </RegistrarLayout>
   )
 }

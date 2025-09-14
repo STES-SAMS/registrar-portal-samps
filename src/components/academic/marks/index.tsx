@@ -186,11 +186,11 @@ export const MarksClassSection: React.FC<{
   setClassSearch: (v: string) => void;
   filters?: FilterState;
   onFiltersChange?: (filters: FilterState) => void;
-  filterOptions?: {
-    schools: any[];
-    departments: any[];
-    programs: any[];
-  };
+  // filterOptions?: {
+  //   schools: any[];
+  //   departments: any[];
+  //   programs: any[];
+  // };
   isFilterLoading?: boolean;
   selectedYear?: string;
   setSelectedYear?: (v: string) => void;

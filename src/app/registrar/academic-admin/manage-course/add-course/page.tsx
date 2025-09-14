@@ -21,7 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Plus, Loader2 } from "lucide-react"
-import { CreateModuleData, Department, Semester } from "./types"
+import { CreateModuleData, Department, Semester } from "@/components/registrar/academic-admin/course-management"
 
 interface CreateCourseDialogProps {
   open: boolean
@@ -319,3 +319,5 @@ export function CreateCourseDialog({
     </Dialog>
   )
 }
+
+export default CreateCourseDialog;

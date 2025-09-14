@@ -15,6 +15,7 @@ import {
   CheckCircle,
   Clock
 } from "lucide-react"
+import Link from "next/link"
 
 export default function RegistrarDashboard() {
   const stats = [
@@ -49,9 +50,11 @@ export default function RegistrarDashboard() {
                 <Calendar className="h-4 w-4" />
                 View Full Calendar
               </Button>
-              <Button className="bg-[#026892] hover:bg-[#0284c7] text-white flex items-center gap-2">
+              <Link
+               href="/registrar/dashboard/add-student"
+               className="p-1 rounded bg-[#026892] hover:bg-[#0284c7] text-white flex items-center gap-2">
                 New Student
-              </Button>
+              </Link>
             </div>
 
             {/* Stats Grid */}
@@ -80,22 +83,22 @@ export default function RegistrarDashboard() {
             {/* Quick Actions Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+                <Link href="/registrar/dashboard/add-student" className="p-4 text-center">
                   <Plus className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">Add Student</p>
-                </CardContent>
+                </Link>
               </Card>
               <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+                <Link href="/registrar/academic-admin/manage-course" className="p-4 text-center">
                   <BookOpen className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">Manage Courses</p>
-                </CardContent>
+                </Link>
               </Card>
               <Card className="bg-white border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                <CardContent className="p-4 text-center">
+                <Link href="/registrar/academic-admin/calendar" className="p-3 text-center">
                   <Calendar className="h-6 w-6 text-[#026892] mx-auto mb-2" />
                   <p className="text-sm font-medium text-[#026892]">View Full Calendar</p>
-                </CardContent>
+                </Link>
               </Card>
             </div>
 
