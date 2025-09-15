@@ -1,9 +1,9 @@
 "use client"
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 
-export default function NotifyPage() {
+function NotifyPageContent() {
     const searchParams = useSearchParams();
     const applicant = searchParams.get("applicant") || "";
     const [open, setOpen] = React.useState(true);
@@ -43,5 +43,13 @@ export default function NotifyPage() {
                 </form>
             </DialogContent>
         </Dialog>
+    );
+}
+
+export default function NotifyPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <NotifyPageContent />
+        </Suspense>
     );
 }

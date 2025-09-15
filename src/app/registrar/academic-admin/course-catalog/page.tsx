@@ -47,7 +47,7 @@ interface Course {
   status: "Active" | "Inactive" | "Under Review"
 }
 
-export function CourseCatalog() {
+export default function CourseCatalog() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")
   const [selectedLevel, setSelectedLevel] = useState("all")
@@ -382,5 +382,3 @@ export function CourseCatalog() {
     </RegistrarLayout>
   )
 }
-
-export default CourseCatalog;

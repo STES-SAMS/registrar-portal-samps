@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import React, { type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 interface RegistrarLayoutProps {
@@ -26,7 +26,7 @@ export function RegistrarLayout({ children, role, className }: RegistrarLayoutPr
     { label: "Academics", value: "registrar-academics" },
   ]
   const semesters = [
-    "2024 Semester 1",
+    "hg",
     "2024 Semester 2",
     "2025 Semester 1",
     "2025 Semester 2",

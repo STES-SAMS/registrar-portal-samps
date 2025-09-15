@@ -23,7 +23,7 @@ import {
     Users,
     BookOpen
 } from "lucide-react"
-import { RegistrarLayout } from "@/components/registrar-layout"
+import { RegistrarLayout } from "@/components/registrar/layout"
 import BackButton from "@/components/registrar/academic-admin/backbutton"
 
 interface CalendarEvent {
@@ -36,7 +36,7 @@ interface CalendarEvent {
     description?: string
 }
 
-export function ViewFullCalendar() {
+export default function ViewFullCalendar() {
     const [currentDate, setCurrentDate] = useState(new Date())
     const [events] = useState<CalendarEvent[]>([
         {
@@ -173,7 +173,7 @@ export function ViewFullCalendar() {
     const days = getDaysInMonth(currentDate)
 
     return (
-        <RegistrarLayout role="registrar">
+        <RegistrarLayout role="registrar" >
             <Card className="border border-gray-200 shadow-sm">
                 <CardHeader className="text-black text-lg font-bold">
                     <CardTitle className="flex items-center justify-between">
@@ -340,5 +340,3 @@ export function ViewFullCalendar() {
         </RegistrarLayout >
     )
 }
-
-export default ViewFullCalendar;

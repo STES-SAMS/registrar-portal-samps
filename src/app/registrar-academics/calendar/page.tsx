@@ -167,7 +167,6 @@ export default function DepartmentCalendarPage() {
 					setSearchTerm={setSearchTerm}
 					viewMode={viewMode}
 					setViewMode={handleTabChange}
-					eventTypes={eventTypes}
 				/>
 
 				<div className="grid gap-6 lg:grid-cols-3">

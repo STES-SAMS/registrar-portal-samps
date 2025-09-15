@@ -15,7 +15,7 @@ import {
 import { RegistrarLayout } from "@/components/registrar"
 import BackButton from "@/components/registrar/academic-admin/backbutton"
 
-export function ManageCourses() {
+export default function ManageCourses() {
     const {
         modules,
         departments,
@@ -107,6 +107,3 @@ export function ManageCourses() {
         </RegistrarLayout>
     )
 }
-
-
-export default ManageCourses;

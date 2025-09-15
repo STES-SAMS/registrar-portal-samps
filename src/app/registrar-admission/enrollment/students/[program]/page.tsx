@@ -9,8 +9,8 @@ interface Student {
 }
 
 interface StudentListPageProps {
-  params: { program: string };
-  searchParams?: { page?: string };
+  params: Promise<{ program: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }
 
 const studentData: Record<string, Student[]> = {
@@ -88,19 +88,21 @@ const studentData: Record<string, Student[]> = {
 
 const pageSize = 10;
 
-const StudentListPage: React.FC<StudentListPageProps> = ({ params, searchParams }) => {
-  const program = decodeURIComponent(params.program);
-  const page = parseInt(searchParams?.page || "1", 10);
-  const students = studentData[program] || [];
+const StudentListPage: React.FC<StudentListPageProps> = async ({ params, searchParams }) => {
+  const { program } = await params;
+  const searchParamsResolved = await searchParams;
+  const programDecoded = decodeURIComponent(program);
+  const page = parseInt(searchParamsResolved?.page || "1", 10);
+  const students = studentData[programDecoded] || [];
   const totalPages = Math.ceil(students.length / pageSize);
   const paginatedStudents = students.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <RegistrarLayout role="registrar-admission" title={`${program} - Students`}>
+    <RegistrarLayout role="registrar-admission" title={`${programDecoded} - Students`}>
       <div className="min-h-screen bg-white p-6">
         <div className="mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">{program} - Students</h2>
+            <h2 className="text-2xl font-bold">{programDecoded} - Students</h2>
             <a
               href="/registrar-admission/enrollment"
               className="text-red-500 hover:text-red-700 text-2xl font-bold ml-2"

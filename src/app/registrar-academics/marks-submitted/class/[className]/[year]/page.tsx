@@ -7,6 +7,7 @@ import { ChevronLeft } from "lucide-react";
 import { RegistrarLayout } from "@/components/registrar";
 import ExcelMarksPage from "@/components/academic/marks/over-all";
 import RepeatersComponent from "@/components/academic/marks/repeaters";
+import SummaryPage from "@/components/academic/marks/summary";
 
 // Tab component for the class marks view
 const ClassMarksTabs: React.FC<{
@@ -43,49 +44,7 @@ const ClassMarksTabs: React.FC<{
 const SummaryTab: React.FC<{ className: string; year: string }> = ({ className, year }) => {
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Students</h3>
-                    <p className="text-3xl font-bold text-[#026892]">45</p>
-                    <p className="text-sm text-gray-600 mt-1">Enrolled students</p>
-                </Card>
-                <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Pass Rate</h3>
-                    <p className="text-3xl font-bold text-green-600">78%</p>
-                    <p className="text-sm text-gray-600 mt-1">Students passed</p>
-                </Card>
-                <Card className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Average Score</h3>
-                    <p className="text-3xl font-bold text-blue-600">72.5</p>
-                    <p className="text-sm text-gray-600 mt-1">Class average</p>
-                </Card>
-            </div>
-
-            <Card className="p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Grade Distribution</h3>
-                <div className="space-y-3">
-                    {[
-                        { grade: "A", count: 8, percentage: 18, color: "bg-green-500" },
-                        { grade: "B", count: 15, percentage: 33, color: "bg-blue-500" },
-                        { grade: "C", count: 12, percentage: 27, color: "bg-yellow-500" },
-                        { grade: "D", count: 6, percentage: 13, color: "bg-orange-500" },
-                        { grade: "F", count: 4, percentage: 9, color: "bg-red-500" },
-                    ].map((item) => (
-                        <div key={item.grade} className="flex items-center gap-4">
-                            <div className="w-12 text-sm font-medium">{item.grade}</div>
-                            <div className="flex-1 bg-gray-200 rounded-full h-6">
-                                <div
-                                    className={`${item.color} h-6 rounded-full flex items-center justify-end pr-2`}
-                                    style={{ width: `${item.percentage}%` }}
-                                >
-                                    <span className="text-white text-xs font-medium">{item.count}</span>
-                                </div>
-                            </div>
-                            <div className="w-16 text-sm text-gray-600">{item.percentage}%</div>
-                        </div>
-                    ))}
-                </div>
-            </Card>
+            <SummaryPage />
         </div>
     );
 };
@@ -119,7 +78,7 @@ export default function ClassMarksPage() {
 
     return (
         <RegistrarLayout role="registrar-academics" title={`${className} -Marks`}>
-            <div className="p-6">
+            <div className="p-2">
                 {/* Back button */}
                 <div className="mb-4">
                     <Button

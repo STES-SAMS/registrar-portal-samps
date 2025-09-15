@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { RegistrarLayout } from "@/components/registrar";
 
 // Expanded mock data for demonstration (Rwandan names, locations, motives)
@@ -18,9 +18,11 @@ const applications = [
   { id: 'APP010', name: 'Diane Umutoni', age: 18, sex: 'Female', parentName: 'Claudine Umutoni', location: 'Bugesera', secondarySchool: 'Ecole Secondaire Bugesera', marks: 90, program: 'Medicine', gpa: '3.8', priority: 'Low', status: 'Under Review', date: '2024-01-06', cv: 'diane_umutoni_cv.pdf', motive: 'I want to become a doctor to serve my community.' }
 ];
 
-export default function ApplicationDetailPage({ params }: { params: { id: string } }) {
+export default function ApplicationDetailPage() {
   const router = useRouter();
-  const app = applications.find(a => a.id === params.id);
+  const params = useParams();
+  const id = params.id as string;
+  const app = applications.find(a => a.id === id);
 
   if (!app) {
     return (

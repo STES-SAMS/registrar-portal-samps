@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -33,7 +33,7 @@ export default function ExcelMarksPage() {
   const [isDownloading, setIsDownloading] = useState(false)
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [sheetInfo, setSheetInfo] = useState<GradingSheetInfo>({
-    semesterId: 'e16a166e-3ff6-4f5a-98f4-8b4dabbafecb',
+    semesterId: '2dc84bd0-ba87-4f04-92c4-a2aee2ee786d',
     groupId: 'e29ea9f8-b815-4a1b-8a66-478df24cda7d'
   })
   const [error, setError] = useState<string | null>(null)
@@ -116,6 +116,17 @@ export default function ExcelMarksPage() {
     }
   }
 
+  // Auto-load preview when component mounts (client-side only)
+  const hasAutoLoaded = useRef(false)
+  useEffect(() => {
+    // Guard to prevent double-calls in React Strict Mode during development
+    if (hasAutoLoaded.current) return
+    hasAutoLoaded.current = true
+
+    // Try to load preview automatically; errors are handled inside loadPreview
+    void loadPreview()
+  }, [])
+
   // Function to download the Excel sheet
   const downloadSheet = async () => {
     setIsDownloading(true)
@@ -146,7 +157,7 @@ export default function ExcelMarksPage() {
   }
 
   return (
-      <div className="">
+      <div>
         
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "info" | "preview")}>
@@ -161,7 +172,7 @@ export default function ExcelMarksPage() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="info" className="space-y-6">
+          <TabsContent value="info" className="">
           {/* Sheet Information Card */}
           <Card>
             <CardHeader>

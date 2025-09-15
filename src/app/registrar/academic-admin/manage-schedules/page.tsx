@@ -65,7 +65,7 @@ interface TimeSlot {
     friday?: Schedule
 }
 
-export function ManageSchedules() {
+export default function ManageSchedules() {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedSemester, setSelectedSemester] = useState("Fall 2024")
     const [selectedRoom, setSelectedRoom] = useState("all")
@@ -453,5 +453,3 @@ export function ManageSchedules() {
         </RegistrarLayout>
     )
 }
-
-export default ManageSchedules;

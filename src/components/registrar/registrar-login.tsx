@@ -16,7 +16,7 @@ export default function RegistrarLogin({ onSuccess }: { onSuccess: () => void })
     setLoading(true);
     setError("");
     try {
-      const data = await login(form);
+      const data = await login({ usernameOrEmail: form.username, password: form.password });
       // Check if user has REGISTRAR role
       const registrarRole = getRoleByName("REGISTRAR");
       if (!data.roles || !data.roles.includes(registrarRole?.id)) {

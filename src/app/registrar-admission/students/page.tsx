@@ -50,6 +50,8 @@ export default function ApplicationForm() {
         emergencyContact: false
     });
 
+    type ChecklistKey = keyof typeof checklist;
+
     const [documents, setDocuments] = useState([
         { name: 'Academic Transcript', status: 'Choose File - No file chosen', required: true },
         { name: 'ID Document', status: 'Choose File - No file chosen', required: true },
@@ -64,10 +66,10 @@ export default function ApplicationForm() {
         }));
     };
 
-    const handleChecklistUpdate = (item?: string) => {
+    const handleChecklistUpdate = (item: ChecklistKey) => {
         setChecklist(prev => ({
             ...prev,
-            [item!]: !prev[item!]
+            [item]: !prev[item]
         }));
     };
 
@@ -178,7 +180,7 @@ export default function ApplicationForm() {
                                         <input
                                             type="checkbox"
                                             checked={checked}
-                                            onChange={() => handleChecklistUpdate(key)}
+                                            onChange={() => handleChecklistUpdate(key as ChecklistKey)}
                                             className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                         />
                                         <span className="text-sm text-gray-700">

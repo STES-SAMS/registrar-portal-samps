@@ -4,6 +4,7 @@ import { RegistrarLayout } from "@/components/registrar/layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { TestAcademicContext } from "@/components/test-academic-context"
 import { 
   Users, 
   GraduationCap, 
@@ -43,6 +44,8 @@ export default function RegistrarDashboard() {
         <h1 className="text-2xl font-bold text-gray-900">Registrar Dashboard</h1>
         <p className="text-gray-600">Executive overview and institutional management</p>
       </div>
+
+     
 
             {/* Top Actions */}
             <div className="flex justify-end gap-3 mb-6">

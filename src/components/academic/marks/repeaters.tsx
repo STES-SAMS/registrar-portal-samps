@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -60,6 +60,14 @@ const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year
     }
   };
 
+  // Auto-load preview on mount (client-side only). Use a ref guard to avoid double-calls in Strict Mode
+  const hasAutoLoaded = useRef(false);
+  useEffect(() => {
+    if (hasAutoLoaded.current) return;
+    hasAutoLoaded.current = true;
+    void loadPreview();
+  }, []);
+
   const downloadSheet = async () => {
     setIsDownloading(true);
     setError(null);
@@ -85,11 +93,7 @@ const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year
     }
   };
 
-  const mockRepeaters = [
-    { id: "S006", name: "David Lee", previousGrade: "F", currentStatus: "Retaking", reason: "Failed final exam" },
-    { id: "S007", name: "Emma Davis", previousGrade: "D", currentStatus: "Repeating", reason: "Below minimum requirement" },
-    { id: "S008", name: "Mike Taylor", previousGrade: "F", currentStatus: "Retaking", reason: "Did not complete assignments" },
-  ];
+
 
   return (
     <div className="space-y-6">

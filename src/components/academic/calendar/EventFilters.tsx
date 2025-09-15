@@ -11,7 +11,6 @@ export function EventFilters({
 	setSearchTerm,
 	viewMode,
 	setViewMode,
-	eventTypes,
 }: {
 	filterType: string
 	setFilterType: (val: string) => void
@@ -19,7 +18,6 @@ export function EventFilters({
 	setSearchTerm: (val: string) => void
 	viewMode: "month" | "week" | "day"
 	setViewMode: (val: "month" | "week" | "day") => void
-	eventTypes: typeof eventTypes
 }) {
 	return (
 		<div className="flex flex-col sm:flex-row gap-4 items-center">

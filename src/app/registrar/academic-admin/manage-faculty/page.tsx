@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     Table,
     TableBody,
@@ -42,8 +41,7 @@ import {
     Calendar,
     Users
 } from "lucide-react"
-import { RegistrarLayout } from "@/components/registrar-layout"
-import { de } from "date-fns/locale"
+import { RegistrarLayout } from "@/components/registrar/layout"
 import BackButton from "@/components/registrar/academic-admin/backbutton"
 
 interface Faculty {
@@ -60,7 +58,7 @@ interface Faculty {
     avatar?: string
 }
 
-export function ManageFaculty() {
+export default function ManageFaculty() {
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedDepartment, setSelectedDepartment] = useState("all")
     const [selectedPosition, setSelectedPosition] = useState("all")
@@ -405,6 +403,3 @@ export function ManageFaculty() {
         </RegistrarLayout>
     )
 }
-
-
-export default ManageFaculty;

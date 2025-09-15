@@ -1,6 +1,16 @@
 // src/lib/api-grading.ts
 // API utility for managing grading data and Excel file operations
-import * as XLSX from 'xlsx'
+
+// Dynamic import for XLSX to avoid SSR issues
+const getXLSX = async () => {
+  if (typeof window === 'undefined') {
+    // Server-side: return a mock to avoid import issues
+    return null;
+  }
+  // Client-side: dynamically import XLSX
+  const XLSX = await import('xlsx');
+  return XLSX;
+};
 
 /**
  * Apply tint to a hex color
@@ -98,8 +108,8 @@ export async function fetchGradingExcelSheet(params: GradingSheetParams): Promis
   if (!token) {
     throw new Error('Authentication token not found. Please log in again.')
   }
-
-  const endpoint = `/api/proxy/grading/overall-sheets/generate-semester-regular-sheet/${params.semesterId}/group/${params.groupId}/excel`
+  const endpoint = `/api/proxy/grading/overall-sheets/generate-year-regular-sheet/${params.semesterId}/group/${params.groupId}/excel`
+  // const endpoint = `/api/proxy/grading/overall-sheets/generate-semester-regular-sheet/${params.semesterId}/group/${params.groupId}/excel`
   
   console.log('Fetching grading sheet from:', endpoint)
   
@@ -183,21 +193,28 @@ export async function downloadGradingExcelSheet(params: GradingSheetParams): Pro
  * - Performance optimized parsing
  */
 export async function parseExcelForPreview(blob: Blob, filename: string): Promise<ExcelPreviewData> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    
-    reader.onload = (e) => {
-      try {
-        const data = new Uint8Array(e.target?.result as ArrayBuffer)
-        const workbook = XLSX.read(data, { 
-          type: 'array',
-          cellStyles: true,
-          cellFormula: false,
-          cellHTML: false
-        })
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Get XLSX library dynamically
+      const XLSX = await getXLSX();
+      if (!XLSX) {
+        throw new Error('XLSX library not available on server side');
+      }
+
+      const reader = new FileReader()
+      
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target?.result as ArrayBuffer)
+          const workbook = XLSX.read(data, { 
+            type: 'array',
+            cellStyles: true,
+            cellFormula: false,
+            cellHTML: false
+          })
         
-        // Debug: Check if workbook has color information
-        console.log('Workbook info:', {
+          // Debug: Check if workbook has color information
+          console.log('Workbook info:', {
           sheetNames: workbook.SheetNames,
           hasWorkbookProps: !!workbook.Workbook,
           firstSheet: workbook.SheetNames[0]
@@ -628,6 +645,10 @@ export async function parseExcelForPreview(blob: Blob, filename: string): Promis
     }
     
     reader.readAsArrayBuffer(blob)
+    } catch (error) {
+      // Handle XLSX loading errors
+      reject(error instanceof Error ? error : new Error('Failed to load Excel processing library'))
+    }
   })
 }
 

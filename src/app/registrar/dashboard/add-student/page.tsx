@@ -12,7 +12,7 @@ interface AddStudentFormProps {
     onClose: () => void;
 }
 
-export default function AddStudentForm({ isOpen, onClose }: AddStudentFormProps) {
+function AddStudentForm({ isOpen, onClose }: AddStudentFormProps) {
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -258,4 +258,8 @@ export default function AddStudentForm({ isOpen, onClose }: AddStudentFormProps)
             </div>
         </RegistrarLayout>
     );
+}
+
+export default function AddStudentPage() {
+    return <AddStudentForm isOpen={true} onClose={() => {}} />;
 }
