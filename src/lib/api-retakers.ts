@@ -226,22 +226,22 @@ export async function fetchAndParseRetakersSheet(params: RetakersSheetParams): P
  */
 export function validateRetakersSheetParams(params: RetakersSheetParams): void {
   if (!params.yearId || typeof params.yearId !== 'string') {
-    throw new Error('Year ID is required and must be a string');
+    throw new Error('Academic year ID is required. Please select an academic year.');
   }
   
   if (!params.groupId || typeof params.groupId !== 'string') {
-    throw new Error('Group ID is required and must be a string');
+    throw new Error('Group ID is required. Please select a class first.');
   }
   
   // Basic UUID format validation
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   
-  if (!uuidRegex.test(params.yearId)) {
-    throw new Error('Year ID must be a valid UUID format');
+  if (params.yearId && !uuidRegex.test(params.yearId)) {
+    throw new Error('Invalid academic year ID format. Please select a valid academic year.');
   }
   
-  if (!uuidRegex.test(params.groupId)) {
-    throw new Error('Group ID must be a valid UUID format');
+  if (params.groupId && !uuidRegex.test(params.groupId)) {
+    throw new Error('Invalid group ID format. Please select a valid class.');
   }
 }
 
@@ -360,8 +360,9 @@ export function formatFileSize(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// Default retaker parameters (from the URL provided)
+// Default retaker parameters - using empty strings to require explicit parameters
 export const DEFAULT_RETAKERS_PARAMS: RetakersSheetParams = {
-  yearId: '2dc84bd0-ba87-4f04-92c4-a2aee2ee786d',
-  groupId: 'e29ea9f8-b815-4a1b-8a66-478df24cda7d',
+  yearId: '', // Must be set explicitly by the caller
+  groupId: '', // Must be set explicitly by the caller
 };
+

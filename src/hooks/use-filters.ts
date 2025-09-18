@@ -14,7 +14,7 @@ import {
   fetchAllPrograms,
   fetchDepartmentsBySchool,
   fetchProgramsByDepartment,
-  fetchProgramsBySchool
+  
 } from '@/lib/api-filters';
 
 export interface UseFiltersOptions {

@@ -260,7 +260,12 @@ export const MarksClassSection: React.FC<{
                   <TableCell className="text-right flex gap-2 justify-end">
                     <button
                       className="flex items-center gap-1 text-[#0891b2] bg-[#e0f2fe] hover:bg-[#bae6fd] px-3 py-1 rounded-md text-sm font-medium"
-                      onClick={() => router.push(`/registrar-academics/marks-submitted/class/${encodeURIComponent(row.className)}/2025`)}
+                      onClick={() => {
+                        const year = row.yearOfStudy?.split(' ')[1] || '2025'; // Extract year from "Year 2025" format
+                        const url = `/registrar-academics/marks-submitted/class/${encodeURIComponent(row.className)}/${year}?groupId=${row.groupId || ''}`;
+                        console.log(`Navigating to class view with groupId: ${row.groupId || 'none provided'}`);
+                        router.push(url);
+                      }}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />

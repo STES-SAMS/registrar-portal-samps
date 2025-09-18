@@ -1,3 +1,4 @@
+import { API_URL } from "./api"
 
 /**
  * Format file size in human-readable format
@@ -13,7 +14,6 @@ export function formatFileSize(bytes: number): string {
   
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
-
 // Interface for group submission data from API
 export interface GroupSubmission {
   id: string;
@@ -138,7 +138,7 @@ export const submitGroupSubmissionApproval = async (approvalData: ApprovalReques
     }
 
     // Use the proxy API endpoint structure from api.ts
-    const response = await fetch('/api/proxy/grading/group-submissions/registrar-review', {
+    const response = await fetch('${API_URL}/grading/group-submissions/registrar-review', {
       method: 'POST',
       headers,
       body: JSON.stringify(approvalData),

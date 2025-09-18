@@ -113,32 +113,47 @@ export default function MarksSubmittedPage() {
 
   // Transform API data to match class table format
   const transformSubmissionsToClassData = (submissions: GroupSubmission[]) => {
-    return submissions.map(submission => ({
-      className: submission.groupName || 'Unknown Class',
-      yearOfStudy: submission.groupCode || 'Unknown Year', // Using groupCode as year identifier
-      students: 0, // This info isn't available in the API response, could be fetched separately
-      submissionDate: submission.submittedToDeanAt ? new Date(submission.submittedToDeanAt).toLocaleDateString() : "Not submitted",
-      deadline: "2024-12-20", // This should come from another API or be calculated
-      status: submission.statusDisplayName || submission.status,
-      statusColorCode: submission.statusColorCode || 'gray',
-      statusIcon: submission.statusIcon || '',
-      // Additional fields from API that might be useful
-      id: submission.id,
-      groupId: submission.groupId,
-      workflowStageDescription: submission.workflowStageDescription || '',
-      nextApproverRole: submission.nextApproverRole || '',
-      canBeForwarded: submission.canBeForwarded || false,
-      canBeEdited: submission.canBeEdited || false,
-      submissionNotes: submission.submissionNotes || '',
-      responsibleOfficeName: submission.responsibleOfficeName || '',
-      // Include the full submission object for approval actions
-      submission: submission
-    }));
+    return submissions.map(submission => {
+      // Extract year of study from group code or use default
+      const yearOfStudy = submission.groupCode || 'Year 2025';
+      
+      // Ensure groupId is properly included for routing
+      console.log(`Transforming submission with groupId: ${submission.groupId}`);
+      
+      return {
+        className: submission.groupName || 'Unknown Class',
+        yearOfStudy: yearOfStudy, // Using groupCode as year identifier
+        students: 0, // This info isn't available in the API response, could be fetched separately
+        submissionDate: submission.submittedToDeanAt ? new Date(submission.submittedToDeanAt).toLocaleDateString() : "Not submitted",
+        deadline: "2024-12-20", // This should come from another API or be calculated
+        status: submission.statusDisplayName || submission.status,
+        statusColorCode: submission.statusColorCode || 'gray',
+        statusIcon: submission.statusIcon || '',
+        id: submission.id,
+        groupId: submission.groupId, // Ensure this is included for routing
+        workflowStageDescription: submission.workflowStageDescription || '',
+        nextApproverRole: submission.nextApproverRole || '',
+        canBeForwarded: submission.canBeForwarded || false,
+        canBeEdited: submission.canBeEdited || false,
+        submissionNotes: submission.submissionNotes || '',
+        responsibleOfficeName: submission.responsibleOfficeName || '',
+        // Include the full submission object for approval actions
+        submission: submission
+      };
+    });
   };
 
   // Get transformed class data from API
   const apiClassData = React.useMemo(() => {
-    return transformSubmissionsToClassData(pendingSubmissions);
+    const transformed = transformSubmissionsToClassData(pendingSubmissions);
+    // Log the first few entries to ensure groupId is being included
+    console.log('Transformed class data with groupIds:', 
+      transformed.slice(0, 3).map(item => ({ 
+        className: item.className, 
+        groupId: item.groupId 
+      }))
+    );
+    return transformed;
   }, [pendingSubmissions]);
 
   // Class Table State - use API data only

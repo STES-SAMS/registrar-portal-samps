@@ -48,8 +48,9 @@ function applyTintToColor(hexColor: string, tint: number): string {
 }
 
 interface GradingSheetParams {
-  semesterId: string
+  academicYearId: string  // Despite the name, this should contain the academicYearId value
   groupId: string
+  _endpointFormat?: string // Optional parameter for retry mechanism with alternative endpoints
 }
 
 export interface CellStyling {
@@ -99,57 +100,116 @@ interface GradingSheetResponse {
 
 /**
  * Fetches an Excel grading sheet from the API
- * @param params - The semester ID and group ID
+ * @param params - Contains academicYearId (as semesterId parameter) and group ID
  * @returns Promise with blob data and suggested filename
  */
-export async function fetchGradingExcelSheet(params: GradingSheetParams): Promise<GradingSheetResponse> {
-  const token = localStorage.getItem('token')
+// Import at the top level
+import axios from "axios";
+
+export async function fetchGradingExcelSheet(params: GradingSheetParams, attemptNumber = 0): Promise<GradingSheetResponse> {
+  // Check for token in localStorage with enhanced debugging
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  
+  console.log('Auth check:', {
+    params: {
+      academicYearId: params.academicYearId,
+      groupId: params.groupId,
+    },
+    attemptNumber,
+    tokenExists: !!token,
+    tokenLength: token ? token.length : 0,
+    tokenFirst10Chars: token ? token.substring(0, 10) + '...' : 'N/A'
+  });
   
   if (!token) {
-    throw new Error('Authentication token not found. Please log in again.')
+    console.error("No authentication token found");
+    throw new Error('Authentication token not found. Please log in again.');
   }
-  const endpoint = `/api/proxy/grading/overall-sheets/generate-year-regular-sheet/${params.semesterId}/group/${params.groupId}/excel`
-  // const endpoint = `/api/proxy/grading/overall-sheets/generate-semester-regular-sheet/${params.semesterId}/group/${params.groupId}/excel`
   
-  console.log('Fetching grading sheet from:', endpoint)
+  // Try the academic-year based endpoint instead of the semester-based one
+  // The 500 error might be happening because we're using the wrong endpoint structure
   
-  const response = await fetch(endpoint, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    },
-  })
-
-  if (!response.ok) {
-    let errorMessage = `HTTP ${response.status}: ${response.statusText}`
+  // Use the endpoint format from the params if it exists (for retry mechanism)
+  // Otherwise use our default endpoint format
+  let endpoint;
+  
+  if (params._endpointFormat) {
+    endpoint = params._endpointFormat;
+    console.log(`Using alternative endpoint format (attempt ${attemptNumber + 1}):`, endpoint);
+  } else {
+    // Use the path parameter format that matches the confirmed working API
+    endpoint = `/grading/overall-sheets/generate-year-regular-sheet/${params.academicYearId}/group/${params.groupId}/excel`;
+    console.log('Fetching grading sheet from endpoint:', endpoint);
+  }
+  
+  try {
+    console.log('Making API request with axios');
     
-    // Try to get more detailed error from response
-    try {
-      const errorData = await response.json()
-      if (errorData.message) {
-        errorMessage = errorData.message
-      } else if (errorData.error) {
-        errorMessage = errorData.error
+    // Use axios instead of fetch for consistent auth handling
+    const response = await axios({
+      url: endpoint,
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      },
+      responseType: 'blob',
+    });
+
+    console.log('Successful response, handling data');
+    
+    // With axios, the response status is checked automatically (throws for non-200)
+    // and response.data already contains the blob
+    const blob = response.data;
+    
+    // Generate filename based on parameters
+    const shortAcademicYearId = params.academicYearId.slice(0, 8)
+    const shortGroupId = params.groupId.slice(0, 8)
+    const timestamp = new Date().toISOString().slice(0, 10)
+    const filename = `grading-sheet-${shortAcademicYearId}-${shortGroupId}-${timestamp}.xlsx`
+
+    return {
+      blob,
+      filename
+    }
+  } catch (error) {
+    console.error('Exception in fetchGradingExcelSheet:', error);
+    
+    // Enhanced error handling with axios
+    if (axios.isAxiosError(error)) {
+      const statusCode = error.response?.status;
+      const responseData = error.response?.data;
+      
+      console.error('API Error Details:', {
+        status: statusCode,
+        url: error.config?.url,
+        method: error.config?.method,
+        responseData
+      });
+      
+   
+      
+      // Improved error message with status code
+      if (statusCode === 500) {
+        const currentEndpoint = params._endpointFormat || `default endpoint (academicYearId=${params.academicYearId}, groupId=${params.groupId})`;
+        throw new Error(`Server error (500): The server encountered an error processing the request. 
+          We tried ${attemptNumber + 1} different API endpoint formats but all failed.
+          Last attempt used: ${currentEndpoint}
+          Check if the academic year ID (${params.academicYearId}) and group ID (${params.groupId}) are valid.`);
+      } else if (statusCode === 401 || statusCode === 403) {
+        throw new Error(`Authentication error (${statusCode}): Your session may have expired or you don't have permission to access this resource.`);
+      } else if (statusCode === 404) {
+        const currentEndpoint = params._endpointFormat || `default endpoint (academicYearId=${params.academicYearId}, groupId=${params.groupId})`;
+        throw new Error(`Not found (404): The requested resource was not found at ${currentEndpoint}. 
+          Verify that the academic year ID and group ID exist.`);
+      } else if (responseData && typeof responseData === 'object') {
+        const message = responseData.message || responseData.error || JSON.stringify(responseData);
+        throw new Error(`API Error (${statusCode || 'unknown'}): ${message}`);
       }
-    } catch {
-      // If response is not JSON, use the status text
     }
     
-    throw new Error(`Failed to fetch grading sheet: ${errorMessage}`)
-  }
-
-  const blob = await response.blob()
-  
-  // Generate filename based on parameters
-  const shortSemesterId = params.semesterId.slice(0, 8)
-  const shortGroupId = params.groupId.slice(0, 8)
-  const timestamp = new Date().toISOString().slice(0, 10)
-  const filename = `grading-sheet-${shortSemesterId}-${shortGroupId}-${timestamp}.xlsx`
-
-  return {
-    blob,
-    filename
+    // If it's not an axios error or we couldn't extract details
+    throw error;
   }
 }
 
@@ -671,19 +731,32 @@ export async function fetchAndParseGradingSheet(params: GradingSheetParams): Pro
  * @throws Error if parameters are invalid
  */
 export function validateGradingSheetParams(params: GradingSheetParams): void {
-  if (!params.semesterId || typeof params.semesterId !== 'string') {
-    throw new Error('Semester ID is required and must be a string')
+  // Log the parameters being validated
+  console.log('Validating grading sheet params:', {
+    academicYearId: params.academicYearId || 'missing',
+    groupId: params.groupId || 'missing'
+  });
+
+  if (!params.academicYearId || typeof params.academicYearId !== 'string') {
+    throw new Error('Academic Year ID is required. Please select a valid academic year.')
   }
   
   if (!params.groupId || typeof params.groupId !== 'string') {
-    throw new Error('Group ID is required and must be a string')
+    throw new Error('Group ID is required. Please select a valid class.')
   }
   
   // Basic UUID format validation (optional but helpful)
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
   
-  if (!uuidRegex.test(params.semesterId)) {
-    console.warn('Semester ID does not appear to be a valid UUID format')
+  if (!uuidRegex.test(params.academicYearId)) {
+    console.warn('Academic Year ID does not appear to be a valid UUID format:', params.academicYearId);
+    // Instead of failing, we'll let the API handle it, but log it prominently
+    console.error('⚠️ WARNING: Academic Year ID is not a valid UUID format. This may cause API errors.');
+  }
+  
+  if (!uuidRegex.test(params.groupId)) {
+    console.warn('Group ID does not appear to be a valid UUID format:', params.groupId);
+    console.error('⚠️ WARNING: Group ID is not a valid UUID format. This may cause API errors.');
   }
   
   if (!uuidRegex.test(params.groupId)) {

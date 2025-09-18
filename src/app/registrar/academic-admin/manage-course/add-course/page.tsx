@@ -1,5 +1,4 @@
 "use client"
-import { CreateCourseDialog } from "@/components/registrar/academic-admin/course-management"
 import React from "react"
 
 export default function Page() {

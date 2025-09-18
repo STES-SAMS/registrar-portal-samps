@@ -2,53 +2,52 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card, CardContent } from '@/components/ui/card'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { ExcelPreviewTable } from '@/components/ui/excel-preview-table'
-import { Download, FileSpreadsheet, AlertCircle, RefreshCw, Eye, Users } from 'lucide-react'
+import { FileSpreadsheet, RefreshCw } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { useCurrentAcademicYearId, useAcademicContext } from '@/appContext/academicContext'
-import { 
-  generateYearSummarySheet, 
-  generateTestSummarySheet,
-  generateSummarySheetForPreview,
+import {
+  generateYearSummarySheet,
   getSubmittedGroups,
-  getSubmittedGroupIds,
-  getTestGroupData,
-  TEST_GROUP_ID,
-  type SummarySheetParams,
-  type SummarySheetResponse
+  generateSummarySheetForPreview
 } from '@/lib/api-summary'
 import { type GroupSubmission } from '@/lib/api-mark-submition'
-import { 
+import {
   parseExcelForPreview,
-  type ExcelPreviewData 
+  type ExcelPreviewData
 } from '@/lib/api-grading'
 
 interface SummarySheetInfo {
   academicYearId: string
-  selectedGroupIds: string[]
+  groupId: string
   filename?: string
   lastModified?: Date
   size?: number
   submittedGroups?: GroupSubmission[]
 }
 
-export default function SummaryPage() {
+interface SummaryPageProps {
+  groupId: string;
+  groupName?: string;
+}
+
+export default function SummaryPage({ groupId, groupName }: SummaryPageProps) {
+  // Log the props when component mounts
+  console.log('SummaryPage initializing with props:', { groupId, groupName });
+  
   const [isLoading, setIsLoading] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isPreviewLoading, setIsPreviewLoading] = useState(false)
   const [isGroupsLoading, setIsGroupsLoading] = useState(false)
   const currentYearId = useCurrentAcademicYearId()
   const { selectedYearData } = useAcademicContext()
-  
+
   const [sheetInfo, setSheetInfo] = useState<SummarySheetInfo>({
     academicYearId: currentYearId || '',
-    selectedGroupIds: [TEST_GROUP_ID], // Start with test group ID
-    submittedGroups: [getTestGroupData()] // Include test group data
+    groupId: groupId || '',
+    submittedGroups: []
   })
   const [error, setError] = useState<string | null>(null)
   const [previewData, setPreviewData] = useState<ExcelPreviewData | null>(null)
@@ -56,17 +55,21 @@ export default function SummaryPage() {
   const [lastGeneratedBlob, setLastGeneratedBlob] = useState<Blob | null>(null)
   const { toast } = useToast()
 
-  // Update academic year when context changes
+  // Update sheetInfo when academicYearId or groupId changes
   useEffect(() => {
-    if (currentYearId && currentYearId !== sheetInfo.academicYearId) {
+    if (currentYearId || groupId) {
       console.log('Summary: Academic year changed to:', currentYearId)
-      console.log('Summary: Using test group ID:', TEST_GROUP_ID)
+      console.log('Summary: Using group ID:', groupId)
       setSheetInfo(prev => ({
         ...prev,
-        academicYearId: currentYearId
+        academicYearId: currentYearId || prev.academicYearId,
+        groupId: groupId || prev.groupId,
+        filename: prev.filename,
+        size: prev.size,
+        lastModified: prev.lastModified
       }))
     }
-  }, [currentYearId, sheetInfo.academicYearId])
+  }, [currentYearId, groupId])
 
   // Function to fetch submitted groups
   const fetchSubmittedGroups = async () => {
@@ -84,11 +87,12 @@ export default function SummaryPage() {
 
     try {
       const groups = await getSubmittedGroups()
-      
+
+      // We already have a specific groupId, but we'll still load all submitted groups for reference
       setSheetInfo(prev => ({
         ...prev,
-        submittedGroups: groups,
-        selectedGroupIds: groups.map(g => g.groupId) // Auto-select all submitted groups
+        submittedGroups: groups
+        // No longer setting selectedGroupIds since we're using the passed-in groupId
       }))
 
       toast({
@@ -109,12 +113,12 @@ export default function SummaryPage() {
     }
   }
 
-  // Function to generate test summary sheet
-  const generateTestSummary = async () => {
-    if (!sheetInfo.academicYearId) {
+  // Function to generate summary sheet
+  const generateSingleSummary = async () => {
+    if (!sheetInfo.academicYearId || !sheetInfo.groupId) {
       toast({
-        title: "No Academic Year Selected",
-        description: "Please select an academic year from the header dropdown.",
+        title: "Missing Required Information",
+        description: "Please ensure an academic year is selected and group ID is available.",
         variant: "destructive",
       })
       return
@@ -124,9 +128,19 @@ export default function SummaryPage() {
     setError(null)
 
     try {
-      console.log('Generating test summary with group ID:', TEST_GROUP_ID)
-      const result = await generateTestSummarySheet(sheetInfo.academicYearId)
+      // Detailed logging to verify the correct parameters are being used
+      console.log('Generating summary with parameters:', {
+        academicYearId: sheetInfo.academicYearId,
+        groupId: sheetInfo.groupId,
+        originalGroupId: groupId, // The prop passed to this component
+        groupName
+      })
       
+      const result = await generateYearSummarySheet({
+        academicYearId: sheetInfo.academicYearId,
+        groupId: sheetInfo.groupId
+      })
+
       if (result.success) {
         setSheetInfo(prev => ({
           ...prev,
@@ -136,8 +150,8 @@ export default function SummaryPage() {
         }))
 
         toast({
-          title: "Test Summary Generated",
-          description: `Test summary sheet generated successfully using group ID: ${TEST_GROUP_ID}`,
+          title: "Summary Generated",
+          description: `Summary sheet generated successfully for group: ${groupName || sheetInfo.groupId}`,
         })
       } else {
         throw new Error(result.message)
@@ -156,12 +170,12 @@ export default function SummaryPage() {
     }
   }
 
-  // Function to generate the summary sheet for all submitted groups
+  // Function to generate the summary sheet using the current group ID
   const generateSummarySheet = async () => {
-    if (!sheetInfo.academicYearId || sheetInfo.selectedGroupIds.length === 0) {
+    if (!sheetInfo.academicYearId || !sheetInfo.groupId) {
       toast({
         title: "Missing Information",
-        description: "Please ensure academic year is selected and there are submitted groups.",
+        description: "Please ensure academic year is selected and group ID is available.",
         variant: "destructive",
       })
       return
@@ -171,12 +185,13 @@ export default function SummaryPage() {
     setError(null)
 
     try {
-      // Generate summary for each selected group (using test group ID for now)
-      const results = await Promise.allSettled(
-        sheetInfo.selectedGroupIds.map(groupId => 
-          generateYearSummarySheet(sheetInfo.academicYearId, TEST_GROUP_ID) // Use test ID
-        )
-      )
+      // Generate summary for the current group
+      const results = await Promise.allSettled([
+        generateYearSummarySheet({
+          academicYearId: sheetInfo.academicYearId,
+          groupId: sheetInfo.groupId
+        })
+      ])
 
       const successful = results.filter(r => r.status === 'fulfilled' && r.value.success).length
       const failed = results.length - successful
@@ -211,10 +226,10 @@ export default function SummaryPage() {
 
   // Function to generate and preview summary sheet
   const generateAndPreviewSheet = async () => {
-    if (!sheetInfo.academicYearId) {
+    if (!sheetInfo.academicYearId || !sheetInfo.groupId) {
       toast({
         title: "Missing Information",
-        description: "Please ensure academic year is selected.",
+        description: "Please ensure academic year is selected and group ID is available.",
         variant: "destructive",
       })
       return
@@ -224,21 +239,21 @@ export default function SummaryPage() {
     setError(null)
 
     try {
-      console.log('Generating summary sheet for preview with test group ID:', TEST_GROUP_ID)
-      
-      // Generate the Excel file for preview (without downloading) using test group ID
-      const { blob, filename } = await generateSummarySheetForPreview(
-        sheetInfo.academicYearId, 
-        TEST_GROUP_ID
-      )
-      
+      console.log('Generating summary sheet for preview with group ID:', sheetInfo.groupId)
+
+      // Generate the Excel file for preview
+      const { blob, filename } = await generateSummarySheetForPreview({
+        academicYearId: sheetInfo.academicYearId,
+        groupId: sheetInfo.groupId
+      });
+
       console.log('Excel file generated for preview, parsing...', { filename, size: blob.size })
-      
+
       // Parse the Excel file for preview
       const previewData = await parseExcelForPreview(blob, filename)
-      
+
       console.log('Excel file parsed successfully:', previewData)
-      
+
       // Set the preview data and update sheet info
       setPreviewData(previewData)
       setSheetInfo(prev => ({
@@ -272,10 +287,10 @@ export default function SummaryPage() {
 
   // Function to handle download from preview
   const downloadFromPreview = async () => {
-    if (!sheetInfo.academicYearId) {
+    if (!sheetInfo.academicYearId || !sheetInfo.groupId) {
       toast({
-        title: "No Academic Year Selected",
-        description: "Please select an academic year to download the summary.",
+        title: "Missing Information",
+        description: "Please ensure academic year is selected and group ID is available.",
         variant: "destructive",
       })
       return
@@ -285,9 +300,12 @@ export default function SummaryPage() {
     setError(null)
 
     try {
-      console.log('Downloading summary sheet with test group ID:', TEST_GROUP_ID)
-      const result = await generateTestSummarySheet(sheetInfo.academicYearId)
-      
+      console.log('Downloading summary sheet with group ID:', sheetInfo.groupId)
+      const result = await generateYearSummarySheet({
+        academicYearId: sheetInfo.academicYearId,
+        groupId: sheetInfo.groupId
+      })
+
       if (result.success) {
         toast({
           title: "Summary Downloaded",
@@ -323,160 +341,42 @@ export default function SummaryPage() {
 
   return (
     <div className="space-y-6 w-full min-w-0">
+    
+      
+      
       {/* Main Content */}
       <div className="w-full overflow-x-auto">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "info" | "preview")} className="w-full min-w-[600px]">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="info">Sheet Information</TabsTrigger>
-            <TabsTrigger value="preview">Excel Preview</TabsTrigger>
-          </TabsList>
 
-        <TabsContent value="info" className="space-y-6">
-          {/* Academic Year Information Card */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <FileSpreadsheet className="h-8 w-8 text-blue-600" />
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Summary Sheet Generation</h3>
-                  <p className="text-gray-600">Generate comprehensive summary reports</p>
+            {previewData ? (
+              <div className="w-full overflow-x-auto overflow-y-visible scroll-smooth">
+                <div className="min-w-[800px]">
+                  <ExcelPreviewTable
+                    data={previewData.sheets}
+                    onDownload={downloadFromPreview}
+                    isDownloadLoading={isGenerating}
+                  />
                 </div>
               </div>
-              
-              {/* Current Academic Year Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Academic Year</label>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-900">
-                      {selectedYearData?.name || selectedYearData?.title || 'No academic year selected'}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      ID: {currentYearId || 'None'}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Submitted Groups</label>
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <p className="text-sm text-gray-900">
-                      {sheetInfo.selectedGroupIds.length} groups
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Including test group
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Test Group Information */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <h4 className="font-medium text-blue-900 mb-2">Test Group Information</h4>
-                <p className="text-sm text-blue-800 mb-2">
-                  Using test group ID: <code className="bg-blue-100 px-1 rounded">{TEST_GROUP_ID}</code>
-                </p>
-                <p className="text-xs text-blue-700">
-                  This is a test implementation that uses mock data for demonstration purposes.
-                </p>
-              </div>
-
-              <div className="flex gap-3">
-                <Button 
-                  onClick={generateAndPreviewSheet}
-                  disabled={isPreviewLoading || !currentYearId}
-                  className="flex items-center gap-2"
-                >
-                  {isPreviewLoading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <FileSpreadsheet className="h-4 w-4" />
-                  )}
-                  {isPreviewLoading ? 'Loading Preview...' : 'Load Preview'}
-                </Button>
-                
-                <Button 
-                  onClick={generateTestSummary}
-                  disabled={isGenerating}
-                  className="flex items-center gap-2 bg-[#026892] hover:bg-[#026899]"
-                >
-                  {isGenerating ? (
-                    <RefreshCw className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Download className="h-4 w-4" />
-                  )}
-                  {isGenerating ? 'Downloading...' : 'Download Excel Sheet'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Error Alert */}
-          {error && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Error:</strong> {error}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {/* Loading State */}
-          {(isLoading || isGenerating) && (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <RefreshCw className="h-4 w-4 animate-spin text-blue-600" />
-                    <span className="text-sm font-medium">
-                      {isLoading ? 'Fetching sheet information...' : 'Preparing download...'}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-        
-          </TabsContent>
-
-        <TabsContent value="preview" className="space-y-6">
-          {previewData ? (
-            <div className="w-full overflow-x-auto overflow-y-visible scroll-smooth">
-              <div className="min-w-[800px]">
-                <ExcelPreviewTable
-                  data={previewData.sheets}
-                  onDownload={downloadFromPreview}
-                  isDownloadLoading={isGenerating}
-                />
-              </div>
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <FileSpreadsheet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No Preview Available</h3>
-                <p className="text-gray-500 mb-4">
-                  Load the Excel preview to view the sheet contents before downloading.
-                </p>
-                <Button onClick={generateAndPreviewSheet} disabled={isPreviewLoading}>
-                  {isPreviewLoading ? (
-                    <RefreshCw className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <FileSpreadsheet className="h-4 w-4 mr-2" />
-                  )}
-                  {isPreviewLoading ? 'Loading...' : 'Load Preview'}
-                </Button>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-      </Tabs>
+            ) : (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <FileSpreadsheet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No Preview Available</h3>
+                  <p className="text-gray-500 mb-4">
+                    Load the Excel preview to view the sheet contents before downloading.
+                  </p>
+                  <Button onClick={generateAndPreviewSheet} disabled={isPreviewLoading}>
+                    {isPreviewLoading ? (
+                      <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <FileSpreadsheet className="h-4 w-4 mr-2" />
+                    )}
+                    {isPreviewLoading ? 'Loading...' : 'Load Preview'}
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+         
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ const apiInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 3000, // 3 seconds timeout for large Excel files
+  timeout: 1000, // 1 second timeout for large Excel files
   withCredentials: false,
   responseType: 'json', // Default to JSON, will override for Excel downloads
 });
@@ -44,18 +44,32 @@ interface SummarySheetResponse {
   timestamp: string;
 }
 
-// Generate year summary sheet in Excel format
+/**
+ * Generates a year summary sheet in Excel format
+ * @param params - Contains academicYearId and groupId from the class being viewed
+ * @returns Promise with response data including download information
+ */
 export const generateYearSummarySheet = async (
-  academicYearId: string, 
-  groupId: string = "e29ea9f8-b815-4a1b-8a66-478df24cda7d" // Default test group ID
+  params: SummarySheetParams
 ): Promise<SummarySheetResponse> => {
   try {
-    console.log('API Summary: Generating year summary sheet', {
-      academicYearId,
-      groupId
+    console.log('API Summary: Generating year summary sheet with params:', {
+      academicYearId: params.academicYearId,
+      groupId: params.groupId,
+      groupIdType: typeof params.groupId,
+      groupIdLength: params.groupId?.length
     });
     
-    const url = `/grading/overall-sheets/generate-year-summary-sheet/${academicYearId}/group/${groupId}/excel`;
+    // Validate required parameters
+    if (!params.academicYearId) {
+      throw new Error('Academic Year ID is required');
+    }
+    
+    if (!params.groupId) {
+      throw new Error('Group ID is required');
+    }
+    
+    const url = `/grading/overall-sheets/generate-year-summary-sheet/${params.academicYearId}/group/${params.groupId}/excel`;
     console.log('API Summary: Full URL:', `${API_BASE_URL}${url}`);
     
     // For Excel file downloads, we might need to handle this differently
@@ -75,7 +89,7 @@ export const generateYearSummarySheet = async (
       });
       
       const downloadUrl = window.URL.createObjectURL(blob);
-      const fileName = `year-summary-${academicYearId}-group-${groupId}.xlsx`;
+      const fileName = `year-summary-${params.academicYearId}-group-${params.groupId}.xlsx`;
       
       // Trigger download
       const link = document.createElement('a');
@@ -195,71 +209,18 @@ export const getSubmittedGroups = async (): Promise<GroupSubmission[]> => {
 
 // Interface for using in components
 export interface SummarySheetParams {
-  academicYearId: string;
-  groupId: string;
+  academicYearId: string;  // Academic year ID from context
+  groupId: string;         // Group ID from the class being viewed
+  filename?: string;       // Optional: For storing the filename when generated
+  lastModified?: Date;     // Optional: Last modification time
+  size?: number;           // Optional: File size
 }
-
-// Test constants
-export const TEST_GROUP_ID = "e29ea9f8-b815-4a1b-8a66-478df24cda7d";
-
-// Generate summary sheet with test group ID
-export const generateTestSummarySheet = async (academicYearId: string): Promise<SummarySheetResponse> => {
-  return generateYearSummarySheet(academicYearId, TEST_GROUP_ID);
-};
-
-// Get test group data for UI display
-export const getTestGroupData = (): GroupSubmission => {
-  return {
-    id: "test-submission-1",
-    groupId: TEST_GROUP_ID,
-    groupName: "Test Group for Summary",
-    groupCode: "TEST-001",
-    status: "submitted",
-    statusDisplayName: "Submitted for Testing",
-    statusColorCode: "#10b981",
-    statusIcon: "check-circle",
-    isActive: true,
-    isLocked: false,
-    lockedAt: null,
-    lockedBy: null,
-    submissionNotes: "Test submission for summary sheet generation",
-    priorityLevel: "normal",
-    submissionType: "regular",
-    submittedToDeanAt: new Date().toISOString(),
-    submittedToDeanBy: "Test User",
-    deanReviewedAt: null,
-    deanReviewedBy: null,
-    deanComments: null,
-    registrarReviewedAt: null,
-    registrarReviewedBy: null,
-    registrarComments: null,
-    principalReviewedAt: null,
-    principalReviewedBy: null,
-    principalComments: null,
-    finalApprovedAt: null,
-    publishedAt: null,
-    rejectionReason: null,
-    currentOfficeId: "registrar",
-    responsibleOfficeId: "registrar",
-    responsibleOfficeName: "Registrar Office",
-    workflowStageDescription: "Submitted and ready for processing",
-    nextApproverRole: "Registrar",
-    canBeForwarded: true,
-    canBeEdited: false,
-    isFinalState: false,
-    isHighPriority: false,
-    createdAt: new Date().toISOString(),
-    createdBy: null,
-    updatedAt: new Date().toISOString(),
-    updatedBy: null,
-  };
-};
 
 // Generate summary sheet blob for preview (without downloading)
 export const generateSummarySheetForPreview = async (
-  academicYearId: string, 
-  groupId: string = TEST_GROUP_ID
+  params: SummarySheetParams
 ): Promise<{ blob: Blob; filename: string }> => {
+  const { academicYearId, groupId } = params;
   try {
     console.log('API Summary: Generating summary sheet for preview', {
       academicYearId,

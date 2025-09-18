@@ -2,31 +2,50 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Download, FileSpreadsheet, AlertCircle, RefreshCw, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  fetchRetakersExcelSheet, 
   downloadRetakersExcelSheet, 
   fetchAndParseRetakersSheet,
   validateRetakersSheetParams,
   type RetakersExcelPreviewData,
   type RetakersSheetParams,
-  DEFAULT_RETAKERS_PARAMS
 } from '@/lib/api-retakers';
+import { useCurrentAcademicSelection } from "@/appContext/academicContext";
+import { useAuth } from '@/appContext/authcontext';
 
 interface RepeatersComponentProps {
   className?: string;
   year?: string;
+  groupId?: string;
 }
 
-const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year }) => {
+const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year, groupId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   
-  // Default parameters - using imported constants
-  const [sheetInfo] = useState<RetakersSheetParams>(DEFAULT_RETAKERS_PARAMS);
+  // Get authentication token
+  const { token } = useAuth();
+  
+  // Get the current academic year ID and semester data from the academic context
+  const { academicYearId, academicYearData } = useCurrentAcademicSelection();
+  
+  // Initialize with defaults, but require explicit values for actual usage
+  const [sheetInfo, setSheetInfo] = useState<RetakersSheetParams>({
+    yearId: academicYearId || '', // Use the current academic year ID from context
+    groupId: groupId || '' 
+  });
+  
+  // Update sheetInfo when academicYearId or groupId changes
+  useEffect(() => {
+    console.log(`RepeatersComponent: Using academicYearId: ${academicYearId}, groupId: ${groupId || 'none'}`);
+    
+    setSheetInfo(prev => ({
+      yearId: academicYearId || prev.yearId,
+      groupId: groupId || prev.groupId
+    }));
+  }, [groupId, academicYearId]);
   
   const [error, setError] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<RetakersExcelPreviewData | null>(null);
@@ -38,6 +57,11 @@ const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year
     setError(null);
 
     try {
+      // First check if we have a groupId (most important parameter)
+      if (!sheetInfo.groupId) {
+        throw new Error('No group ID selected. Please select a class first.');
+      }
+      
       validateRetakersSheetParams(sheetInfo);
       const data = await fetchAndParseRetakersSheet(sheetInfo);
       setPreviewData(data);
@@ -97,82 +121,9 @@ const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year
 
   return (
     <div className="space-y-6">
-   
 
       {/* Excel Sheet Management */}
-      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "info" | "preview")}>
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="info">Excel Sheet Management</TabsTrigger>
-          <TabsTrigger value="preview">Excel Preview</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="info" className="space-y-4">
-          <Card className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <FileSpreadsheet className="h-8 w-8 text-[#000]" />
-              <div>
-                <h2 className="text-xl font-semibold">Retakers & Repeaters Excel Sheet</h2>
-                <p className="text-sm text-gray-600">
-                  Generate and manage Excel sheets for students who need to retake or repeat courses
-                  {className && year && ` for ${className} - ${year}`}
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <Button
-                  onClick={loadPreview}
-                  disabled={isPreviewLoading}
-                  className="w-full bg-[#026892] hover:bg-[#025f7f]"
-                >
-                  {isPreviewLoading ? (
-                    <>
-                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                      Loading Preview...
-                    </>
-                  ) : (
-                    <>
-                      <Eye className="mr-2 h-4 w-4" />
-                      Load Excel Preview
-                    </>
-                  )}
-                </Button>
-
-                <Button
-                  onClick={downloadSheet}
-                  disabled={isDownloading}
-                  variant="outline"
-                  className="w-full border-[#026892] text-[#026892] hover:bg-[#025f7f] hover:text-white"
-                >
-                  {isDownloading ? (
-                    <>
-                      <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                      Downloading...
-                    </>
-                  ) : (
-                    <>
-                      <Download className="mr-2 h-4 w-4" />
-                      Download Retakers Sheet
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-
-            {error && (
-              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <h3 className="font-medium text-red-800">Error</h3>
-                  <p className="mt-1 text-sm text-red-700">{error}</p>
-                </div>
-              </div>
-            )}
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="preview" className="space-y-4">
+      
           {previewData ? (
             <div className="space-y-4">
               {previewData.sheets.map((sheet, index) => (
@@ -230,8 +181,6 @@ const RepeatersComponent: React.FC<RepeatersComponentProps> = ({ className, year
               </Button>
             </Card>
           )}
-        </TabsContent>
-      </Tabs>
     </div>
   );
 };

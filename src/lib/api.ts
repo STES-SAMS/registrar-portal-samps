@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "/api/proxy";
+export const API_URL = "https://ursmartmonitoring.ur.ac.rw/api/v1";
 
 // Configure base URL for axios
 axios.defaults.baseURL = API_URL;

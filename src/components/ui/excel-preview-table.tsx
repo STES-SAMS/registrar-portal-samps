@@ -5,21 +5,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { ChevronLeft, ChevronRight, Download, Maximize2, Minimize2 } from 'lucide-react'
+import { Download, Maximize2, Minimize2 } from 'lucide-react'
 import { type ExcelSheetData } from '@/lib/api-grading'
 
-/**
- * Enhanced Excel Preview Table Component
- * 
- * Features:
- * - Full support for merged cells with rowspan and colspan
- * - Rich cell styling preservation (fonts, colors, alignment, borders)
- * - Performance optimized with memoized lookups
- * - Maintains original blue theme (#026892)
- * - Proper cell skipping for merged ranges
- * - Excel-like appearance and behavior
- */
 
 interface ExcelPreviewTableProps {
   data: ExcelSheetData[]
@@ -104,22 +92,7 @@ export function ExcelPreviewTable({
         }
       `}</style>
     <Card className={isExpanded ? "fixed inset-4 z-50 bg-white shadow-2xl" : ""}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 border-b">
-        <div className="space-y-1">
-          <CardTitle className="flex items-center gap-2 text-[#026892]">
-            <div className="w-6 h-6 bg-[#026892] rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">X</span>
-            </div>
-            Excel Preview
-            <Badge variant="outline" className="bg-gray-100 text-[#026892] border-[#026892]">
-              {currentSheet.totalRows} rows
-            </Badge>
-          </CardTitle>
-          <CardDescription className="text-[#026892]">
-            Sheet: <span className="font-medium">{currentSheet.sheetName}</span> • 
-            Columns: <span className="font-medium">{currentSheet.headers.length}</span>
-          </CardDescription>
-        </div>
+      <CardHeader className="flex flex-row items-center justify-end space-y-0 bg-gray-50 border-b">
         <div className="flex items-center gap-2">
           {onDownload && (
             <Button
